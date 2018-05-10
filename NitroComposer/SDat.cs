@@ -27,7 +27,13 @@ namespace NitroComposer {
         private Stream mainStream;
 
         public List<SequenceInfoRecord> sequenceInfo;
-        private object seqSymbols;
+        private List<string> seqSymbols;
+        private List<string> bankSymbols;
+        private List<string> waveArchiveSymbols;
+        private List<string> playerSymbols;
+        private List<string> groupSymbols;
+        private List<string> streamPlayerSymbols;
+        private List<string> streamSymbols;
 
         public SDat() {
 
@@ -98,6 +104,8 @@ namespace NitroComposer {
                 var internalSize = r.ReadUInt32();
                 //if(internalSize != stream.Length) throw new InvalidDataException("SYMB block size is wrong!");
 
+                var stringReader = new BinaryReader(new SubStream(symbStream, 0));
+
                 List<string> parseSymbSubRec(SubStream subStream) {
                     using(var r2 = new BinaryReader(subStream)) {
                         var nameCount = r2.ReadUInt32();
@@ -111,8 +119,8 @@ namespace NitroComposer {
                                 continue;
                             }
 
-                            symbStream.Position = stringPos;
-                            names.Add(r.ReadNullTerminatedUTF8String());
+                            stringReader.Seek((int)stringPos);
+                            names.Add(stringReader.ReadNullTerminatedUTF8String());
                         }
                         return names;
                     }
@@ -120,6 +128,13 @@ namespace NitroComposer {
                 }
 
                 seqSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                r.Skip(4);
+                bankSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                waveArchiveSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                playerSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                groupSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                streamPlayerSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+                streamSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
             }
         }
 
