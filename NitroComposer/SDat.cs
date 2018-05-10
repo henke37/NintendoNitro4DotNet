@@ -167,8 +167,8 @@ namespace NitroComposer {
                 List<FATRecord> files = new List<FATRecord>(numRecords);
 
                 for(int recordIndex = 0; recordIndex < numRecords; ++recordIndex) {
-                    var position = r.ReadUInt32();
                     var size = r.ReadUInt32();
+                    var position = r.ReadUInt32();
                     files.Add(new FATRecord(position, size));
                     r.Skip(8);
                 }

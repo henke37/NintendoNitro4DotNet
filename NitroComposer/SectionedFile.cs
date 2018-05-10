@@ -32,7 +32,7 @@ namespace NitroComposer {
                     section.name = r.Read4C();
                     section.size = r.ReadUInt32();
                     section.position = mainStream.Position;
-                    r.Skip((int)section.size);
+                    r.Skip((int)section.size-8);
                     sections.Add(section.name, section);
                 }
             }
