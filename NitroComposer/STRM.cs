@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NitroComposer
-{
-    public class Class1
-    {
+namespace NitroComposer {
+    public class STRM {
     }
 }
