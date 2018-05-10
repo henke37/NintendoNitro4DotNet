@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace NitroComposer {
     public class SDat {
-        private static readonly byte[] SIGNATURE_SDAT= { (byte)'S', (byte)'D', (byte)'A' , (byte)'T' };
+        private static readonly byte[] SIGNATURE_SDAT = { (byte)'S', (byte)'D', (byte)'A', (byte)'T' };
         private static readonly byte[] SIGNATURE_FAT = { (byte)'F', (byte)'A', (byte)'T', (byte)' ' };
+        private static readonly byte[] SIGNATURE_INFO = { (byte)'I', (byte)'N', (byte)'F', (byte)'O' };
+        private static readonly byte[] SIGNATURE_SYMB = { (byte)'S', (byte)'Y', (byte)'M', (byte)'B' };
 
         public static SDat Open(string filename) {
             return Open(File.OpenRead(filename));
@@ -24,6 +26,9 @@ namespace NitroComposer {
         private List<FATRecord> files;
         private Stream mainStream;
 
+        public List<SequenceInfoRecord> sequenceInfo;
+        private object seqSymbols;
+
         public SDat() {
 
         }
@@ -33,8 +38,8 @@ namespace NitroComposer {
             if(!stream.CanSeek) throw new ArgumentException("Stream must be seekable!", nameof(stream));
             mainStream = stream;
 
-            using(var r = new BinaryReader(stream,Encoding.UTF8,true)) {
-                var sig=r.ReadBytes(4);
+            using(var r = new BinaryReader(stream, Encoding.UTF8, true)) {
+                var sig = r.ReadBytes(4);
 
                 if(!sig.SequenceEqual(SIGNATURE_SDAT)) throw new InvalidDataException("SDAT signature is wrong");
 
@@ -47,12 +52,79 @@ namespace NitroComposer {
                 var fatPos = r.ReadUInt32();
                 var fatSize = r.ReadUInt32();
 
-                files = parseFat(new SubStream(stream,fatPos,fatSize));
+                files = parseFat(new SubStream(stream, fatPos, fatSize));
+                parseInfo(new SubStream(stream, infoPos, infoSize));
+
+                if(symbPos != 0) {
+                    parseSymb(new SubStream(stream, symbPos, symbSize));
+                }
+            }
+        }
+
+        private void parseInfo(Stream stream) {
+            using(var r = new BinaryReader(stream)) {
+                var sig = r.ReadBytes(4);
+                if(!sig.SequenceEqual(SIGNATURE_INFO)) throw new InvalidDataException("INFO signature is wrong");
+                var internalSize = r.ReadUInt32();
+                if(internalSize != stream.Length) throw new InvalidDataException("INFO block size is wrong!");
+
+                var subsectionCount = r.ReadUInt32();
+                var subSectionPositions = r.ReadUInt32Array((int)subsectionCount);
+
+                List<UInt32> ReadInfoRecordPtrTable(int subsectionIndex) {
+                    stream.Position = subSectionPositions[subsectionIndex];
+                    var recordCount = r.ReadUInt32();
+                    return r.ReadUInt32Array((int)recordCount);
+                }
+
+                List<uint> recordPositions = ReadInfoRecordPtrTable(0);
+                sequenceInfo = new List<SequenceInfoRecord>(recordPositions.Count);
+                foreach(var position in recordPositions) {
+                    if(position == 0) {
+                        sequenceInfo.Add(null);
+                        continue;
+                    }
+                    stream.Position = position;
+                    var record = SequenceInfoRecord.Read(r);
+                    sequenceInfo.Add(record);
+                }
+            }
+        }
+
+        private void parseSymb(SubStream symbStream) {
+            using(var r = new BinaryReader(symbStream)) {
+                var sig = r.ReadBytes(4);
+                if(!sig.SequenceEqual(SIGNATURE_SYMB)) throw new InvalidDataException("SYMB signature is wrong");
+                var internalSize = r.ReadUInt32();
+                //if(internalSize != stream.Length) throw new InvalidDataException("SYMB block size is wrong!");
+
+                List<string> parseSymbSubRec(SubStream subStream) {
+                    using(var r2 = new BinaryReader(subStream)) {
+                        var nameCount = r2.ReadUInt32();
+                        var names = new List<string>((int)nameCount);
+                        for(UInt32 nameIndex = 0; nameIndex < nameCount; ++nameIndex) {
+                            subStream.Position = 4 + 4 * nameIndex;
+                            var stringPos = r2.ReadUInt32();
+
+                            if(stringPos == 0) {
+                                names.Add(null);
+                                continue;
+                            }
+
+                            symbStream.Position = stringPos;
+                            names.Add(r.ReadNullTerminatedUTF8String());
+                        }
+                        return names;
+                    }
+
+                }
+
+                seqSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
             }
         }
 
         private static List<FATRecord> parseFat(Stream stream) {
-            using(var r=new BinaryReader(stream)) {
+            using(var r = new BinaryReader(stream)) {
                 var sig = r.ReadBytes(4);
                 if(!sig.SequenceEqual(SIGNATURE_FAT)) throw new InvalidDataException("FAT signature is wrong");
                 r.Skip(4);
@@ -60,7 +132,7 @@ namespace NitroComposer {
 
                 List<FATRecord> files = new List<FATRecord>(numRecords);
 
-                for(int recordIndex=0;recordIndex<numRecords;++recordIndex) {
+                for(int recordIndex = 0; recordIndex < numRecords; ++recordIndex) {
                     var position = r.ReadUInt32();
                     var size = r.ReadUInt32();
                     files.Add(new FATRecord(position, size));
@@ -71,6 +143,11 @@ namespace NitroComposer {
             }
         }
 
+        internal Stream OpenSubFile(int fatId) {
+            var record = files[fatId];
+            return new SubStream(mainStream, record.position, record.size);
+        }
+
         private class FATRecord {
             internal UInt32 size;
             internal UInt32 position;
@@ -78,6 +155,28 @@ namespace NitroComposer {
             internal FATRecord(UInt32 size, UInt32 position) {
                 this.size = size;
                 this.position = position;
+            }
+        }
+
+        public class SequenceInfoRecord {
+            public ushort fatId;
+            public ushort bankId;
+            public byte vol;
+            public byte channelPriority;
+            public byte playerPriority;
+            public byte player;
+
+            public static SequenceInfoRecord Read(BinaryReader r) {
+                var record = new SequenceInfoRecord();
+                record.fatId = r.ReadUInt16();
+                r.Skip(2);
+                record.bankId = r.ReadUInt16();
+                record.vol = r.ReadByte();
+                record.channelPriority = r.ReadByte();
+                record.playerPriority = r.ReadByte();
+                record.player = r.ReadByte();
+
+                return record;
             }
         }
     }
