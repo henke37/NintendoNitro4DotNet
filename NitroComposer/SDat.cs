@@ -27,13 +27,15 @@ namespace NitroComposer {
         private Stream mainStream;
 
         public List<SequenceInfoRecord> sequenceInfo;
-        private List<string> seqSymbols;
-        private List<string> bankSymbols;
-        private List<string> waveArchiveSymbols;
-        private List<string> playerSymbols;
-        private List<string> groupSymbols;
-        private List<string> streamPlayerSymbols;
-        private List<string> streamSymbols;
+        public List<StreamInfoRecord> streamInfo;
+
+        public List<string> seqSymbols;
+        public List<string> bankSymbols;
+        public List<string> waveArchiveSymbols;
+        public List<string> playerSymbols;
+        public List<string> groupSymbols;
+        public List<string> streamPlayerSymbols;
+        public List<string> streamSymbols;
 
         public SDat() {
 
@@ -74,8 +76,8 @@ namespace NitroComposer {
                 var internalSize = r.ReadUInt32();
                 if(internalSize != stream.Length) throw new InvalidDataException("INFO block size is wrong!");
 
-                var subsectionCount = r.ReadUInt32();
-                var subSectionPositions = r.ReadUInt32Array((int)subsectionCount);
+                const int subsectionCount = 8;
+                var subSectionPositions = r.ReadUInt32Array(subsectionCount);
 
                 List<UInt32> ReadInfoRecordPtrTable(int subsectionIndex) {
                     stream.Position = subSectionPositions[subsectionIndex];
@@ -83,16 +85,33 @@ namespace NitroComposer {
                     return r.ReadUInt32Array((int)recordCount);
                 }
 
-                List<uint> recordPositions = ReadInfoRecordPtrTable(0);
-                sequenceInfo = new List<SequenceInfoRecord>(recordPositions.Count);
-                foreach(var position in recordPositions) {
-                    if(position == 0) {
-                        sequenceInfo.Add(null);
-                        continue;
+                using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(0);
+                    sequenceInfo = new List<SequenceInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            sequenceInfo.Add(null);
+                            continue;
+                        }
+                        subReader.BaseStream.Position = position;
+                        var record = SequenceInfoRecord.Read(subReader);
+                        sequenceInfo.Add(record);
                     }
-                    stream.Position = position;
-                    var record = SequenceInfoRecord.Read(r);
-                    sequenceInfo.Add(record);
+                }
+
+
+                using(var subStream = new SubStream(stream, 0)) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(7);
+                    streamInfo = new List<StreamInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            sequenceInfo.Add(null);
+                            continue;
+                        }
+                        subStream.Position = position;
+                        StreamInfoRecord record = StreamInfoRecord.Read(r);
+                        streamInfo.Add(record);
+                    }
                 }
             }
         }
@@ -163,6 +182,17 @@ namespace NitroComposer {
             return new SubStream(mainStream, record.position, record.size);
         }
 
+        public STRM OpenStream(string name) {
+            int streamIndex = streamSymbols.IndexOf(name);
+            if(streamIndex == -1) throw new KeyNotFoundException();
+            return OpenStream(streamIndex);
+        }
+
+        public STRM OpenStream(int streamIndex) {
+            var infoRecord = streamInfo[streamIndex];
+            return new STRM(OpenSubFile(infoRecord.fatId));
+        }
+
         private class FATRecord {
             internal UInt32 size;
             internal UInt32 position;
@@ -190,6 +220,26 @@ namespace NitroComposer {
                 record.channelPriority = r.ReadByte();
                 record.playerPriority = r.ReadByte();
                 record.player = r.ReadByte();
+
+                return record;
+            }
+        }
+
+        public class StreamInfoRecord {
+            public ushort fatId;
+            public byte vol;
+            public byte priority;
+            public byte player;
+            public bool forceStereo;
+
+            public static StreamInfoRecord Read(BinaryReader r) {
+                var record = new StreamInfoRecord();
+                record.fatId = r.ReadUInt16();
+                r.Skip(2);
+                record.vol = r.ReadByte();
+                record.priority = r.ReadByte();
+                record.player = r.ReadByte();
+                record.forceStereo = r.ReadBoolean();
 
                 return record;
             }
