@@ -193,6 +193,18 @@ namespace NitroComposer {
             return new STRM(OpenSubFile(infoRecord.fatId));
         }
 
+        public SSEQ OpenSequence(string name) {
+
+            int sequenceIndex = seqSymbols.IndexOf(name);
+            if(sequenceIndex == -1) throw new KeyNotFoundException();
+            return OpenSequence(sequenceIndex);
+        }
+
+        private SSEQ OpenSequence(int sequenceIndex) {
+            var infoRecord = sequenceInfo[sequenceIndex];
+            return new SSEQ(OpenSubFile(infoRecord.fatId));
+        }
+
         private class FATRecord {
             internal UInt32 size;
             internal UInt32 position;

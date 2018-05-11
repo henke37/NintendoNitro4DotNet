@@ -12,10 +12,12 @@ namespace NitroComposer {
 
         public string MainId { get; }
 
-        public SectionedFile(Stream mainStream) {
+        public SectionedFile(Stream mainStream, string expectedSignature=null) {
             this.mainStream = mainStream;;
             using(var r=new BinaryReader(mainStream,Encoding.UTF8,true)) {
                 MainId = r.Read4C();
+
+                if(expectedSignature != null && MainId != expectedSignature) throw new InvalidDataException("Signature mismatch!");
 
                 var magic = r.ReadUInt32();
 
@@ -24,17 +26,21 @@ namespace NitroComposer {
                 var headerSize = r.ReadUInt16();
                 if(headerSize != 0x10) throw new InvalidDataException("Headersize has to be 0x10");
 
-                int sectionCount = r.ReadUInt16();
-                sections = new Dictionary<string, SectionEntry>((int)sectionCount);
+                LoadSections(mainStream, r);
+            }
+        }
 
-                for(int sectionIndex=0;sectionIndex<sectionCount;++sectionIndex) {
-                    var section = new SectionEntry();
-                    section.name = r.Read4C();
-                    section.size = r.ReadUInt32();
-                    section.position = mainStream.Position;
-                    r.Skip((int)section.size-8);
-                    sections.Add(section.name, section);
-                }
+        private void LoadSections(Stream mainStream, BinaryReader r) {
+            int sectionCount = r.ReadUInt16();
+            sections = new Dictionary<string, SectionEntry>((int)sectionCount);
+
+            for(int sectionIndex = 0; sectionIndex < sectionCount; ++sectionIndex) {
+                var section = new SectionEntry();
+                section.name = r.Read4C();
+                section.size = r.ReadUInt32();
+                section.position = mainStream.Position;
+                r.Skip((int)section.size - 8);
+                sections.Add(section.name, section);
             }
         }
 
