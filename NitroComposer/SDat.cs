@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace NitroComposer {
     public class SDat {
-        private static readonly byte[] SIGNATURE_SDAT = { (byte)'S', (byte)'D', (byte)'A', (byte)'T' };
-        private static readonly byte[] SIGNATURE_FAT = { (byte)'F', (byte)'A', (byte)'T', (byte)' ' };
-        private static readonly byte[] SIGNATURE_INFO = { (byte)'I', (byte)'N', (byte)'F', (byte)'O' };
-        private static readonly byte[] SIGNATURE_SYMB = { (byte)'S', (byte)'Y', (byte)'M', (byte)'B' };
 
         public static SDat Open(string filename) {
             return Open(File.OpenRead(filename));
@@ -48,9 +44,8 @@ namespace NitroComposer {
             mainStream = stream;
 
             using(var r = new BinaryReader(stream, Encoding.UTF8, true)) {
-                var sig = r.ReadBytes(4);
-
-                if(!sig.SequenceEqual(SIGNATURE_SDAT)) throw new InvalidDataException("SDAT signature is wrong");
+                var sig = r.Read4C();
+                if(sig!="SDAT") throw new InvalidDataException("SDAT signature is wrong");
 
                 stream.Position = 14;
                 var blockCount = r.ReadUInt16();
@@ -72,8 +67,8 @@ namespace NitroComposer {
 
         private void parseInfo(Stream stream) {
             using(var r = new BinaryReader(stream)) {
-                var sig = r.ReadBytes(4);
-                if(!sig.SequenceEqual(SIGNATURE_INFO)) throw new InvalidDataException("INFO signature is wrong");
+                var sig = r.Read4C();
+                if(sig!="INFO") throw new InvalidDataException("INFO signature is wrong");
                 var internalSize = r.ReadUInt32();
                 if(internalSize != stream.Length) throw new InvalidDataException("INFO block size is wrong!");
 
@@ -132,8 +127,8 @@ namespace NitroComposer {
 
         private void parseSymb(SubStream symbStream) {
             using(var r = new BinaryReader(symbStream)) {
-                var sig = r.ReadBytes(4);
-                if(!sig.SequenceEqual(SIGNATURE_SYMB)) throw new InvalidDataException("SYMB signature is wrong");
+                var sig = r.Read4C();
+                if(sig!="SYMB") throw new InvalidDataException("SYMB signature is wrong");
                 var internalSize = r.ReadUInt32();
                 //if(internalSize != stream.Length) throw new InvalidDataException("SYMB block size is wrong!");
 
@@ -173,8 +168,8 @@ namespace NitroComposer {
 
         private static List<FATRecord> parseFat(Stream stream) {
             using(var r = new BinaryReader(stream)) {
-                var sig = r.ReadBytes(4);
-                if(!sig.SequenceEqual(SIGNATURE_FAT)) throw new InvalidDataException("FAT signature is wrong");
+                var sig = r.Read4C();
+                if(sig!="FAT ") throw new InvalidDataException("FAT signature is wrong");
                 r.Skip(4);
                 var numRecords = r.ReadInt32();
 
