@@ -358,29 +358,30 @@ namespace NitroComposer {
 
         public class PlayerInfoRecord {
             public byte maxSequences;
-            public ushort channels;
+            public ushort channelMask;
             public uint heapSize;
 
             internal static PlayerInfoRecord Read(BinaryReader r) {
                 var record = new PlayerInfoRecord();
                 record.maxSequences = r.ReadByte();
                 r.Skip(1);
-                record.channels = r.ReadUInt16();
+                record.channelMask = r.ReadUInt16();
                 record.heapSize = r.ReadUInt32();
                 return record;
             }
         }
 
         public class GroupInfoRecord {
-            private static List<ElementRecord> elements;
+            private List<ElementRecord> elements;
 
             internal static GroupInfoRecord Read(BinaryReader r) {
                 var record = new GroupInfoRecord();
                 var elementCount = r.ReadUInt32();
-                elements = new List<ElementRecord>((int)elementCount);
+                record.elements = new List<ElementRecord>((int)elementCount);
                 for(UInt32 elementIndex=0;elementIndex<elementCount;++elementIndex) {
                     var element = new ElementRecord();
                     element.Read(r);
+                    record.elements.Add(element);
                 }
                 return record;
             }
