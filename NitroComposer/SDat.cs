@@ -36,6 +36,7 @@ namespace NitroComposer {
         public List<string> groupSymbols;
         public List<string> streamPlayerSymbols;
         public List<string> streamSymbols;
+        private List<BankInfoRecord> bankInfo;
 
         public SDat() {
 
@@ -99,13 +100,26 @@ namespace NitroComposer {
                     }
                 }
 
+                using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(2);
+                    bankInfo = new List<BankInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            bankInfo.Add(null);
+                            continue;
+                        }
+                        subReader.BaseStream.Position = position;
+                        var record = BankInfoRecord.Read(subReader);
+                        bankInfo.Add(record);
+                    }
+                }
 
                 using(var subStream = new SubStream(stream, 0)) {
                     List<uint> recordPositions = ReadInfoRecordPtrTable(7);
                     streamInfo = new List<StreamInfoRecord>(recordPositions.Count);
                     foreach(var position in recordPositions) {
                         if(position == 0) {
-                            sequenceInfo.Add(null);
+                            streamInfo.Add(null);
                             continue;
                         }
                         subStream.Position = position;
@@ -200,9 +214,20 @@ namespace NitroComposer {
             return OpenSequence(sequenceIndex);
         }
 
-        private SSEQ OpenSequence(int sequenceIndex) {
+        public SSEQ OpenSequence(int sequenceIndex) {
             var infoRecord = sequenceInfo[sequenceIndex];
             return new SSEQ(OpenSubFile(infoRecord.fatId));
+        }
+
+        public SBNK OpenBank(string name) {
+            int bankIndex = bankSymbols.IndexOf(name);
+            if(bankIndex == -1) throw new KeyNotFoundException();
+            return OpenBank(bankIndex);
+        }
+
+        public SBNK OpenBank(int bankIndex) {
+            var infoRecord = bankInfo[bankIndex];
+            return new SBNK(OpenSubFile(infoRecord.fatId));
         }
 
         private class FATRecord {
@@ -253,6 +278,18 @@ namespace NitroComposer {
                 record.player = r.ReadByte();
                 record.forceStereo = r.ReadBoolean();
 
+                return record;
+            }
+        }
+
+        public class BankInfoRecord {
+            public UInt16 fatId;
+            public List<short> swars;
+
+            internal static BankInfoRecord Read(BinaryReader r) {
+                var record = new BankInfoRecord();
+                record.fatId = r.ReadUInt16();
+                record.swars = r.ReadInt16Array(4);
                 return record;
             }
         }

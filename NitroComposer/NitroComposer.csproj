@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SBNK.cs" />
     <Compile Include="SDat.cs" />
     <Compile Include="SectionedFile.cs" />
     <Compile Include="SSEQ.cs" />

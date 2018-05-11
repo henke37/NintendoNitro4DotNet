@@ -6,11 +6,7 @@ namespace NitroComposer {
         public SSEQ(Stream mainStream) {
             var sections = new SectionedFile(mainStream, "SSEQ");
 
-            readHEAD(sections.Open("HEAD"));
-        }
-
-        private void readHEAD(Stream stream) {
-            throw new NotImplementedException();
+            //readHEAD(sections.Open("HEAD"));
         }
     }
 }
