@@ -33,6 +33,7 @@ namespace NitroComposer {
         public List<string> streamPlayerSymbols;
         public List<string> streamSymbols;
         private List<BankInfoRecord> bankInfo;
+        private List<WaveArchiveInfoRecord> waveArchiveInfo;
 
         public SDat() {
 
@@ -106,6 +107,20 @@ namespace NitroComposer {
                         subReader.BaseStream.Position = position;
                         var record = BankInfoRecord.Read(subReader);
                         bankInfo.Add(record);
+                    }
+                }
+
+                using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(3);
+                    waveArchiveInfo = new List<WaveArchiveInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            waveArchiveInfo.Add(null);
+                            continue;
+                        }
+                        subReader.BaseStream.Position = position;
+                        WaveArchiveInfoRecord record = WaveArchiveInfoRecord.Read(subReader);
+                        waveArchiveInfo.Add(record);
                     }
                 }
 
@@ -225,6 +240,19 @@ namespace NitroComposer {
             return new SBNK(OpenSubFile(infoRecord.fatId));
         }
 
+        public SWAR OpenWaveArchive(string name) {
+            int waveArchiveIndex = waveArchiveSymbols.IndexOf(name);
+            if(waveArchiveIndex == -1) throw new KeyNotFoundException();
+            return OpenWaveArchive(waveArchiveIndex);
+        }
+
+        public SWAR OpenWaveArchive(int bankIndex) {
+            var infoRecord = waveArchiveInfo[bankIndex];
+            return new SWAR(OpenSubFile(infoRecord.fatId));
+        }
+
+
+
         private class FATRecord {
             internal UInt32 size;
             internal UInt32 position;
@@ -285,6 +313,15 @@ namespace NitroComposer {
                 var record = new BankInfoRecord();
                 record.fatId = r.ReadUInt16();
                 record.swars = r.ReadInt16Array(4);
+                return record;
+            }
+        }
+
+        public class WaveArchiveInfoRecord {
+            public UInt16 fatId;
+            internal static WaveArchiveInfoRecord Read(BinaryReader r) {
+                var record = new WaveArchiveInfoRecord();
+                record.fatId = r.ReadUInt16();
                 return record;
             }
         }

@@ -46,6 +46,7 @@
     <Compile Include="SectionedFile.cs" />
     <Compile Include="SSEQ.cs" />
     <Compile Include="STRM.cs" />
+    <Compile Include="SWAR.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
