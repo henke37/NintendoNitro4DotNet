@@ -34,6 +34,7 @@ namespace NitroComposer {
         public List<string> streamSymbols;
         private List<BankInfoRecord> bankInfo;
         private List<WaveArchiveInfoRecord> waveArchiveInfo;
+        private List<PlayerInfoRecord> playerInfo;
 
         public SDat() {
 
@@ -121,6 +122,20 @@ namespace NitroComposer {
                         subReader.BaseStream.Position = position;
                         WaveArchiveInfoRecord record = WaveArchiveInfoRecord.Read(subReader);
                         waveArchiveInfo.Add(record);
+                    }
+                }
+
+                using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(3);
+                    playerInfo = new List<PlayerInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            playerInfo.Add(null);
+                            continue;
+                        }
+                        subReader.BaseStream.Position = position;
+                        PlayerInfoRecord record = PlayerInfoRecord.Read(subReader);
+                        playerInfo.Add(record);
                     }
                 }
 
@@ -322,6 +337,21 @@ namespace NitroComposer {
             internal static WaveArchiveInfoRecord Read(BinaryReader r) {
                 var record = new WaveArchiveInfoRecord();
                 record.fatId = r.ReadUInt16();
+                return record;
+            }
+        }
+
+        public class PlayerInfoRecord {
+            public byte maxSequences;
+            public ushort channels;
+            public uint heapSize;
+
+            internal static PlayerInfoRecord Read(BinaryReader r) {
+                var record = new PlayerInfoRecord();
+                record.maxSequences = r.ReadByte();
+                r.Skip(1);
+                record.channels = r.ReadUInt16();
+                record.heapSize = r.ReadUInt32();
                 return record;
             }
         }
