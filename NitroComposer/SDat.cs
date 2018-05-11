@@ -35,6 +35,7 @@ namespace NitroComposer {
         private List<BankInfoRecord> bankInfo;
         private List<WaveArchiveInfoRecord> waveArchiveInfo;
         private List<PlayerInfoRecord> playerInfo;
+        private List<GroupInfoRecord> groupInfo;
 
         public SDat() {
 
@@ -126,7 +127,7 @@ namespace NitroComposer {
                 }
 
                 using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
-                    List<uint> recordPositions = ReadInfoRecordPtrTable(3);
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(4);
                     playerInfo = new List<PlayerInfoRecord>(recordPositions.Count);
                     foreach(var position in recordPositions) {
                         if(position == 0) {
@@ -136,6 +137,20 @@ namespace NitroComposer {
                         subReader.BaseStream.Position = position;
                         PlayerInfoRecord record = PlayerInfoRecord.Read(subReader);
                         playerInfo.Add(record);
+                    }
+                }
+
+                using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+                    List<uint> recordPositions = ReadInfoRecordPtrTable(5);
+                    groupInfo = new List<GroupInfoRecord>(recordPositions.Count);
+                    foreach(var position in recordPositions) {
+                        if(position == 0) {
+                            groupInfo.Add(null);
+                            continue;
+                        }
+                        subReader.BaseStream.Position = position;
+                        GroupInfoRecord record = GroupInfoRecord.Read(subReader);
+                        groupInfo.Add(record);
                     }
                 }
 
@@ -353,6 +368,37 @@ namespace NitroComposer {
                 record.channels = r.ReadUInt16();
                 record.heapSize = r.ReadUInt32();
                 return record;
+            }
+        }
+
+        public class GroupInfoRecord {
+            private static List<ElementRecord> elements;
+
+            internal static GroupInfoRecord Read(BinaryReader r) {
+                var record = new GroupInfoRecord();
+                var elementCount = r.ReadUInt32();
+                elements = new List<ElementRecord>((int)elementCount);
+                for(UInt32 elementIndex=0;elementIndex<elementCount;++elementIndex) {
+                    var element = new ElementRecord();
+                    element.Read(r);
+                }
+                return record;
+            }
+
+            public class ElementRecord {
+                public byte itemType;
+                public byte flags;
+                public uint itemId;
+
+                public ElementRecord() {
+                }
+
+                internal void Read(BinaryReader r) {
+                    itemType = r.ReadByte();
+                    flags = r.ReadByte();
+                    r.Skip(2);
+                    itemId = r.ReadUInt32();
+                }
             }
         }
     }
