@@ -4,8 +4,7 @@ using System.IO;
 namespace NitroComposer {
     public class SSEQ {
         public SSEQ(Stream mainStream) {
-            var sections = new SectionedFile(mainStream);
-            if(sections.MainId != "SSEQ") throw new InvalidDataException("Invalid SSEQ block, wrong type id");
+            var sections = new SectionedFile(mainStream, "SSEQ");
 
             readHEAD(sections.Open("HEAD"));
         }

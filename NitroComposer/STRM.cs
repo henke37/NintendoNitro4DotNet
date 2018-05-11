@@ -22,8 +22,7 @@ namespace NitroComposer {
         public uint lastBlockSamples;
 
         public STRM(Stream mainStream) {
-            var sections = new SectionedFile(mainStream);
-            if(sections.MainId != "STRM") throw new InvalidDataException("Invalid STRM block, wrong type id");
+            var sections = new SectionedFile(mainStream, "STRM");
 
             readHEAD(sections.Open("HEAD"));
         }
