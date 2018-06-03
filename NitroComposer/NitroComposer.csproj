@@ -48,11 +48,17 @@
     <Compile Include="Sequence.cs" />
     <Compile Include="SequenceCommands\BaseSequenceCommand.cs" />
     <Compile Include="SequenceCommands\JumpCommand.cs" />
+    <Compile Include="SequenceCommands\ModulationCommand.cs" />
+    <Compile Include="SequenceCommands\MonoPolyCommand.cs" />
     <Compile Include="SequenceCommands\NoteCommand.cs" />
     <Compile Include="SequenceCommands\OpenTrackCommand.cs" />
     <Compile Include="SequenceCommands\PanCommand.cs" />
     <Compile Include="SequenceCommands\PitchBendCommand.cs" />
+    <Compile Include="SequenceCommands\PortamentoKeyCommand.cs" />
+    <Compile Include="SequenceCommands\PriorityCommand.cs" />
     <Compile Include="SequenceCommands\ProgramChangeCommand.cs" />
+    <Compile Include="SequenceCommands\RestCommand.cs" />
+    <Compile Include="SequenceCommands\TieCommand.cs" />
     <Compile Include="SequenceCommands\TransposeCommand.cs" />
     <Compile Include="SequenceCommands\VarCommand.cs" />
     <Compile Include="SequenceCommands\VolumeCommand.cs" />

@@ -49,6 +49,8 @@ namespace NitroComposer {
                 return new NoteCommand(id, reader.ReadByte(),reader.ReadMIDIVarLen());
             }
             switch(id) {
+                case 0x80:
+                    return new RestCommand(reader.ReadMIDIVarLen());
 
                 case 0x81:
                     return new ProgramChangeCommand(reader.ReadMIDIVarLen());
@@ -110,6 +112,23 @@ namespace NitroComposer {
                     return new TieCommand(reader.ReadBoolean());
                 case 0xC9:
                     return new PortamentoKeyCommand(reader.ReadByte());
+
+                case 0xCA:
+                case 0xCB:
+                case 0xCC:
+                case 0xCD:
+                    return new ModulationCommand((ModulationCommand.ModType)id,reader.ReadByte());
+
+                case 0xCE:
+                    return new PortamentoCommand(reader.ReadBoolean());
+                case 0xCF:
+                    return new PortamentoTimeCommand(reader.ReadByte());
+
+                case 0xD0:
+                case 0xD1:
+                case 0xD2:
+                case 0xD3:
+                    return new ADSRCommand((ADSRCommand.EnvPos)id, reader.ReadByte());
                 default:
                     throw new InvalidDataException("Unknown command");
             }
