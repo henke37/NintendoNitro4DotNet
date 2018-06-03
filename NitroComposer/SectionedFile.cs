@@ -44,12 +44,20 @@ namespace NitroComposer {
             }
         }
 
-        internal Stream Open(string name) {
-            var section = sections[name];
+        public SectionEntry FindSection(string name) {
+            return sections[name];
+        }
+
+        public Stream Open(string name) {
+            var section = FindSection(name);
+            return Open(section);
+        }
+
+        public Stream Open(SectionEntry section) {
             return new SubStream(mainStream, section.position, section.size);
         }
 
-        private class SectionEntry {
+        public class SectionEntry {
             public string name;
             public long position;
             public UInt32 size;

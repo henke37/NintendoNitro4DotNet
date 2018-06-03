@@ -14,12 +14,17 @@ namespace NitroComposer {
         }
 
         private void ParseData(SectionedFile sections) {
-            BinaryReader reader = new BinaryReader(sections.Open("DATA"));
+            var section = sections.FindSection("DATA");
+            var sectionStream = sections.Open(section);
+            BinaryReader reader = new BinaryReader(sectionStream);
 
             //for some inane reason it's prefixed with the offset into the file for the data itself
-            reader.Skip(4);
+            long offset=reader.ReadUInt32();
+            offset -= section.position;
 
-            var parser = new SequenceDisassembler(reader);
+            var commandStream = new SubStream(sectionStream, offset);
+
+            var parser = new SequenceDisassembler(commandStream);
             sequence = parser.Parse();
         }
     }

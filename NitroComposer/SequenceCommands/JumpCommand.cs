@@ -14,5 +14,7 @@
             CALL,
             OPEN_TRACK
         }
+
+        internal override bool EndsFlow => type==JumpType.JUMP;
     }
 }

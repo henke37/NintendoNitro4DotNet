@@ -1,4 +1,5 @@
-﻿using NitroComposer.SequenceCommands;
+﻿using HenkesUtils;
+using NitroComposer.SequenceCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,14 +12,18 @@ namespace NitroComposer {
 
         private BinaryReader reader;
 
+        private Sequence sequence;
+
         public SequenceDisassembler(BinaryReader reader) {
             this.reader = reader;
             flows = new Dictionary<uint, Flow>();
             unparsedFlows = new Stack<Flow>();
+            sequence = new Sequence();
         }
 
+        public SequenceDisassembler(Stream stream) : this(new BinaryReader(stream)) {}
+
         public Sequence Parse() {
-            Sequence seq=new Sequence();
 
             AddOrFindFlow(0);
 
@@ -27,7 +32,7 @@ namespace NitroComposer {
                 ParseFlow(flow);
             }
 
-            return seq;
+            return sequence;
         }
 
         private void ParseFlow(Flow flow) {
@@ -39,7 +44,9 @@ namespace NitroComposer {
 
             for(; ;) {
                 BaseSequenceCommand cmd = readCommand();
+                sequence.commands.Add(cmd);
                 commandIndex++;
+                if(cmd.EndsFlow) break;
             }
         }
 
