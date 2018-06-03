@@ -129,6 +129,27 @@ namespace NitroComposer {
                 case 0xD2:
                 case 0xD3:
                     return new ADSRCommand((ADSRCommand.EnvPos)id, reader.ReadByte());
+
+                case 0xD4:
+                    return new LoopStartCommand(reader.ReadByte());
+                case 0xD5:
+                    return new ExpressionCommand(reader.ReadByte());
+                case 0xD6:
+                    return new PrintVariableCommand(reader.ReadByte());
+                case 0xE0:
+                    return new ModulationDelayCommand(reader.ReadUInt16());
+                case 0xE1:
+                    return new TempoCommand(reader.ReadUInt16());
+                case 0xE3:
+                    return new SweepPitchCommand(reader.ReadUInt16());
+                case 0xFC:
+                    return new LoopEndCommand();
+                case 0xFD:
+                    return new ReturnCommand();
+                case 0xFE:
+                    return new AllocateTracksCommand(reader.ReadUInt16());
+                case 0xFF:
+                    return new EndTrackCommand();
                 default:
                     throw new InvalidDataException("Unknown command");
             }
