@@ -40,10 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SBNK.cs" />
     <Compile Include="SDat.cs" />
     <Compile Include="SectionedFile.cs" />
+    <Compile Include="Sequence.cs" />
+    <Compile Include="SequenceCommands\BaseSequenceCommand.cs" />
+    <Compile Include="SequenceCommands\JumpCommand.cs" />
+    <Compile Include="SequenceCommands\NoteCommand.cs" />
+    <Compile Include="SequenceCommands\OpenTrackCommand.cs" />
+    <Compile Include="SequenceCommands\PanCommand.cs" />
+    <Compile Include="SequenceCommands\PitchBendCommand.cs" />
+    <Compile Include="SequenceCommands\ProgramChangeCommand.cs" />
+    <Compile Include="SequenceCommands\TransposeCommand.cs" />
+    <Compile Include="SequenceCommands\VarCommand.cs" />
+    <Compile Include="SequenceCommands\VolumeCommand.cs" />
+    <Compile Include="SequenceDisassembler.cs" />
     <Compile Include="SSEQ.cs" />
     <Compile Include="STRM.cs" />
     <Compile Include="SWAR.cs" />
