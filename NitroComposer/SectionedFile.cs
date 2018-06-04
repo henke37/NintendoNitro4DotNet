@@ -48,6 +48,10 @@ namespace NitroComposer {
             return sections[name];
         }
 
+        public SectionEntry this[string name] {
+            get => FindSection(name);
+        }
+
         public Stream Open(string name) {
             var section = FindSection(name);
             return Open(section);
