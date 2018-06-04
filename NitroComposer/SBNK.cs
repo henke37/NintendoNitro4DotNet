@@ -23,6 +23,7 @@ namespace NitroComposer {
             var baseStream = sections.Open(section);
 
             using(var r = new BinaryReader(new SubStream(baseStream, 0))) {
+                r.Skip(8 * 4);
                 instrumentCount = r.ReadUInt32();
 
                 instruments = new List<Instrument>((int)instrumentCount);
@@ -32,7 +33,13 @@ namespace NitroComposer {
                     //for some inane reason, everything is offset from the start of the file, not the section
                     offset -= section.position;
 
+                    if(instrumentType==0) {
+                        instruments.Add(null);
+                        continue;
+                    }
+
                     var instrument = Instrument.parseRecord(instrumentType, new SubStream(baseStream, offset));
+                    instruments.Add(instrument);
                 }
             }
         }
