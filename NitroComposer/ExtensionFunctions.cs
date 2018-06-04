@@ -22,7 +22,7 @@ namespace NitroComposer {
         }
 
 
-        public static uint Read3ByteInt(this BinaryReader r) {
+        public static uint Read3ByteUInt(this BinaryReader r) {
             uint value= r.ReadByte();
 
             value += (uint)(r.ReadUInt16() << 8);

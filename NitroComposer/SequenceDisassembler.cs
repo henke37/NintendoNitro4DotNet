@@ -64,19 +64,19 @@ namespace NitroComposer {
 
                 case 0x93: {
                     byte trackId = reader.ReadByte();
-                    uint trackOffset = reader.Read3ByteInt();
+                    uint trackOffset = reader.Read3ByteUInt();
                     AddOrFindFlow(trackOffset);
                     return new OpenTrackCommand(trackId,trackOffset);
                 }
 
                 case 0x94: {
-                    uint jumpOffset = reader.Read3ByteInt();
+                    uint jumpOffset = reader.Read3ByteUInt();
                     AddOrFindFlow(jumpOffset);
                     return new JumpCommand(jumpOffset,JumpCommand.JumpType.JUMP);
                 }
 
                 case 0x95: {
-                    uint jumpOffset = reader.Read3ByteInt();
+                    uint jumpOffset = reader.Read3ByteUInt();
                     AddOrFindFlow(jumpOffset);
                     return new JumpCommand(jumpOffset, JumpCommand.JumpType.CALL);
                 }
@@ -97,7 +97,7 @@ namespace NitroComposer {
                 case 0xBB:
                 case 0xBC:
                 case 0xBD:
-                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.Read3ByteInt());
+                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.Read3ByteUInt());
 
                 case 0xC0:
                     return new PanCommand(reader.ReadByte());
