@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NitroComposer.Instruments {
-    public abstract class MetaInstrument : BaseLeafInstrument {
+    public abstract class MetaInstrument : Instrument {
 
         protected List<InstrumentRegion> regions;
 
