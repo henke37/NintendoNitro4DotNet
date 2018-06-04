@@ -12,6 +12,7 @@ namespace Test {
             var strm = sdat.OpenStream("STRM_BGM03DS_REQ");
             var sseq = sdat.OpenSequence(20);
             var sbank = sdat.OpenBank("BANK_BGM50DS");
+            var swar = sdat.OpenWaveArchive("WAVE_BGM_COMMON");
         }
     }
 }

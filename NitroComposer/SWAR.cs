@@ -23,6 +23,8 @@ namespace NitroComposer {
                 r.Skip(8 * 4);
                 uint waveCount = r.ReadUInt32();
 
+                waves = new List<Wave>((int)waveCount);
+
                 for(uint waveIndex=0;waveIndex<waveCount;++waveIndex) {
                     long offset = r.ReadUInt32();
                     //for some inane reason the pointer is relative to the start of the file
