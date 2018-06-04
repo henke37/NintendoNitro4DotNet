@@ -12,7 +12,7 @@ namespace NitroComposer.Instruments {
             }
         }
 
-        private static Instrument parseRecord(byte instrumentType, BinaryReader r) {
+        internal static Instrument parseRecord(byte instrumentType, BinaryReader r) {
             switch(instrumentType) {
                 case 0:
                     r.Skip(RECORD_LENGTH);

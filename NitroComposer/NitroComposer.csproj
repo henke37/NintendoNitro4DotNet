@@ -41,6 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtensionFunctions.cs" />
+    <Compile Include="Instruments\BaseLeafInstrument.cs" />
+    <Compile Include="Instruments\DrumkitInstrument.cs" />
+    <Compile Include="Instruments\Instrument.cs" />
+    <Compile Include="Instruments\MetaInstrument.cs" />
+    <Compile Include="Instruments\NoiseInstrument.cs" />
+    <Compile Include="Instruments\PCMInstrument.cs" />
+    <Compile Include="Instruments\PulseInstrument.cs" />
+    <Compile Include="Instruments\SplitInstrument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SBNK.cs" />
     <Compile Include="SDat.cs" />

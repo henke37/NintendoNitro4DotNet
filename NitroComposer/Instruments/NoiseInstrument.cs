@@ -2,11 +2,11 @@
 using System.IO;
 
 namespace NitroComposer.Instruments {
-    public class NoiseInstrument : Instrument {
+    public class NoiseInstrument : BaseLeafInstrument {
 
         public NoiseInstrument(BinaryReader r) {
             r.Skip(4);
-            parseRecord(r);
+            parseFields(r);
         }
     }
 }
