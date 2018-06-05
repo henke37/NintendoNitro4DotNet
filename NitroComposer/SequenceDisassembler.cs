@@ -47,6 +47,7 @@ namespace NitroComposer {
                 sequence.commands.Add(cmd);
                 commandIndex++;
                 if(cmd.EndsFlow) break;
+                if(flows.ContainsKey((uint)reader.BaseStream.Position)) break;
             }
         }
 
