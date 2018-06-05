@@ -1,8 +1,8 @@
 ﻿namespace NitroComposer.SequenceCommands {
     public class VarCommand : BaseSequenceCommand {
-        private Operator Op;
-        private byte Variable;
-        private uint Operand;
+        public Operator Op;
+        public byte Variable;
+        public uint Operand;
 
         public VarCommand(Operator Op, byte variable, uint operand) {
             this.Op = Op;

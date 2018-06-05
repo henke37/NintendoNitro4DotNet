@@ -168,5 +168,49 @@ namespace NitroComposer {
         private void Serialize(PriorityCommand cmd) {
             sb.AppendFormat("prio {0}\n", cmd.Priority);
         }
+
+        private void Serialize(VarCommand cmd) {
+            switch(cmd.Op) {
+                case VarCommand.Operator.ASSIGN:
+                    sb.AppendFormat("setvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.ADD:
+                    sb.AppendFormat("addvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.SUB:
+                    sb.AppendFormat("subvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.MUL:
+                    sb.AppendFormat("mulvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.DIV:
+                    sb.AppendFormat("divvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.SHIFT:
+                    sb.AppendFormat("shiftvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.EQU:
+                    sb.AppendFormat("cmp_eq {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.GT:
+                    sb.AppendFormat("cmp_gt {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.GTE:
+                    sb.AppendFormat("cmp_ge {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.LTE:
+                    sb.AppendFormat("cmp_le {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.LT:
+                    sb.AppendFormat("cmp_lt {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.NEQ:
+                    sb.AppendFormat("cmp_ne {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+                case VarCommand.Operator.RAND:
+                    sb.AppendFormat("randvar {0} {1}\n", cmd.Variable, cmd.Operand);
+                    break;
+            }
+        }
     }
 }
