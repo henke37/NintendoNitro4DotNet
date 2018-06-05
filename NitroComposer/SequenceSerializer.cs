@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using HenkesUtils;
 using NitroComposer.SequenceCommands;
 
 namespace NitroComposer {
@@ -10,16 +9,37 @@ namespace NitroComposer {
 
         private StringBuilder sb;
 
+        private Dictionary<uint, int> jumpTargets;
+
         public SequenceSerializer() {
             sb = new StringBuilder();
         }
 
         public string Serialize(Sequence seq) {
+            BuildJumpTable(seq);
+
             foreach(dynamic cmd in seq.commands) {
                 Serialize(cmd);
             }
 
             return sb.ToString();
+        }
+
+        private void BuildJumpTable(Sequence seq) {
+            jumpTargets = new Dictionary<uint, int>();
+            foreach(BaseSequenceCommand cmd in seq.commands) {
+                JumpCommand jmp = cmd as JumpCommand;
+                if(jmp == null) continue;
+                if(jmp is OpenTrackCommand trk) {
+                    jumpTargets[jmp.target] = trk.Track;
+                } else {
+                    if(jmp.type == JumpCommand.JumpType.CALL) {
+                        jumpTargets.TrySet(jmp.target, -2);
+                    } else {
+                        jumpTargets.TrySet(jmp.target, -1);
+                    }
+                }
+            }
         }
 
         private void Serialize(BaseSequenceCommand cmd) {
@@ -82,7 +102,15 @@ namespace NitroComposer {
         }
 
         private string positionLabel(uint position) {
-            return "X";
+            int track = jumpTargets[position];
+            if(track<0) {
+                if(track == -2) {
+                    return "S" + position;
+                } else {
+                    return "L" + position;
+                }
+            }
+            return "T"+track;
         }
 
         private void Serialize(OpenTrackCommand cmd) {
