@@ -13,6 +13,9 @@ namespace Test {
             var sseq = sdat.OpenSequence(20);
             var sbank = sdat.OpenBank("BANK_BGM50DS");
             var swar = sdat.OpenWaveArchive("WAVE_BGM_COMMON");
+
+            var serializer = new SequenceSerializer();
+            Console.Write(serializer.Serialize(sseq.sequence));
         }
     }
 }
