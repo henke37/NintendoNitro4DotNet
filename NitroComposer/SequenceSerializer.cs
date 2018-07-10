@@ -55,24 +55,15 @@ namespace NitroComposer {
             byte noteVal = (byte)(cmd.Note % 12);
             sbyte oct = (sbyte)(cmd.Note / 12);
             oct--;
-            sb.Append(noteNames[noteVal]);
             if(oct == -1) {
-                sb.Append("m1");
+                sb.AppendFormat("{0}m1 {1}, {2}\n", noteNames[noteVal], cmd.Velocity, cmd.Duration);
             } else {
-                sb.Append(oct);
+                sb.AppendFormat("{0}{1} {2}, {3}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.Duration);
             }
-
-            sb.Append(" ");
-            sb.Append(cmd.Velocity);
-            sb.Append(", ");
-            sb.Append(cmd.Duration);
-            sb.AppendLine();
         }
 
         private void Serialize(RestCommand cmd) {
-            sb.Append("wait ");
-            sb.Append(cmd.Rest);
-            sb.AppendLine();
+            sb.AppendFormat("wait {0}\n", cmd.Rest);
         }
 
         private void Serialize(EndTrackCommand cmd) {

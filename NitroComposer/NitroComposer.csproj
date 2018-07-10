@@ -7,7 +7,7 @@
     <ProjectGuid>{DA199528-344E-4EAB-9479-2BF823DFC7A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NitroComposer</RootNamespace>
+    <RootNamespace>Nitro.Composer</RootNamespace>
     <AssemblyName>NitroComposer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

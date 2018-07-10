@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HenkesUtils", "..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj", "{95829EB3-7D03-4D94-A1DD-1F12313E374D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkTest", "BulkTest\BulkTest.csproj", "{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroSupport", "NitroSupport\NitroSupport.csproj", "{A008CD3F-A712-43BE-BB8A-54C53B05C351}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{95829EB3-7D03-4D94-A1DD-1F12313E374D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95829EB3-7D03-4D94-A1DD-1F12313E374D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95829EB3-7D03-4D94-A1DD-1F12313E374D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
