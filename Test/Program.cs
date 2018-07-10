@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nitro;
 using NitroComposer;
 
 namespace Test {
     class Program {
         static void Main(string[] args) {
-            var sdat = SDat.Open(args[0]);
-            var strm = sdat.OpenStream("STRM_BGM03DS_REQ");
-            var sseq = sdat.OpenSequence(20);
-            var sbank = sdat.OpenBank("BANK_BGM50DS");
-            var swar = sdat.OpenWaveArchive("WAVE_BGM_COMMON");
-
-            var serializer = new SequenceSerializer();
-            Console.Write(serializer.Serialize(sseq.sequence));
+			NDS nds = new NDS(File.OpenRead(args[0]));
         }
     }
 }
