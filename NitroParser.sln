@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HenkesUtils", "..\..\Henkes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkTest", "BulkTest\BulkTest.csproj", "{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroSupport", "NitroSupport\NitroSupport.csproj", "{A008CD3F-A712-43BE-BB8A-54C53B05C351}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroCore", "NitroSupport\NitroCore.csproj", "{A008CD3F-A712-43BE-BB8A-54C53B05C351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
