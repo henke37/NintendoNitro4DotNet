@@ -246,6 +246,8 @@ namespace Nitro.Composer {
 					return new VolumeRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
 				case 0xC2:
 					return new VolumeRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), true);
+				case 0xC3:
+					return new TransposeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 				case 0xC4:
 					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
 				case 0xC5:
@@ -265,6 +267,9 @@ namespace Nitro.Composer {
 
 				case 0xD5:
 					return new ExpressionRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+
+				case 0xE3:
+					return new SweepPitchRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 				default:
 					throw new InvalidDataException("Unknown command");
 			}
