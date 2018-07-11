@@ -15,6 +15,6 @@
             OPEN_TRACK
         }
 
-        internal override bool EndsFlow => type==JumpType.JUMP;
+        internal override bool EndsFlow => type==JumpType.JUMP && !Conditional;
     }
 }
