@@ -81,8 +81,11 @@
     <Compile Include="SequenceCommands\TieCommand.cs" />
     <Compile Include="SequenceCommands\TransposeCommand.cs" />
     <Compile Include="SequenceCommands\VarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\LoopStartVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\NoteVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\RestVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\VarVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\VolumeVarCommand.cs" />
     <Compile Include="SequenceCommands\VolumeCommand.cs" />
     <Compile Include="SequenceDisassembler.cs" />
     <Compile Include="SequenceSerializer.cs" />
