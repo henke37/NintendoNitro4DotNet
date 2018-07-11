@@ -97,6 +97,7 @@
     <Compile Include="SequenceCommands\Var\ADSRVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\ExpressionVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\LoopStartVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\ModulationVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\NoteVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\PanVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\PitchBendVarCommand.cs" />

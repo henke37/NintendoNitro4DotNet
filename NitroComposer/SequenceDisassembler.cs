@@ -211,6 +211,11 @@ namespace Nitro.Composer {
 				case 0xC5:
 					return new PitchBendVarCommand(reader.ReadByte(), true);
 
+				case 0xCA:
+				case 0xCB:
+				case 0xCC:
+				case 0xCD:
+					return new ModulationVarCommand((ModulationCommand.ModType)id, reader.ReadByte());
 
 				case 0xD0:
 				case 0xD1:
