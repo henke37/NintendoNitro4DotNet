@@ -83,7 +83,9 @@
     <Compile Include="SequenceCommands\VarCommand.cs" />
     <Compile Include="SequenceCommands\Var\LoopStartVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\NoteVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\PitchBendVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\RestVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\TransposeVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\VarVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\VolumeVarCommand.cs" />
     <Compile Include="SequenceCommands\VolumeCommand.cs" />

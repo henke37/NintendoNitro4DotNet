@@ -198,6 +198,12 @@ namespace Nitro.Composer {
 					return new VolumeVarCommand(reader.ReadByte(), false);
 				case 0xC2:
 					return new VolumeVarCommand(reader.ReadByte(), true);
+				case 0xC3:
+					return new TransposeVarCommand(reader.ReadByte());
+				case 0xC4:
+					return new PitchBendVarCommand(reader.ReadByte(), false);
+				case 0xC5:
+					return new PitchBendVarCommand(reader.ReadByte(), true);
 
 				case 0xD4:
 					return new LoopStartVarCommand(reader.ReadByte());
