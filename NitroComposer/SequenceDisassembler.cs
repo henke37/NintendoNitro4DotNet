@@ -106,7 +106,7 @@ namespace Nitro.Composer {
                 case 0xBB:
                 case 0xBC:
                 case 0xBD:
-                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.Read3ByteUInt());
+                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadUInt16());
 
                 case 0xC0:
                     return new PanCommand(reader.ReadByte());
