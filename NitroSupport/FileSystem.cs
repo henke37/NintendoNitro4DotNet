@@ -8,14 +8,20 @@ namespace Nitro {
 
 		private Directory RootDir;
 
-		public FileSystem(Stream FNTStream, Stream FATStream) {
+		private List<FATEntry> FAT;
+
+		private Stream DataStream;
+
+		public FileSystem(Stream FNTStream, Stream FATStream, Stream DataStream) {
 			if(FNTStream == null) {
-				throw new System.ArgumentNullException(nameof(FNTStream));
+				throw new ArgumentNullException(nameof(FNTStream));
 			}
 
 			if(FATStream == null) {
-				throw new System.ArgumentNullException(nameof(FATStream));
+				throw new ArgumentNullException(nameof(FATStream));
 			}
+
+			this.DataStream = DataStream;
 
 			using(var r=new BinaryReader(FATStream)) {
 				LoadFAT(r);
@@ -26,7 +32,41 @@ namespace Nitro {
 			}
 		}
 
+		private File resolveFilename(string fileName) {
+			throw new NotImplementedException();
+		}
+
+		public Stream OpenFile(string fileName) {
+			File file = resolveFilename(fileName);
+			return OpenFile(file);
+		}
+
+		private Stream OpenFile(File file) {
+			return OpenFile(file.FatIndex);
+		}
+
+		private Stream OpenFile(int index) {
+			FATEntry fatEntry = FAT[index];
+			uint len=fatEntry.End-fatEntry.Start;
+			return new SubStream(DataStream, fatEntry.Start, len);
+		}
+
 		private void LoadFAT(BinaryReader r) {
+			int entryCount = (int)(r.BytesLeft() / 8);
+			FAT = new List<FATEntry>(entryCount);
+			for(var entryIndex=0;entryIndex<entryCount;++entryIndex) {
+				FAT.Add(new FATEntry(r.ReadUInt32(), r.ReadUInt32()));
+			}
+		}
+
+		private struct FATEntry {
+			public UInt32 Start;
+			public UInt32 End;
+
+			public FATEntry(uint Start, uint End) {
+				this.Start = Start;
+				this.End = End;
+			}
 		}
 
 		private void LoadFNT(BinaryReader r) {
@@ -84,7 +124,7 @@ namespace Nitro {
 		}
 
 		private class File : AbstractFile {
-			int FatIndex;
+			internal int FatIndex;
 			public File(string Name, Directory Parent, int FatIndex) : base(Name, Parent) {
 				this.FatIndex = FatIndex;
 			}

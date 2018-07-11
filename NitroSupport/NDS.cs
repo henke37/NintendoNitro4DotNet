@@ -50,7 +50,8 @@ namespace Nitro {
 					if(FNTSize!=0 && FATSize!=0) {
 						FileSystem = new FileSystem(
 							new SubStream(rootStream,FNTOffset,FNTSize),
-							new SubStream(rootStream,FATOffset,FATSize)
+							new SubStream(rootStream,FATOffset,FATSize),
+							rootStream
 						);
 					}
 				}
