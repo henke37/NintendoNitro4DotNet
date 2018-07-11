@@ -250,6 +250,12 @@ namespace Nitro.Composer {
 					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
 				case 0xC5:
 					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), true);
+
+				case 0xCA:
+				case 0xCB:
+				case 0xCC:
+				case 0xCD:
+					return new ModulationRandCommand((ModulationCommand.ModType)id, reader.ReadUInt16(), reader.ReadUInt16());
 				default:
 					throw new InvalidDataException("Unknown command");
 			}
