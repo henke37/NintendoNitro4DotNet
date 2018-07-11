@@ -1,4 +1,4 @@
-﻿namespace NitroComposer.SequenceCommands {
+﻿namespace Nitro.Composer.SequenceCommands {
     public class ADSRCommand : BaseSequenceCommand {
         public byte Value;
         public EnvPos envPos;

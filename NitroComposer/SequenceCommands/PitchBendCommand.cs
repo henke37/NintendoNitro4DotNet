@@ -1,4 +1,4 @@
-﻿namespace NitroComposer.SequenceCommands {
+﻿namespace Nitro.Composer.SequenceCommands {
     public class PitchBendCommand : BaseSequenceCommand {
         public byte Bend;
         public bool IsRange;

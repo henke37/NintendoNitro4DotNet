@@ -1,5 +1,5 @@
 ﻿using Nitro;
-using NitroComposer;
+using Nitro.Composer;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class Wave {
 
         public WaveEncoding Encoding;

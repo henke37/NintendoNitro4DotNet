@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using HenkesUtils;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     internal class SectionedFile {
         private Stream mainStream;
 

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NitroComposer.Instruments {
+namespace Nitro.Composer.Instruments {
     public abstract class BaseLeafInstrument : Instrument {
         public byte BaseNote;
 

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace NitroComposer.Instruments {
+namespace Nitro.Composer.Instruments {
     public class SplitInstrument : MetaInstrument {
 
         public SplitInstrument(BinaryReader r) {

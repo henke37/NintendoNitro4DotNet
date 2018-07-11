@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace NitroComposer.Instruments {
+namespace Nitro.Composer.Instruments {
     public class PulseInstrument : BaseLeafInstrument {
         public UInt16 Duty;
 

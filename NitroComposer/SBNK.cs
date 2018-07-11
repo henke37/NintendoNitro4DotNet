@@ -1,10 +1,10 @@
 ﻿using HenkesUtils;
-using NitroComposer.Instruments;
+using Nitro.Composer.Instruments;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class SBNK {
 
         public List<Instrument> instruments;

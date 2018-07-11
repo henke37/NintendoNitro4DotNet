@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace NitroComposer.Instruments {
+namespace Nitro.Composer.Instruments {
     public abstract class Instrument {
         private const int RECORD_LENGTH=10;
 

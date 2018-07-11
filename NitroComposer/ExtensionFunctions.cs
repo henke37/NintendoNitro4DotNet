@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     static class ExtensionFunctions {
         public static uint ReadMIDIVarLen(this BinaryReader r) {
             uint value = 0;

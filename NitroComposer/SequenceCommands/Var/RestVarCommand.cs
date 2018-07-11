@@ -1,4 +1,4 @@
-﻿using NitroComposer.SequenceCommands;
+﻿using Nitro.Composer.SequenceCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HenkesUtils;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class STRM {
         public byte encoding;
         public bool loop;

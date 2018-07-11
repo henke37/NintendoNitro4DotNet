@@ -1,4 +1,4 @@
-﻿namespace NitroComposer.SequenceCommands {
+﻿namespace Nitro.Composer.SequenceCommands {
     public class VolumeCommand : BaseSequenceCommand {
         public bool Master;
         public byte Volume;

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class SDat {
 
         public static SDat Open(string filename) {

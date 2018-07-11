@@ -1,4 +1,4 @@
-﻿namespace NitroComposer.SequenceCommands {
+﻿namespace Nitro.Composer.SequenceCommands {
     public class PortamentoCommand : BaseSequenceCommand {
         public bool Enable;
 

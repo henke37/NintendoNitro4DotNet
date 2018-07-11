@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nitro;
-using NitroComposer;
+using Nitro.Composer;
 
 namespace Test {
     class Program {

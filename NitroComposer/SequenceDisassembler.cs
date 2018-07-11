@@ -1,11 +1,11 @@
 ﻿using HenkesUtils;
 using Nitro.Composer.SequenceCommands.Var;
-using NitroComposer.SequenceCommands;
+using Nitro.Composer.SequenceCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     class SequenceDisassembler {
         private Dictionary<uint, Flow> flows;
         private Stack<Flow> unparsedFlows;

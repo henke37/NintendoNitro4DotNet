@@ -1,7 +1,7 @@
 ﻿using HenkesUtils;
 using System.IO;
 
-namespace NitroComposer.Instruments {
+namespace Nitro.Composer.Instruments {
     public class NoiseInstrument : BaseLeafInstrument {
 
         public NoiseInstrument(BinaryReader r) {

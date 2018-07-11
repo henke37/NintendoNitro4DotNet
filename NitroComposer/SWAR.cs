@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class SWAR {
 
         public List<Wave> waves;

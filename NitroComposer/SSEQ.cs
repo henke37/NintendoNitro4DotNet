@@ -2,7 +2,7 @@
 using System.IO;
 using HenkesUtils;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class SSEQ {
         public Sequence sequence;
 

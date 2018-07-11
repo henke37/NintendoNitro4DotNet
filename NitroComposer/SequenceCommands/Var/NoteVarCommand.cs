@@ -1,4 +1,4 @@
-﻿using NitroComposer.SequenceCommands;
+﻿using Nitro.Composer.SequenceCommands;
 
 namespace Nitro.Composer.SequenceCommands.Var {
 	public class NoteVarCommand : BaseSequenceCommand {

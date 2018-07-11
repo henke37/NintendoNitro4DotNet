@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using HenkesUtils;
-using NitroComposer.SequenceCommands;
+using Nitro.Composer.SequenceCommands;
 
-namespace NitroComposer {
+namespace Nitro.Composer {
     public class SequenceSerializer {
 
         private StringBuilder sb;

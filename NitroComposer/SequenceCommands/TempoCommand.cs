@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NitroComposer.SequenceCommands {
+namespace Nitro.Composer.SequenceCommands {
     public class TempoCommand : BaseSequenceCommand {
         public UInt16 Tempo;
         public TempoCommand(UInt16 tempo) {
