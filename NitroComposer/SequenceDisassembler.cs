@@ -239,8 +239,13 @@ namespace Nitro.Composer {
 
 				case 0x81:
 					return new ProgramChangeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+
+				case 0xC4:
+					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
+				case 0xC5:
+					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), true);
 				default:
-					nitialthrow new InvalidDataException("Unknown command");
+					throw new InvalidDataException("Unknown command");
 			}
 		}
 

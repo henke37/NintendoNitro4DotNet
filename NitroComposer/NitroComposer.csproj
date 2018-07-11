@@ -75,6 +75,7 @@
     <Compile Include="SequenceCommands\PriorityCommand.cs" />
     <Compile Include="SequenceCommands\ProgramChangeCommand.cs" />
     <Compile Include="SequenceCommands\Rand\NoteRandCommand.cs" />
+    <Compile Include="SequenceCommands\Rand\PitchBendRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\ProgramChangeRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\RestRandCommand.cs" />
     <Compile Include="SequenceCommands\RestCommand.cs" />
