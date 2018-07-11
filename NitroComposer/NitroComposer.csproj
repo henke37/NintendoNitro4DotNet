@@ -74,6 +74,7 @@
     <Compile Include="SequenceCommands\PrintVariableCommand.cs" />
     <Compile Include="SequenceCommands\PriorityCommand.cs" />
     <Compile Include="SequenceCommands\ProgramChangeCommand.cs" />
+    <Compile Include="SequenceCommands\Rand\ExpressionRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\ModulationRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\NoteRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\PanRandCommand.cs" />

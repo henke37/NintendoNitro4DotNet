@@ -256,6 +256,9 @@ namespace Nitro.Composer {
 				case 0xCC:
 				case 0xCD:
 					return new ModulationRandCommand((ModulationCommand.ModType)id, reader.ReadUInt16(), reader.ReadUInt16());
+					
+				case 0xD5:
+					return new ExpressionRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 				default:
 					throw new InvalidDataException("Unknown command");
 			}
