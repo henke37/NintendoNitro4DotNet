@@ -49,7 +49,13 @@ namespace BulkTest {
 					try {
 						sdat.OpenSequence(sequenceIndex);
 					} catch(Exception) {
-						Console.WriteLine($"Sequence # {sequenceIndex} failed to parse.");
+						string seqName;
+						if(sdat.seqSymbols != null && sdat.seqSymbols[sequenceIndex] != null) {
+							seqName = $"# {sequenceIndex} {sdat.seqSymbols[sequenceIndex]}";
+						} else {
+							seqName = $"# {sequenceIndex}";
+						}
+						Console.WriteLine($"Sequence {seqName} failed to parse.");
 					}
 				}
 			}
