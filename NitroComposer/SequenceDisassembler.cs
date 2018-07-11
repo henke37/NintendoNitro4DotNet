@@ -181,7 +181,9 @@ namespace NitroComposer {
 		}
 
 		private BaseSequenceCommand readIfCommand() {
-            throw new NotImplementedException();
+			var cmd=readCommand();
+			cmd.Conditional = true;
+			return cmd;
         }
 
         private Flow AddOrFindFlow(uint offset) {
