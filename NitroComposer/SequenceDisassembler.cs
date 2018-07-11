@@ -82,6 +82,12 @@ namespace NitroComposer {
                     return new JumpCommand(jumpOffset, JumpCommand.JumpType.CALL);
                 }
 
+				case 0xA0:
+					return readRandomCommand();
+
+				case 0xA1:
+					return readVarCommand();
+
                 case 0xA2:
                     return readIfCommand();
 
@@ -163,7 +169,18 @@ namespace NitroComposer {
             }
         }
 
-        private BaseSequenceCommand readIfCommand() {
+		private BaseSequenceCommand readVarCommand() {
+			throw new NotImplementedException();
+		}
+
+		private BaseSequenceCommand readRandomCommand() {
+			//TODO: implement this properly
+			reader.Skip(2 * 2);
+			return readCommand();
+			//throw new NotImplementedException();
+		}
+
+		private BaseSequenceCommand readIfCommand() {
             throw new NotImplementedException();
         }
 
