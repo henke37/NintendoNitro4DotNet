@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using HenkesUtils;
 
-namespace Nitro.Composer {
-    internal class SectionedFile {
+namespace Nitro {
+    public class SectionedFile {
         private Stream mainStream;
 
         private Dictionary<string, SectionEntry> sections;

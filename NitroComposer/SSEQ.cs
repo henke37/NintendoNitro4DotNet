@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using HenkesUtils;
 
 namespace Nitro.Composer {
-    public class SSEQ {
+	public class SSEQ {
         public Sequence sequence;
 
         public SSEQ(Stream mainStream) {
