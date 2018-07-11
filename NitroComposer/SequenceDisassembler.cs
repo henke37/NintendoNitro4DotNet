@@ -4,6 +4,7 @@ using Nitro.Composer.SequenceCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Nitro.Composer.SequenceCommands.Rand;
 
 namespace Nitro.Composer {
     class SequenceDisassembler {
@@ -228,10 +229,19 @@ namespace Nitro.Composer {
 		}
 
 		private BaseSequenceCommand readRandomCommand() {
-			//TODO: implement this properly
-			reader.Skip(2 * 2);
-			return readCommand();
-			//throw new NotImplementedException();
+			uint id = reader.ReadByte();
+			if(id < 0x80) {
+				return new NoteRandCommand(id, reader.ReadByte(), reader.ReadUInt16(), reader.ReadUInt16());
+			}
+			switch(id) {
+				case 0x80:
+					return new RestRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+
+				case 0x81:
+					return new ProgramChangeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+				default:
+					nitialthrow new InvalidDataException("Unknown command");
+			}
 		}
 
 		private BaseSequenceCommand readIfCommand() {
