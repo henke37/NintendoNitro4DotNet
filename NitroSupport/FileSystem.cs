@@ -126,6 +126,22 @@ namespace Nitro {
 				this.Name = Name;
 				this.Parent = Parent;
 			}
+
+			public string AbsPath {
+				get {
+					if(Parent.IsRoot) return Name;
+
+					var p = Parent;
+					var path = Name;
+					
+					while(!p.IsRoot) {
+						path = p.Name + "/" + path;
+						p = p.Parent;
+					}
+
+					return path;
+				}
+			}
 		}
 
 		public class Directory : AbstractFile {
@@ -162,6 +178,10 @@ namespace Nitro {
 					if(!Like.LikeString(file.Name,pattern,Microsoft.VisualBasic.CompareMethod.Text)) continue;
 					l.Add(file);
 				}
+			}
+
+			public bool IsRoot {
+				get => Parent == null;
 			}
 		}
 

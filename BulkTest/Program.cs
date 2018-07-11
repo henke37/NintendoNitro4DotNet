@@ -20,15 +20,29 @@ namespace BulkTest {
 		}
 
 		private static void ScanFile(string file) {
+			Console.WriteLine(file);
 			ScanFile(File.OpenRead(file));
 		}
 
 		private static void ScanFile(Stream fileStream) {
-			var nds = new NDS(fileStream);
+			NDS nds=null;
+			try {
+				nds = new NDS(fileStream);
+			} catch(Exception) {
+				Console.WriteLine("NDS parsing failed.");
+				return;
+			}
 
 			var sdatFiles=nds.FileSystem.RootDir.FindMatchingFiles("*.sdat");
 			foreach(var sdatFile in sdatFiles) {
-				var sdat=SDat.Open(nds.FileSystem.OpenFile(sdatFile));
+				SDat sdat;
+				try {
+					sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
+				} catch(InvalidDataException) {
+					Console.Out.WriteLine($"{sdatFile.AbsPath} Fail");
+					continue;//if this isn't even a valid sdat, no need to try the sequence parser on it
+				}
+				Console.Out.WriteLine($"{sdatFile.AbsPath} Loaded");
 			}
 		}
 	}
