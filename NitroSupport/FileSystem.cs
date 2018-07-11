@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using HenkesUtils;
+using Like = Microsoft.VisualBasic.CompilerServices.LikeOperator;
 
 namespace Nitro {
 	public class FileSystem {
 
-		private Directory RootDir;
+		public Directory RootDir { get; private set;  }
 
 		private List<FATEntry> FAT;
 
@@ -53,7 +54,7 @@ namespace Nitro {
 			return OpenFile(file);
 		}
 
-		private Stream OpenFile(File file) {
+		public Stream OpenFile(File file) {
 			return OpenFile(file.FatIndex);
 		}
 
@@ -117,7 +118,7 @@ namespace Nitro {
 			}
 		}
 
-		private class AbstractFile {
+		public class AbstractFile {
 			public string Name;
 			public Directory Parent;
 
@@ -127,7 +128,7 @@ namespace Nitro {
 			}
 		}
 
-		private class Directory : AbstractFile {
+		public class Directory : AbstractFile {
 			public List<AbstractFile> Files;
 
 			public Directory(string Name, Directory Parent) : base(Name, Parent) {
@@ -141,11 +142,32 @@ namespace Nitro {
 				}
 				throw new FileNotFoundException();
 			}
+
+			public List<File> FindMatchingFiles(string pattern) {
+				var l = new List<File>();
+				FindMatchingFiles(l, pattern);
+				return l;
+			}
+
+			private void FindMatchingFiles(List<File> l, string pattern) {
+				foreach(var absFile in Files) {
+					{
+						var dir = absFile as Directory;
+						if(dir != null) {
+							dir.FindMatchingFiles(l, pattern);
+							continue;
+						}
+					}
+					var file = (File)absFile;
+					if(!Like.LikeString(file.Name,pattern,Microsoft.VisualBasic.CompareMethod.Text)) continue;
+					l.Add(file);
+				}
+			}
 		}
 
-		private class File : AbstractFile {
+		public class File : AbstractFile {
 			internal int FatIndex;
-			public File(string Name, Directory Parent, int FatIndex) : base(Name, Parent) {
+			internal File(string Name, Directory Parent, int FatIndex) : base(Name, Parent) {
 				this.FatIndex = FatIndex;
 			}
 		}
