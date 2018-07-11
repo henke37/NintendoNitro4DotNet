@@ -11,6 +11,7 @@ namespace Test {
     class Program {
         static void Main(string[] args) {
 			NDS nds = new NDS(File.OpenRead(args[0]));
+			SDat sdat = SDat.Open(nds.FileSystem.OpenFile("sound_data.sdat"));
         }
     }
 }

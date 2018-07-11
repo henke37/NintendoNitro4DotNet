@@ -23,7 +23,7 @@ namespace Nitro {
 
 			this.DataStream = DataStream;
 
-			using(var r=new BinaryReader(FATStream)) {
+			using(var r = new BinaryReader(FATStream)) {
 				LoadFAT(r);
 			}
 
@@ -33,7 +33,19 @@ namespace Nitro {
 		}
 
 		private File resolveFilename(string fileName) {
-			throw new NotImplementedException();
+			var parts = fileName.Split('/');
+
+			var curDir = RootDir;
+
+			foreach(var part in parts) {
+				var absFile = curDir.FindFile(part);
+				{
+					var file = absFile as File;
+					if(file != null) return file;
+				}
+				curDir = (Directory)absFile;
+			}
+			throw new FileNotFoundException();
 		}
 
 		public Stream OpenFile(string fileName) {
@@ -47,14 +59,14 @@ namespace Nitro {
 
 		private Stream OpenFile(int index) {
 			FATEntry fatEntry = FAT[index];
-			uint len=fatEntry.End-fatEntry.Start;
+			uint len = fatEntry.End - fatEntry.Start;
 			return new SubStream(DataStream, fatEntry.Start, len);
 		}
 
 		private void LoadFAT(BinaryReader r) {
 			int entryCount = (int)(r.BytesLeft() / 8);
 			FAT = new List<FATEntry>(entryCount);
-			for(var entryIndex=0;entryIndex<entryCount;++entryIndex) {
+			for(var entryIndex = 0; entryIndex < entryCount; ++entryIndex) {
 				FAT.Add(new FATEntry(r.ReadUInt32(), r.ReadUInt32()));
 			}
 		}
@@ -72,27 +84,27 @@ namespace Nitro {
 		private void LoadFNT(BinaryReader r) {
 
 			//root entry smuggles the total number of directories
-			DirIndexEntry rootDirEntry = new DirIndexEntry(r.ReadUInt32(),r.ReadUInt16(),0);
+			DirIndexEntry rootDirEntry = new DirIndexEntry(r.ReadUInt32(), r.ReadUInt16(), 0);
 			RootDir = new Directory("$ROOT", null);
 			rootDirEntry.dir = RootDir;
 			int dirCount = r.ReadUInt16();
 			DirIndexEntry[] dirEntries = new DirIndexEntry[dirCount];
 			dirEntries[0] = rootDirEntry;
 
-			for(int dirIndex=1;dirIndex<dirCount;++dirIndex) {
-				dirEntries[dirIndex] =new DirIndexEntry(r.ReadUInt32(), r.ReadUInt16(), r.ReadUInt16());
+			for(int dirIndex = 1; dirIndex < dirCount; ++dirIndex) {
+				dirEntries[dirIndex] = new DirIndexEntry(r.ReadUInt32(), r.ReadUInt16(), r.ReadUInt16());
 			}
 
 			foreach(var dirEntry in dirEntries) {
 				int fileId = dirEntry.firstFileId;
 				r.Seek((int)dirEntry.offset);
 
-				for(; ;) {
+				for(; ; ) {
 					byte type = r.ReadByte();
 					if(type == 0) break;
 
 					string name = r.ReadUTFString(type & 0x7F, false);
-					if((type & 0x80)==0x80) {
+					if((type & 0x80) == 0x80) {
 						var subDir = new Directory(name, dirEntry.dir);
 						dirEntry.dir.Files.Add(subDir);
 						int subDirIndex = r.ReadUInt16() & 0x0FFF;
@@ -118,8 +130,16 @@ namespace Nitro {
 		private class Directory : AbstractFile {
 			public List<AbstractFile> Files;
 
-			public Directory(string Name, Directory Parent) : base (Name, Parent) {
+			public Directory(string Name, Directory Parent) : base(Name, Parent) {
 				Files = new List<AbstractFile>();
+			}
+
+			public AbstractFile FindFile(string fileName) {
+				foreach(var file in Files) {
+					if(file.Name != fileName) continue;
+					return file;
+				}
+				throw new FileNotFoundException();
 			}
 		}
 
