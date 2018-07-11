@@ -240,6 +240,21 @@ namespace Nitro.Composer {
 				case 0x81:
 					return new ProgramChangeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 
+				case 0xB0:
+				case 0xB1:
+				case 0xB2:
+				case 0xB3:
+				case 0xB4:
+				case 0xB5:
+				case 0xB6:
+				case 0xB8:
+				case 0xB9:
+				case 0xBA:
+				case 0xBB:
+				case 0xBC:
+				case 0xBD:
+					return new VarRandCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadUInt16(), reader.ReadUInt16());
+
 				case 0xC0:
 					return new PanRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 				case 0xC1:
@@ -258,6 +273,9 @@ namespace Nitro.Composer {
 				case 0xCC:
 				case 0xCD:
 					return new ModulationRandCommand((ModulationCommand.ModType)id, reader.ReadUInt16(), reader.ReadUInt16());
+
+				case 0xCF:
+					return new PortamentoTimeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 
 				case 0xD0:
 				case 0xD1:
