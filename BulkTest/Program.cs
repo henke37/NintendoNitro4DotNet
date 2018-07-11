@@ -43,6 +43,15 @@ namespace BulkTest {
 					continue;//if this isn't even a valid sdat, no need to try the sequence parser on it
 				}
 				Console.Out.WriteLine($"{sdatFile.AbsPath} Loaded");
+
+				for(int sequenceIndex=0; sequenceIndex < sdat.sequenceInfo.Count;++ sequenceIndex) {
+					if(sdat.sequenceInfo[sequenceIndex] == null) continue;
+					try {
+						sdat.OpenSequence(sequenceIndex);
+					} catch(Exception) {
+						Console.WriteLine($"Sequence # {sequenceIndex} failed to parse.");
+					}
+				}
 			}
 		}
 	}
