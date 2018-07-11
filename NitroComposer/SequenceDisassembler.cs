@@ -1,4 +1,5 @@
 ﻿using HenkesUtils;
+using Nitro.Composer.SequenceCommands.Var;
 using NitroComposer.SequenceCommands;
 using System;
 using System.Collections.Generic;
@@ -170,7 +171,17 @@ namespace NitroComposer {
         }
 
 		private BaseSequenceCommand readVarCommand() {
-			throw new NotImplementedException();
+			uint id = reader.ReadByte();
+			if(id < 0x80) {
+				return new NoteVarCommand(id, reader.ReadByte(), reader.ReadByte());
+			}
+			switch(id) {
+				case 0x80:
+					return new RestVarCommand(reader.ReadByte());
+
+				default:
+					throw new InvalidDataException("Unknown command");
+			}
 		}
 
 		private BaseSequenceCommand readRandomCommand() {
