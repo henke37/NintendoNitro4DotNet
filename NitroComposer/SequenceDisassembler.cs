@@ -179,6 +179,9 @@ namespace Nitro.Composer {
 				case 0x80:
 					return new RestVarCommand(reader.ReadByte());
 
+				case 0x81:
+					return new ProgramChangeVarCommand(reader.ReadByte());
+
 				case 0xB0:
 				case 0xB1:
 				case 0xB2:
@@ -194,6 +197,8 @@ namespace Nitro.Composer {
 				case 0xBD:
 					return new VarVarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadByte());
 
+				case 0xC0:
+					return new PanVarCommand(reader.ReadByte());
 				case 0xC1:
 					return new VolumeVarCommand(reader.ReadByte(), false);
 				case 0xC2:
@@ -205,8 +210,17 @@ namespace Nitro.Composer {
 				case 0xC5:
 					return new PitchBendVarCommand(reader.ReadByte(), true);
 
+
+				case 0xD0:
+				case 0xD1:
+				case 0xD2:
+				case 0xD3:
+					return new ADSRVarCommand((ADSRCommand.EnvPos)id, reader.ReadByte());
+
 				case 0xD4:
 					return new LoopStartVarCommand(reader.ReadByte());
+				case 0xD5:
+					return new ExpressionVarCommand(reader.ReadByte());
 
 				default:
 					throw new InvalidDataException("Unknown command");

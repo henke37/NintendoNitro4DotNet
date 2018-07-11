@@ -81,9 +81,13 @@
     <Compile Include="SequenceCommands\TieCommand.cs" />
     <Compile Include="SequenceCommands\TransposeCommand.cs" />
     <Compile Include="SequenceCommands\VarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\ADSRVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\ExpressionVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\LoopStartVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\NoteVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\PanVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\PitchBendVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\ProgramChangeVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\RestVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\TransposeVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\VarVarCommand.cs" />
