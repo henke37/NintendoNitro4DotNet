@@ -33,6 +33,8 @@ namespace BulkTest {
 				return;
 			}
 
+			var ser = new SequenceSerializer();
+
 			var sdatFiles=nds.FileSystem.RootDir.FindMatchingFiles("*.sdat");
 			foreach(var sdatFile in sdatFiles) {
 				SDat sdat;
@@ -46,16 +48,27 @@ namespace BulkTest {
 
 				for(int sequenceIndex=0; sequenceIndex < sdat.sequenceInfo.Count;++ sequenceIndex) {
 					if(sdat.sequenceInfo[sequenceIndex] == null) continue;
+
+					string seqName;
+					if(sdat.seqSymbols != null && sdat.seqSymbols[sequenceIndex] != null) {
+						seqName = $"# {sequenceIndex} {sdat.seqSymbols[sequenceIndex]}";
+					} else {
+						seqName = $"# {sequenceIndex}";
+					}
+
+					SSEQ sseq = null;
 					try {
-						sdat.OpenSequence(sequenceIndex);
+						sseq=sdat.OpenSequence(sequenceIndex);
 					} catch(Exception) {
-						string seqName;
-						if(sdat.seqSymbols != null && sdat.seqSymbols[sequenceIndex] != null) {
-							seqName = $"# {sequenceIndex} {sdat.seqSymbols[sequenceIndex]}";
-						} else {
-							seqName = $"# {sequenceIndex}";
-						}
+						
 						Console.WriteLine($"Sequence {seqName} failed to parse.");
+					}
+
+					try {
+						ser.Clear();
+						ser.Serialize(sseq.sequence);
+					} catch(Exception) {
+						Console.WriteLine($"Sequence {seqName} failed to serialize.");
 					}
 				}
 			}
