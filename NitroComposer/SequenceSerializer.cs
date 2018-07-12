@@ -91,6 +91,9 @@ namespace Nitro.Composer {
 		private void Serialize(RestCommand cmd) {
 			sb.AppendFormat("wait {0}\n", cmd.Rest);
 		}
+		private void Serialize(RestVarCommand cmd) {
+			sb.AppendFormat("wait_v {0}\n", cmd.RestVar);
+		}
 		private void Serialize(RestRandCommand cmd) {
 			sb.AppendFormat("wait_r {0}, {1}\n", cmd.RestMin, cmd.RestMax);
 		}
@@ -103,6 +106,9 @@ namespace Nitro.Composer {
 			sb.Append("prg ");
 			sb.Append(cmd.Program);
 			sb.AppendLine();
+		}
+		private void Serialize(ProgramChangeVarCommand cmd) {
+			sb.AppendFormat("prg_v {0}\n", cmd.ProgramVar);
 		}
 		private void Serialize(ProgramChangeRandCommand cmd) {
 			sb.AppendFormat("prg_r {0}, {1}\n", cmd.ProgramMin, cmd.ProgramMax);
@@ -368,6 +374,9 @@ namespace Nitro.Composer {
 
 		private void Serialize(PortamentoTimeCommand cmd) {
 			sb.AppendFormat("porta_time {0}\n", cmd.Time);
+		}
+		private void Serialize(PortamentoTimeRandCommand cmd) {
+			sb.AppendFormat("porta_time_r {0}, {1}\n", cmd.TimeMin, cmd.TimeMax);
 		}
 
 		private void Serialize(PortamentoKeyCommand cmd) {
