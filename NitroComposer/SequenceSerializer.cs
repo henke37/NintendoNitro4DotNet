@@ -243,6 +243,9 @@ namespace Nitro.Composer {
 		private void Serialize(SweepPitchCommand cmd) {
 			sb.AppendFormat("sweep_pitch {0}\n", cmd.Ammount);
 		}
+		private void Serialize(SweepPitchRandCommand cmd) {
+			sb.AppendFormat("sweep_pitch {0}, {1}\n", cmd.AmmountMin, cmd.AmmountMax);
+		}
 
 		private void Serialize(ModulationCommand cmd) {
 			switch(cmd.Type) {
@@ -257,6 +260,23 @@ namespace Nitro.Composer {
 					break;
 				case ModulationCommand.ModType.TYPE:
 					sb.AppendFormat("mod_type {0}\n", cmd.Value);
+					break;
+
+			}
+		}
+		private void Serialize(ModulationVarCommand cmd) {
+			switch(cmd.Type) {
+				case ModulationCommand.ModType.DEPTH:
+					sb.AppendFormat("mod_depth_v {0}\n", cmd.Var);
+					break;
+				case ModulationCommand.ModType.RANGE:
+					sb.AppendFormat("mod_range_v {0}\n", cmd.Var);
+					break;
+				case ModulationCommand.ModType.SPEED:
+					sb.AppendFormat("mod_speed_v {0}\n", cmd.Var);
+					break;
+				case ModulationCommand.ModType.TYPE:
+					sb.AppendFormat("mod_type_v {0}\n", cmd.Var);
 					break;
 
 			}
@@ -296,6 +316,38 @@ namespace Nitro.Composer {
 					break;
 				case ADSRCommand.EnvPos.RELEASE:
 					sb.AppendFormat("release {0}\n", cmd.Value);
+					break;
+			}
+		}
+		private void Serialize(ADSRVarCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					sb.AppendFormat("attack_v {0}\n", cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					sb.AppendFormat("decay_v {0}\n", cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					sb.AppendFormat("sustain_v {0}\n", cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					sb.AppendFormat("release_v {0}\n", cmd.Var);
+					break;
+			}
+		}
+		private void Serialize(ADSRRandCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					sb.AppendFormat("attack_r {0}, {1}\n", cmd.Min, cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					sb.AppendFormat("decay_r {0}, {1}\n", cmd.Min, cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					sb.AppendFormat("sustain_r {0}, {1}\n", cmd.Min, cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					sb.AppendFormat("release_r {0}, {1}\n", cmd.Min, cmd.Max);
 					break;
 			}
 		}
