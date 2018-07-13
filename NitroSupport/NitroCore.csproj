@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banner.cs" />
+    <Compile Include="Compression\RLEDecoderStream.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="NDS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,8 +54,6 @@
       <Name>HenkesUtils</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Compression\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
