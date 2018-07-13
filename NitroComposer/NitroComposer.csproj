@@ -76,6 +76,7 @@
     <Compile Include="SequenceCommands\ProgramChangeCommand.cs" />
     <Compile Include="SequenceCommands\Rand\ADSRRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\ExpressionRandCommand.cs" />
+    <Compile Include="SequenceCommands\Rand\LoopStartRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\ModulationRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\NoteRandCommand.cs" />
     <Compile Include="SequenceCommands\Rand\PanRandCommand.cs" />

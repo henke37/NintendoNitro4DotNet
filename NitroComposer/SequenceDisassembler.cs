@@ -294,6 +294,8 @@ namespace Nitro.Composer {
 				case 0xD3:
 					return new ADSRRandCommand((ADSRCommand.EnvPos)id, reader.ReadUInt16(), reader.ReadUInt16());
 
+				case 0xD4:
+					return new LoopStartRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 				case 0xD5:
 					return new ExpressionRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
 

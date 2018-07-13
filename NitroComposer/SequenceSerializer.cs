@@ -152,6 +152,9 @@ namespace Nitro.Composer {
 		private void Serialize(LoopStartVarCommand cmd) {
 			sb.AppendFormat("loop_start_v {0}\n", cmd.LoopCountVar);
 		}
+		private void Serialize(LoopStartRandCommand cmd) {
+			sb.AppendFormat("loop_start_r {0}, {1}\n", cmd.LoopCountMin, cmd.LoopCountMax);
+		}
 
 		private void Serialize(OpenTrackCommand cmd) {
 			sb.AppendFormat("opentrack {0}, {1}\n", positionLabel(cmd.target), cmd.Track);
