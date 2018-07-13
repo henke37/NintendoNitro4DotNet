@@ -101,6 +101,7 @@
     <Compile Include="SequenceCommands\Var\NoteVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\PanVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\PitchBendVarCommand.cs" />
+    <Compile Include="SequenceCommands\Var\PortamentoTimeVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\ProgramChangeVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\RestVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\TransposeVarCommand.cs" />

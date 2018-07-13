@@ -250,7 +250,7 @@ namespace Nitro.Composer {
 			sb.AppendFormat("sweep_pitch {0}\n", cmd.Ammount);
 		}
 		private void Serialize(SweepPitchRandCommand cmd) {
-			sb.AppendFormat("sweep_pitch {0}, {1}\n", cmd.AmmountMin, cmd.AmmountMax);
+			sb.AppendFormat("sweep_pitch_r {0}, {1}\n", cmd.AmmountMin, cmd.AmmountMax);
 		}
 
 		private void Serialize(ModulationCommand cmd) {
@@ -374,6 +374,9 @@ namespace Nitro.Composer {
 
 		private void Serialize(PortamentoTimeCommand cmd) {
 			sb.AppendFormat("porta_time {0}\n", cmd.Time);
+		}
+		private void Serialize(PortamentoTimeVarCommand cmd) {
+			sb.AppendFormat("porta_time_v {0}\n", cmd.TimeVar);
 		}
 		private void Serialize(PortamentoTimeRandCommand cmd) {
 			sb.AppendFormat("porta_time_r {0}, {1}\n", cmd.TimeMin, cmd.TimeMax);

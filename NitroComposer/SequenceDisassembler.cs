@@ -217,6 +217,10 @@ namespace Nitro.Composer {
 				case 0xCD:
 					return new ModulationVarCommand((ModulationCommand.ModType)id, reader.ReadByte());
 
+
+				case 0xCF:
+					return new PortamentoTimeVarCommand(reader.ReadByte());
+
 				case 0xD0:
 				case 0xD1:
 				case 0xD2:
