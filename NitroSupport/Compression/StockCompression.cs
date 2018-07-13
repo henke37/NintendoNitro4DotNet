@@ -6,6 +6,13 @@ using HenkesUtils;
 namespace Nitro.Compression {
 	static class StockCompression {
 
+		public static byte[] DecompressArray(byte[] inArr) {
+			var decStream = OpenCompressedStream(new MemoryStream(inArr, false));
+			var outArr = new byte[decStream.Length];
+			decStream.Read(outArr, 0, (int)decStream.Length);
+			return outArr;
+		}
+
 		public static Stream OpenCompressedStream(Stream baseStream) {
 			using(var r = new BinaryReader(baseStream, Encoding.Default, true)) {
 				byte type = r.ReadByte();
