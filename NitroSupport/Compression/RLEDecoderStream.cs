@@ -95,6 +95,8 @@ namespace Nitro.Compression {
 		public override bool CanRead => true;
 		public override bool CanSeek => BaseStream.CanSeek;
 		public override bool CanWrite => false;
+		public override bool CanTimeout => BaseStream.CanTimeout;
+		public override int ReadTimeout { get => BaseStream.ReadTimeout; set => BaseStream.ReadTimeout = value; }
 
 		public override long Length => DecompressedLength;
 
@@ -119,9 +121,6 @@ namespace Nitro.Compression {
 
 			return Progress;
 		}
-
-		public override int ReadTimeout { get => BaseStream.ReadTimeout; set => BaseStream.ReadTimeout = value; }
-		public override int WriteTimeout { get => BaseStream.WriteTimeout; set => BaseStream.WriteTimeout = value; }
 
 		public override void Flush() {
 			throw new NotSupportedException();

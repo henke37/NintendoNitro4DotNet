@@ -11,6 +11,8 @@ namespace Nitro.Compression {
 		public override bool CanRead => baseStream.CanRead;
 		public override bool CanSeek => baseStream.CanSeek;
 		public override bool CanWrite => baseStream.CanWrite;
+		public override bool CanTimeout => baseStream.CanTimeout;
+		public override int ReadTimeout { get => baseStream.ReadTimeout; set => baseStream.ReadTimeout = value; }
 
 		public override long Length => baseStream.Length;
 
