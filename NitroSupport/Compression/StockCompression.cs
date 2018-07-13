@@ -41,7 +41,7 @@ namespace Nitro.Compression {
 				}
 
 				if((type & 8)!=0) {
-
+					return new DeltaCodedStream(decompressedStream);
 				}
 				return decompressedStream;
 			}

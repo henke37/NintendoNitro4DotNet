@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banner.cs" />
+    <Compile Include="Compression\DeltaCodedStream.cs" />
     <Compile Include="Compression\HuffmanDecoderStream.cs" />
     <Compile Include="Compression\LZ77DecoderStream.cs" />
     <Compile Include="Compression\RLEDecoderStream.cs" />
