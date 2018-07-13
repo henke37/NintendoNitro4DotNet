@@ -65,11 +65,14 @@ namespace Nitro.Compression {
 				buffer[offset] = ReadByteInternal();
 			}
 
+			Progress += count;
+
 			return count;
 		}
 
 		public override int ReadByte() {
 			if(Progress >= DecompressedLength) return -1;
+			Progress++;
 			return ReadByteInternal();
 		}
 
