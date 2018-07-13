@@ -69,6 +69,22 @@ namespace Nitro.Compression {
 			}
 		}
 
+		private void SkipAhead(long Target) {
+			while(Progress < Target) {
+				if(RemaingRunLength == 0) ReadNextHeader();
+
+				if(Progress + RemaingRunLength >= Target) {
+					//bigger skip, discard entire run
+					Progress += RemaingRunLength;
+				} else {
+					//tiny skip, fits in current run
+					RemaingRunLength -= (int)(Target - Progress);
+					Progress = Target;
+					break;
+				}
+			}
+		}
+
 		private enum Mode {
 			CompressedRun = 0x80,//Clever trick to simplify header parsing
 			NonCompressedRun = 0x00
@@ -77,21 +93,37 @@ namespace Nitro.Compression {
 		#region Contract cruff
 
 		public override bool CanRead => true;
-		public override bool CanSeek => false;
+		public override bool CanSeek => BaseStream.CanSeek;
 		public override bool CanWrite => false;
 
 		public override long Length => DecompressedLength;
 
 		public override long Position {
 			get => Progress;
-			set => throw new NotSupportedException();
-		}
-
-		public override void Flush() {
-			throw new NotSupportedException();
+			set => Seek(value, SeekOrigin.Begin);
 		}
 
 		public override long Seek(long offset, SeekOrigin origin) {
+			if(origin == SeekOrigin.Current) offset += Progress;
+			else if(origin == SeekOrigin.End) offset = Progress - offset;
+
+			if(offset < 0) throw new ArgumentOutOfRangeException(nameof(offset));
+			if(offset >= DecompressedLength) throw new ArgumentOutOfRangeException(nameof(offset));
+
+			if(offset < Progress) {
+				BaseStream.Seek(0, SeekOrigin.Begin);
+				Progress = 0;
+			}
+
+			SkipAhead(offset);
+
+			return Progress;
+		}
+
+		public override int ReadTimeout { get => BaseStream.ReadTimeout; set => BaseStream.ReadTimeout = value; }
+		public override int WriteTimeout { get => BaseStream.WriteTimeout; set => BaseStream.WriteTimeout = value; }
+
+		public override void Flush() {
 			throw new NotSupportedException();
 		}
 
