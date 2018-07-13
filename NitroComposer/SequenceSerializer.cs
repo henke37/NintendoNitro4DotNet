@@ -267,7 +267,6 @@ namespace Nitro.Composer {
 				case ModulationCommand.ModType.TYPE:
 					sb.AppendFormat("mod_type {0}\n", cmd.Value);
 					break;
-
 			}
 		}
 		private void Serialize(ModulationVarCommand cmd) {
@@ -283,6 +282,9 @@ namespace Nitro.Composer {
 					break;
 				case ModulationCommand.ModType.TYPE:
 					sb.AppendFormat("mod_type_v {0}\n", cmd.Var);
+					break;
+				case ModulationCommand.ModType.DELAY:
+					sb.AppendFormat("mod_delay_v {0}\n", cmd.Var);
 					break;
 
 			}
@@ -300,6 +302,9 @@ namespace Nitro.Composer {
 					break;
 				case ModulationCommand.ModType.TYPE:
 					sb.AppendFormat("mod_type_r {0}, {1}\n", cmd.Min, cmd.Max);
+					break;
+				case ModulationCommand.ModType.DELAY:
+					sb.AppendFormat("mod_delay_r {0}, {1}\n", cmd.Min, cmd.Max);
 					break;
 
 			}

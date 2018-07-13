@@ -12,7 +12,8 @@
             DEPTH=0xCA,
             SPEED,
             TYPE,
-            RANGE
-        }
+            RANGE,
+			DELAY= 0xE0
+		}
     }
 }
