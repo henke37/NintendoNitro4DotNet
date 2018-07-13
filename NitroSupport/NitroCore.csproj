@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banner.cs" />
+    <Compile Include="Compression\HuffmanDecoderStream.cs" />
     <Compile Include="Compression\RLEDecoderStream.cs" />
     <Compile Include="Compression\StockCompression.cs" />
     <Compile Include="FileSystem.cs" />

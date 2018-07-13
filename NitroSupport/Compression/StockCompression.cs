@@ -26,6 +26,9 @@ namespace Nitro.Compression {
 					case 0:
 						decompressedStream = baseStream;
 						break;
+					case 2:
+						decompressedStream = new HuffmanDecoderStream(baseStream, length, variant);
+						break;
 					case 3:
 						decompressedStream = new RLEDecoderStream(baseStream, length);
 						break;
