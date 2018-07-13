@@ -6,12 +6,13 @@ using HenkesUtils;
 namespace Nitro.Compression {
 	public class HuffmanDecoderStream : Stream {
 		private Stream baseStream;
-		private uint DecompressedLength;
+		private int DecompressedLength;
 		private byte variant;
+		private int Progress;
 
 		private BinaryReader reader;
 
-		public HuffmanDecoderStream(Stream baseStream, uint DecompressedLength, byte variant) {
+		public HuffmanDecoderStream(Stream baseStream, int DecompressedLength, byte variant) {
 			this.baseStream = baseStream;
 			this.DecompressedLength = DecompressedLength;
 			this.variant = variant;
@@ -50,8 +51,26 @@ namespace Nitro.Compression {
 			return parent;
 		}
 
+		private byte ReadByteInternal() {
+			throw new NotImplementedException();
+		}
+
 		public override int Read(byte[] buffer, int offset, int count) {
-			throw new System.NotImplementedException();
+			if(count + Progress > DecompressedLength) {
+				count = DecompressedLength - Progress;
+			}
+
+			int endOffset = offset + count;
+			for(; offset < endOffset; ++offset) {
+				buffer[offset] = ReadByteInternal();
+			}
+
+			return count;
+		}
+
+		public override int ReadByte() {
+			if(Progress >= DecompressedLength) return -1;
+			return ReadByteInternal();
 		}
 
 		private class TreeNode {
