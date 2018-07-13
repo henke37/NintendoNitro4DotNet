@@ -3,10 +3,10 @@
 namespace Nitro.Compression {
 	public class LZ77DecoderStream : Stream {
 		private Stream baseStream;
-		private uint DecompressedLength;
+		private int DecompressedLength;
 		private bool longLengths;
 
-		public LZ77DecoderStream(Stream baseStream, uint DecompressedLength, byte variant) {
+		public LZ77DecoderStream(Stream baseStream, int DecompressedLength, byte variant) {
 			this.baseStream = baseStream;
 			this.DecompressedLength = DecompressedLength;
 			this.longLengths = variant!=0;
