@@ -20,14 +20,5 @@ namespace Nitro.Composer {
 
             return value;
         }
-
-
-        public static uint Read3ByteUInt(this BinaryReader r) {
-            uint value= r.ReadByte();
-
-            value += (uint)(r.ReadUInt16() << 8);
-
-            return value;
-        }
     }
 }
