@@ -97,7 +97,7 @@ namespace Nitro.Compression {
 
 		public override long Length => DecompressedLength;
 
-		public override long Position { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+		public override long Position { get => Progress; set => throw new System.NotImplementedException(); }
 
 		public override long Seek(long offset, SeekOrigin origin) {
 			throw new System.NotImplementedException();

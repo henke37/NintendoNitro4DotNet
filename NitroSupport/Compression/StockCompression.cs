@@ -26,6 +26,9 @@ namespace Nitro.Compression {
 					case 0:
 						decompressedStream = baseStream;
 						break;
+					case 1:
+						decompressedStream = new LZ77DecoderStream(baseStream, length, variant);
+						break;
 					case 2:
 						decompressedStream = new HuffmanDecoderStream(baseStream, length, variant);
 						break;
