@@ -18,6 +18,8 @@ namespace Nitro.Compression {
 			BaseStream = baseStream ?? throw new ArgumentNullException(nameof(baseStream));
 			if(!baseStream.CanRead) throw new ArgumentException("Stream has to be readable!", nameof(baseStream));
 			Reader = new BinaryReader(baseStream, Encoding.Default, leaveOpen);
+
+			this.DecompressedLength = DecompressedLength;
 		}
 
 		public override int Read(byte[] buffer, int offset, int count) {
@@ -39,6 +41,7 @@ namespace Nitro.Compression {
 				}
 
 				RemaingRunLength -= bytesToWrite;
+				Progress += bytesToWrite;
 			}
 
 			return bytesWritten;
