@@ -233,6 +233,9 @@ namespace Nitro.Composer {
 				case 0xD5:
 					return new ExpressionVarCommand(reader.ReadByte());
 
+				case 0xE3:
+					return new SweepPitchVarCommand(reader.ReadByte());
+
 				default:
 					throw new InvalidDataException("Unknown command");
 			}

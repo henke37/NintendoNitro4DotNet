@@ -252,6 +252,9 @@ namespace Nitro.Composer {
 		private void Serialize(SweepPitchCommand cmd) {
 			sb.AppendFormat("sweep_pitch {0}\n", cmd.Ammount);
 		}
+		private void Serialize(SweepPitchVarCommand cmd) {
+			sb.AppendFormat("sweep_pitch_v {0}\n", cmd.Var);
+		}
 		private void Serialize(SweepPitchRandCommand cmd) {
 			sb.AppendFormat("sweep_pitch_r {0}, {1}\n", cmd.AmmountMin, cmd.AmmountMax);
 		}
