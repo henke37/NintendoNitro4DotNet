@@ -10,6 +10,9 @@ namespace Nitro {
 		public string[] Titles;
 		private const int titleLength = 0x80;
 
+		internal byte[] IconPixels;
+		internal byte[] IconPalette;
+
 		public Banner(Stream stream) {
 			Load(stream);
 		}
@@ -19,6 +22,7 @@ namespace Nitro {
 				UInt16 version = r.ReadUInt16();
 				List<UInt16> checksums = r.ReadUInt16Array(4);
 				r.Skip(0x16);
+
 
 				r.Skip(0x200 + 0x20);//Icon
 

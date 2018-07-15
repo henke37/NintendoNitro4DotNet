@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkTest", "BulkTest\BulkTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroCore", "NitroSupport\NitroCore.csproj", "{A008CD3F-A712-43BE-BB8A-54C53B05C351}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroGraphics", "NitroGraphics\NitroGraphics.csproj", "{220D9355-245D-4D7D-8DBE-36F46BB14627}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
