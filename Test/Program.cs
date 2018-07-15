@@ -11,7 +11,10 @@ namespace Test {
     class Program {
         static void Main(string[] args) {
 			NDS nds = new NDS(File.OpenRead(args[0]));
-			SDat sdat = SDat.Open(nds.FileSystem.OpenFile("sound_data.sdat"));
+			var sdats=nds.FileSystem.RootDir.FindMatchingFiles("*.nds");
+			foreach(var sdatFile in sdats) {
+				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
+			}
         }
     }
 }
