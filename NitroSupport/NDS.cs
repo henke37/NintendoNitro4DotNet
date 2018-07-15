@@ -77,6 +77,13 @@ namespace Nitro {
 			}
 		}
 
+		public Stream OpenARM9() {
+			return new SubStream(rootStream, ARM9.RomOffset, ARM9.Size);
+		}
+		public Stream OpenARM7() {
+			return new SubStream(rootStream, ARM7.RomOffset, ARM7.Size);
+		}
+
 		private enum UnitCodeEnum {
 			NDS = 0,
 			NDS_DSI = 2,
@@ -95,10 +102,10 @@ namespace Nitro {
 		}
 
 		private struct ExecutableInfo {
-			private uint RomOffset;
-			private uint Entrypoint;
-			private uint RamOffset;
-			private uint Size;
+			public uint RomOffset;
+			public uint Entrypoint;
+			public uint RamOffset;
+			public uint Size;
 
 			public ExecutableInfo(uint RomOffset, uint Entrypoint, uint RamOffset, uint Size) {
 				this.RomOffset = RomOffset;
