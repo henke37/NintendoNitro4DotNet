@@ -16,11 +16,14 @@ namespace Nitro.Composer {
 
         private Sequence sequence;
 
+		private Dictionary<long, uint> instructionOffsets;
+
         public SequenceDisassembler(BinaryReader reader) {
             this.reader = reader;
             flows = new Dictionary<uint, Flow>();
             unparsedFlows = new Stack<Flow>();
             sequence = new Sequence();
+			instructionOffsets = new Dictionary<long, uint>();
         }
 
         public SequenceDisassembler(Stream stream) : this(new BinaryReader(stream)) {}
@@ -34,10 +37,12 @@ namespace Nitro.Composer {
                 ParseFlow(flow);
             }
 
+			PatchJumpTargets();
+
             return sequence;
         }
 
-        private void ParseFlow(Flow flow) {
+		private void ParseFlow(Flow flow) {
             if(flow.parsed) throw new Exception("Already parsed this flow!");
             flow.parsed = true;
             flow.commandIndex = commandIndex;
@@ -45,7 +50,9 @@ namespace Nitro.Composer {
             reader.BaseStream.Position = flow.offset;
 
             for(; ;) {
-                BaseSequenceCommand cmd = readCommand();
+				instructionOffsets[reader.BaseStream.Position] = commandIndex;
+
+				BaseSequenceCommand cmd = readCommand();
                 sequence.commands.Add(cmd);
                 commandIndex++;
                 if(cmd.EndsFlow) break;
@@ -325,7 +332,15 @@ namespace Nitro.Composer {
             return flow;
         }
 
-        private class Flow {
+		private void PatchJumpTargets() {
+			foreach(var cmd in sequence.commands) {
+				var jcmd = cmd as JumpCommand;
+				if(jcmd == null) continue;
+				jcmd.target = instructionOffsets[jcmd.target];
+			}
+		}
+
+		private class Flow {
             public bool parsed;
             public uint offset;
             public uint commandIndex;

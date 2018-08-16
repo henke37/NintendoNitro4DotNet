@@ -238,7 +238,7 @@ namespace Nitro.Composer {
 
         public STRM OpenStream(string name) {
             int streamIndex = streamSymbols.IndexOf(name);
-            if(streamIndex == -1) throw new KeyNotFoundException();
+            if(streamIndex == -1) throw new FileNotFoundException();
             return OpenStream(streamIndex);
         }
 
@@ -250,7 +250,7 @@ namespace Nitro.Composer {
         public SSEQ OpenSequence(string name) {
 
             int sequenceIndex = seqSymbols.IndexOf(name);
-            if(sequenceIndex == -1) throw new KeyNotFoundException();
+            if(sequenceIndex == -1) throw new FileNotFoundException();
             return OpenSequence(sequenceIndex);
         }
 
@@ -261,7 +261,7 @@ namespace Nitro.Composer {
 
         public SBNK OpenBank(string name) {
             int bankIndex = bankSymbols.IndexOf(name);
-            if(bankIndex == -1) throw new KeyNotFoundException();
+            if(bankIndex == -1) throw new FileNotFoundException();
             return OpenBank(bankIndex);
         }
 
@@ -272,7 +272,7 @@ namespace Nitro.Composer {
 
         public SWAR OpenWaveArchive(string name) {
             int waveArchiveIndex = waveArchiveSymbols.IndexOf(name);
-            if(waveArchiveIndex == -1) throw new KeyNotFoundException();
+            if(waveArchiveIndex == -1) throw new FileNotFoundException();
             return OpenWaveArchive(waveArchiveIndex);
         }
 

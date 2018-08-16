@@ -19,9 +19,14 @@ namespace Nitro.Composer {
 
 		public string Serialize(Sequence seq) {
 			BuildJumpTable(seq);
-
+			uint commandIndex = 0;
 			foreach(dynamic cmd in seq.commands) {
+				if(jumpTargets.ContainsKey(commandIndex)) {
+					sb.Append(positionLabel(commandIndex));
+					sb.AppendLine(":");
+				}
 				Serialize(cmd);
+				commandIndex++;
 			}
 
 			return sb.ToString();
@@ -44,14 +49,32 @@ namespace Nitro.Composer {
 			}
 		}
 
-		private void Serialize(BaseSequenceCommand cmd) {
-			throw new NotImplementedException();
+		public void Clear() {
+			sb.Clear();
 		}
 
 		private static readonly string[] noteNames = new string[] {
 			"cn", "cs", "dn", "ds", "en", "fn",
 			"fs", "gn", "gs", "an", "as", "bn"
 		};
+
+		private string positionLabel(uint position) {
+			int track = jumpTargets[position];
+			if(track < 0) {
+				if(track == -2) {
+					return "S" + position;
+				} else {
+					return "L" + position;
+				}
+			}
+			return "T" + track;
+		}
+
+		#region Serialize overloads
+
+		private void Serialize(BaseSequenceCommand cmd) {
+			throw new NotImplementedException();
+		}
 
 		private void Serialize(NoteCommand cmd) {
 			byte noteVal = (byte)(cmd.Note % 12);
@@ -82,10 +105,6 @@ namespace Nitro.Composer {
 			} else {
 				sb.AppendFormat("{0}{1}_r {2}, {3}, {4}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.DurationMin, cmd.DurationMax);
 			}
-		}
-
-		public void Clear() {
-			sb.Clear();
 		}
 
 		private void Serialize(RestCommand cmd) {
@@ -128,18 +147,6 @@ namespace Nitro.Composer {
 			} else {
 				sb.AppendLine("notewait_off");
 			}
-		}
-
-		private string positionLabel(uint position) {
-			int track = jumpTargets[position];
-			if(track < 0) {
-				if(track == -2) {
-					return "S" + position;
-				} else {
-					return "L" + position;
-				}
-			}
-			return "T" + track;
 		}
 
 		private void Serialize(LoopEndCommand cmd) {
@@ -540,5 +547,7 @@ namespace Nitro.Composer {
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+
+		#endregion
 	}
 }
