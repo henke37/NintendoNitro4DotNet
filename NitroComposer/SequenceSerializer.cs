@@ -25,7 +25,11 @@ namespace Nitro.Composer {
 					sb.Append(positionLabel(commandIndex));
 					sb.AppendLine(":");
 				}
-				Serialize(cmd);
+				if(cmd.Conditional) {
+					SerializeIf(cmd);
+				} else {
+					Serialize(cmd);
+				}
 				commandIndex++;
 			}
 
@@ -75,6 +79,9 @@ namespace Nitro.Composer {
 		private void Serialize(BaseSequenceCommand cmd) {
 			throw new NotImplementedException();
 		}
+		private void SerializeIf(BaseSequenceCommand cmd) {
+			throw new NotImplementedException();
+		}
 
 		private void Serialize(NoteCommand cmd) {
 			byte noteVal = (byte)(cmd.Note % 12);
@@ -84,6 +91,16 @@ namespace Nitro.Composer {
 				sb.AppendFormat("{0}m1 {1}, {2}\n", noteNames[noteVal], cmd.Velocity, cmd.Duration);
 			} else {
 				sb.AppendFormat("{0}{1} {2}, {3}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.Duration);
+			}
+		}
+		private void SerializeIf(NoteCommand cmd) {
+			byte noteVal = (byte)(cmd.Note % 12);
+			sbyte oct = (sbyte)(cmd.Note / 12);
+			oct--;
+			if(oct == -1) {
+				sb.AppendFormat("{0}m1_if {1}, {2}\n", noteNames[noteVal], cmd.Velocity, cmd.Duration);
+			} else {
+				sb.AppendFormat("{0}{1}_if {2}, {3}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.Duration);
 			}
 		}
 		private void Serialize(NoteVarCommand cmd) {
@@ -110,6 +127,9 @@ namespace Nitro.Composer {
 		private void Serialize(RestCommand cmd) {
 			sb.AppendFormat("wait {0}\n", cmd.Rest);
 		}
+		private void SerializeIf(RestCommand cmd) {
+			sb.AppendFormat("wait_if {0}\n", cmd.Rest);
+		}
 		private void Serialize(RestVarCommand cmd) {
 			sb.AppendFormat("wait_v {0}\n", cmd.RestVar);
 		}
@@ -126,6 +146,9 @@ namespace Nitro.Composer {
 			sb.Append(cmd.Program);
 			sb.AppendLine();
 		}
+		private void SerializeIf(ProgramChangeCommand cmd) {
+			sb.AppendFormat("prg_if {0}\n", cmd.Program);
+		}
 		private void Serialize(ProgramChangeVarCommand cmd) {
 			sb.AppendFormat("prg_v {0}\n", cmd.ProgramVar);
 		}
@@ -140,6 +163,9 @@ namespace Nitro.Composer {
 		private void Serialize(TempoCommand cmd) {
 			sb.AppendFormat("tempo {0}\n", cmd.Tempo);
 		}
+		private void SerializeIf(TempoCommand cmd) {
+			sb.AppendFormat("tempo_if {0}\n", cmd.Tempo);
+		}
 
 		private void Serialize(MonoPolyCommand cmd) {
 			if(cmd.IsMono) {
@@ -148,13 +174,26 @@ namespace Nitro.Composer {
 				sb.AppendLine("notewait_off");
 			}
 		}
+		private void SerializeIf(MonoPolyCommand cmd) {
+			if(cmd.IsMono) {
+				sb.AppendLine("notewait_on_if");
+			} else {
+				sb.AppendLine("notewait_off_if");
+			}
+		}
 
 		private void Serialize(LoopEndCommand cmd) {
 			sb.AppendLine("loop_end");
 		}
+		private void SerializeIf(LoopEndCommand cmd) {
+			sb.AppendLine("loop_end_if");
+		}
 
 		private void Serialize(LoopStartCommand cmd) {
 			sb.AppendFormat("loop_start {0}\n", cmd.LoopCount);
+		}
+		private void SerializeIf(LoopStartCommand cmd) {
+			sb.AppendFormat("loop_start_if {0}\n", cmd.LoopCount);
 		}
 		private void Serialize(LoopStartVarCommand cmd) {
 			sb.AppendFormat("loop_start_v {0}\n", cmd.LoopCountVar);
@@ -179,12 +218,31 @@ namespace Nitro.Composer {
 					throw new ArgumentException("bogus jump type");
 			}
 		}
+		private void SerializeIf(JumpCommand cmd) {
+			switch(cmd.type) {
+				case JumpCommand.JumpType.JUMP:
+					sb.AppendFormat("jump_if {0}\n", positionLabel(cmd.target));
+					break;
+				case JumpCommand.JumpType.CALL:
+					sb.AppendFormat("call_if {0}\n", positionLabel(cmd.target));
+					break;
+				default:
+					throw new ArgumentException("bogus jump type");
+			}
+		}
 
 		private void Serialize(VolumeCommand cmd) {
 			if(cmd.Master) {
 				sb.AppendFormat("main_volume {0}\n", cmd.Volume);
 			} else {
 				sb.AppendFormat("volume {0}\n", cmd.Volume);
+			}
+		}
+		private void SerializeIf(VolumeCommand cmd) {
+			if(cmd.Master) {
+				sb.AppendFormat("main_volume_if {0}\n", cmd.Volume);
+			} else {
+				sb.AppendFormat("volume_if {0}\n", cmd.Volume);
 			}
 		}
 		private void Serialize(VolumeVarCommand cmd) {
@@ -205,6 +263,9 @@ namespace Nitro.Composer {
 		private void Serialize(PanCommand cmd) {
 			sb.AppendFormat("pan {0}\n", cmd.Pan);
 		}
+		private void SerializeIf(PanCommand cmd) {
+			sb.AppendFormat("pan_if {0}\n", cmd.Pan);
+		}
 		private void Serialize(PanVarCommand cmd) {
 			sb.AppendFormat("pan_v {0}\n", cmd.PanVar);
 		}
@@ -214,6 +275,9 @@ namespace Nitro.Composer {
 
 		private void Serialize(TransposeCommand cmd) {
 			sb.AppendFormat("transpose {0}\n", cmd.Transpose);
+		}
+		private void SerializeIf(TransposeCommand cmd) {
+			sb.AppendFormat("transpose_if {0}\n", cmd.Transpose);
 		}
 		private void Serialize(TransposeVarCommand cmd) {
 			sb.AppendFormat("transpose_v {0}\n", cmd.TransposeVar);
@@ -225,6 +289,9 @@ namespace Nitro.Composer {
 		private void Serialize(ReturnCommand cmd) {
 			sb.AppendLine("ret");
 		}
+		private void SerializeIf(ReturnCommand cmd) {
+			sb.AppendLine("ret_if");
+		}
 
 		private void Serialize(TieCommand cmd) {
 			if(cmd.Tie) {
@@ -233,12 +300,26 @@ namespace Nitro.Composer {
 				sb.AppendLine("tieoff");
 			}
 		}
+		private void SerializeIf(TieCommand cmd) {
+			if(cmd.Tie) {
+				sb.AppendLine("tieon_if");
+			} else {
+				sb.AppendLine("tieoff_if");
+			}
+		}
 
 		private void Serialize(PitchBendCommand cmd) {
 			if(cmd.IsRange) {
 				sb.AppendFormat("bendrange {0}\n", cmd.Bend);
 			} else {
 				sb.AppendFormat("pitchbend {0}\n", cmd.Bend);
+			}
+		}
+		private void SerializeIf(PitchBendCommand cmd) {
+			if(cmd.IsRange) {
+				sb.AppendFormat("bendrange_if {0}\n", cmd.Bend);
+			} else {
+				sb.AppendFormat("pitchbend_if {0}\n", cmd.Bend);
 			}
 		}
 		private void Serialize(PitchBendVarCommand cmd) {
@@ -258,6 +339,9 @@ namespace Nitro.Composer {
 
 		private void Serialize(SweepPitchCommand cmd) {
 			sb.AppendFormat("sweep_pitch {0}\n", cmd.Ammount);
+		}
+		private void SerializeIf(SweepPitchCommand cmd) {
+			sb.AppendFormat("sweep_pitch_if {0}\n", cmd.Ammount);
 		}
 		private void Serialize(SweepPitchVarCommand cmd) {
 			sb.AppendFormat("sweep_pitch_v {0}\n", cmd.Var);
@@ -279,6 +363,22 @@ namespace Nitro.Composer {
 					break;
 				case ModulationCommand.ModType.TYPE:
 					sb.AppendFormat("mod_type {0}\n", cmd.Value);
+					break;
+			}
+		}
+		private void SerializeIf(ModulationCommand cmd) {
+			switch(cmd.Type) {
+				case ModulationCommand.ModType.DEPTH:
+					sb.AppendFormat("mod_depth_if {0}\n", cmd.Value);
+					break;
+				case ModulationCommand.ModType.RANGE:
+					sb.AppendFormat("mod_range_if {0}\n", cmd.Value);
+					break;
+				case ModulationCommand.ModType.SPEED:
+					sb.AppendFormat("mod_speed_if {0}\n", cmd.Value);
+					break;
+				case ModulationCommand.ModType.TYPE:
+					sb.AppendFormat("mod_type_if {0}\n", cmd.Value);
 					break;
 			}
 		}
@@ -326,6 +426,9 @@ namespace Nitro.Composer {
 		private void Serialize(ModulationDelayCommand cmd) {
 			sb.AppendFormat("mod_delay {0}\n", cmd.Delay);
 		}
+		private void SerializeIf(ModulationDelayCommand cmd) {
+			sb.AppendFormat("mod_delay_if {0}\n", cmd.Delay);
+		}
 
 		private void Serialize(ADSRCommand cmd) {
 			switch(cmd.envPos) {
@@ -340,6 +443,22 @@ namespace Nitro.Composer {
 					break;
 				case ADSRCommand.EnvPos.RELEASE:
 					sb.AppendFormat("release {0}\n", cmd.Value);
+					break;
+			}
+		}
+		private void SerializeIf(ADSRCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					sb.AppendFormat("attack_if {0}\n", cmd.Value);
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					sb.AppendFormat("decay_if {0}\n", cmd.Value);
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					sb.AppendFormat("sustain_if {0}\n", cmd.Value);
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					sb.AppendFormat("release_if {0}\n", cmd.Value);
 					break;
 			}
 		}
@@ -379,6 +498,9 @@ namespace Nitro.Composer {
 		private void Serialize(ExpressionCommand cmd) {
 			sb.AppendFormat("volume2 {0}\n", cmd.Value);
 		}
+		private void SerializeIf(ExpressionCommand cmd) {
+			sb.AppendFormat("volume2_if {0}\n", cmd.Value);
+		}
 		private void Serialize(ExpressionVarCommand cmd) {
 			sb.AppendFormat("volume2_v {0}\n", cmd.Var);
 		}
@@ -389,9 +511,15 @@ namespace Nitro.Composer {
 		private void Serialize(PriorityCommand cmd) {
 			sb.AppendFormat("prio {0}\n", cmd.Priority);
 		}
+		private void SerializeIf(PriorityCommand cmd) {
+			sb.AppendFormat("prio_if {0}\n", cmd.Priority);
+		}
 
 		private void Serialize(PortamentoTimeCommand cmd) {
 			sb.AppendFormat("porta_time {0}\n", cmd.Time);
+		}
+		private void SerializeIf(PortamentoTimeCommand cmd) {
+			sb.AppendFormat("porta_time_if {0}\n", cmd.Time);
 		}
 		private void Serialize(PortamentoTimeVarCommand cmd) {
 			sb.AppendFormat("porta_time_v {0}\n", cmd.TimeVar);
@@ -403,12 +531,22 @@ namespace Nitro.Composer {
 		private void Serialize(PortamentoKeyCommand cmd) {
 			sb.AppendFormat("porta {0}\n", cmd.Key);
 		}
+		private void SerializeIf(PortamentoKeyCommand cmd) {
+			sb.AppendFormat("porta_if {0}\n", cmd.Key);
+		}
 
 		private void Serialize(PortamentoCommand cmd) {
 			if(cmd.Enable) {
 				sb.AppendLine("porta_on");
 			} else {
 				sb.AppendLine("porta_off");
+			}
+		}
+		private void SerializeIf(PortamentoCommand cmd) {
+			if(cmd.Enable) {
+				sb.AppendLine("porta_on_if");
+			} else {
+				sb.AppendLine("porta_off_if");
 			}
 		}
 
@@ -457,6 +595,51 @@ namespace Nitro.Composer {
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+		private void SerializeIf(VarCommand cmd) {
+			switch(cmd.Op) {
+				case VarCommand.Operator.ASSIGN:
+					sb.AppendFormat("setvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.ADD:
+					sb.AppendFormat("addvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.SUB:
+					sb.AppendFormat("subvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.MUL:
+					sb.AppendFormat("mulvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.DIV:
+					sb.AppendFormat("divvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.SHIFT:
+					sb.AppendFormat("shiftvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.EQU:
+					sb.AppendFormat("cmp_eq_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.GT:
+					sb.AppendFormat("cmp_gt_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.GTE:
+					sb.AppendFormat("cmp_ge_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.LTE:
+					sb.AppendFormat("cmp_le_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.LT:
+					sb.AppendFormat("cmp_lt_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.NEQ:
+					sb.AppendFormat("cmp_ne_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.RAND:
+					sb.AppendFormat("randvar_if {0}, {1}\n", cmd.Variable, cmd.Operand);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
 		private void Serialize(VarVarCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ASSIGN:
@@ -497,6 +680,51 @@ namespace Nitro.Composer {
 					break;
 				case VarCommand.Operator.RAND:
 					sb.AppendFormat("randvar_v {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+		private void SerializeIf(VarVarCommand cmd) {
+			switch(cmd.Op) {
+				case VarCommand.Operator.ASSIGN:
+					sb.AppendFormat("setvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.ADD:
+					sb.AppendFormat("addvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.SUB:
+					sb.AppendFormat("subvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.MUL:
+					sb.AppendFormat("mulvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.DIV:
+					sb.AppendFormat("divvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.SHIFT:
+					sb.AppendFormat("shiftvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.EQU:
+					sb.AppendFormat("cmp_eq_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.GT:
+					sb.AppendFormat("cmp_gt_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.GTE:
+					sb.AppendFormat("cmp_ge_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.LTE:
+					sb.AppendFormat("cmp_le_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.LT:
+					sb.AppendFormat("cmp_lt_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.NEQ:
+					sb.AppendFormat("cmp_ne_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
+					break;
+				case VarCommand.Operator.RAND:
+					sb.AppendFormat("randvar_v_if {0}, {1}\n", cmd.Variable1, cmd.Variable2);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
