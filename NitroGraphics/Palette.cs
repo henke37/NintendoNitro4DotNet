@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Nitro.Graphics {
 	public class Palette {
-		List<BGR555> Colors;
+		public List<BGR555> Colors;
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Nitro.Graphics {
 	public class BGR555 {
-		byte R, G, B;
+		public byte R, G, B;
 
 
 	}

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Nitro.Graphics {
 	public class TileSet {
-		List<Tile> Tiles;
+		public List<Tile> Tiles;
 	}
 }
