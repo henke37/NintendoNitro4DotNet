@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using HenkesUtils;
 using Like = Microsoft.VisualBasic.CompilerServices.LikeOperator;
 
@@ -164,6 +165,11 @@ namespace Nitro {
 				FindMatchingFiles(l, pattern);
 				return l;
 			}
+			public List<File> FindMatchingFiles(Regex pattern) {
+				var l = new List<File>();
+				FindMatchingFiles(l, pattern);
+				return l;
+			}
 
 			private void FindMatchingFiles(List<File> l, string pattern) {
 				foreach(var absFile in Files) {
@@ -176,6 +182,20 @@ namespace Nitro {
 					}
 					var file = (File)absFile;
 					if(!Like.LikeString(file.Name,pattern,Microsoft.VisualBasic.CompareMethod.Text)) continue;
+					l.Add(file);
+				}
+			}
+			private void FindMatchingFiles(List<File> l, Regex pattern) {
+				foreach(var absFile in Files) {
+					{
+						var dir = absFile as Directory;
+						if(dir != null) {
+							dir.FindMatchingFiles(l, pattern);
+							continue;
+						}
+					}
+					var file = (File)absFile;
+					if(!pattern.IsMatch(file.Name)) continue;
 					l.Add(file);
 				}
 			}
