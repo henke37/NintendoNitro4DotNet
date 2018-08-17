@@ -113,6 +113,16 @@ namespace Nitro.Composer {
 				sb.AppendFormat("{0}{1}_v {2}, {3}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.DurationVar);
 			}
 		}
+		private void SerializeIf(NoteVarCommand cmd) {
+			byte noteVal = (byte)(cmd.Note % 12);
+			sbyte oct = (sbyte)(cmd.Note / 12);
+			oct--;
+			if(oct == -1) {
+				sb.AppendFormat("{0}m1_v_if {1}, {2}\n", noteNames[noteVal], cmd.Velocity, cmd.DurationVar);
+			} else {
+				sb.AppendFormat("{0}{1}_v_if {2}, {3}\n", noteNames[noteVal], oct, cmd.Velocity, cmd.DurationVar);
+			}
+		}
 		private void Serialize(NoteRandCommand cmd) {
 			byte noteVal = (byte)(cmd.Note % 12);
 			sbyte oct = (sbyte)(cmd.Note / 12);
@@ -139,6 +149,9 @@ namespace Nitro.Composer {
 
 		private void Serialize(EndTrackCommand cmd) {
 			sb.AppendLine("fin");
+		}
+		private void SerializeIf(EndTrackCommand cmd) {
+			sb.AppendLine("fin_if");
 		}
 
 		private void Serialize(ProgramChangeCommand cmd) {
