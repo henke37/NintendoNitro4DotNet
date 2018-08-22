@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroCore", "NitroSupport\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroGraphics", "NitroGraphics\NitroGraphics.csproj", "{220D9355-245D-4D7D-8DBE-36F46BB14627}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arm7Hasher", "Arm7Hasher\Arm7Hasher.csproj", "{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
