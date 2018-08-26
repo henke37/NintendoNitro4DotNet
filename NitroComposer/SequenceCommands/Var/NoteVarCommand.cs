@@ -2,11 +2,11 @@
 
 namespace Nitro.Composer.SequenceCommands.Var {
 	public class NoteVarCommand : BaseSequenceCommand {
-		public uint Note;
+		public byte Note;
 		public uint Velocity;
 		public uint DurationVar;
 
-		public NoteVarCommand(uint note, uint vel, uint durationVar) {
+		public NoteVarCommand(byte note, uint vel, uint durationVar) {
 			Note = note;
 			Velocity = vel;
 			DurationVar = durationVar;

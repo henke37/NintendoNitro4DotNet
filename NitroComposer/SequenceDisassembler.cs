@@ -61,7 +61,7 @@ namespace Nitro.Composer {
         }
 
         private BaseSequenceCommand readCommand() {
-            uint id = reader.ReadByte();
+            byte id = reader.ReadByte();
             if(id<0x80) {
                 return new NoteCommand(id, reader.ReadByte(),reader.ReadMIDIVarLen());
             }
@@ -179,7 +179,7 @@ namespace Nitro.Composer {
         }
 
 		private BaseSequenceCommand readVarCommand() {
-			uint id = reader.ReadByte();
+			byte id = reader.ReadByte();
 			if(id < 0x80) {
 				return new NoteVarCommand(id, reader.ReadByte(), reader.ReadByte());
 			}
@@ -249,7 +249,7 @@ namespace Nitro.Composer {
 		}
 
 		private BaseSequenceCommand readRandomCommand() {
-			uint id = reader.ReadByte();
+			byte id = reader.ReadByte();
 			if(id < 0x80) {
 				return new NoteRandCommand(id, reader.ReadByte(), reader.ReadInt16(), reader.ReadInt16());
 			}

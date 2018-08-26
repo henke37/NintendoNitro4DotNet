@@ -1,10 +1,10 @@
 ﻿namespace Nitro.Composer.SequenceCommands {
     public class NoteCommand : BaseSequenceCommand {
-        public uint Note;
+        public byte Note;
         public uint Velocity;
         public uint Duration;
 
-        public NoteCommand(uint note, uint vel, uint duration) {
+        public NoteCommand(byte note, uint vel, uint duration) {
             Note = note;
             Velocity = vel;
             Duration = duration;

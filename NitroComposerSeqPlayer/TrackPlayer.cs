@@ -29,8 +29,16 @@ namespace NitroComposerSeqPlayer {
 			instrument = sequencePlayer.bank.instruments[0];
 		}
 
-		private bool NoteOn(uint note, uint velocity, uint duration) {
+		private bool NoteOn(byte note, uint velocity, uint duration) {
+			MixerChannel channel = FindChannelForNote(note);
+			if(channel == null) return noteWait;
 			throw new NotImplementedException();
+		}
+
+		private MixerChannel FindChannelForNote(byte note) {
+			var leafInstrument=instrument.leafInstrumentForNote(note);
+
+			return sequencePlayer.FindChannelForInstrument(leafInstrument);
 		}
 
 		private short Rand(short min, short max) {
