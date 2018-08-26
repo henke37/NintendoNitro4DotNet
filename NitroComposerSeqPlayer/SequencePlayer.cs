@@ -20,6 +20,8 @@ namespace NitroComposerSeqPlayer {
 		internal TrackPlayer[] tracks;
 		internal ushort tempo = 120;
 
+		internal byte MasterVolume;
+
 		internal Mixer mixer = new Mixer();
 
 		public short[] Variables = new short[16] {
@@ -48,9 +50,12 @@ namespace NitroComposerSeqPlayer {
 			}
 
 			var info = sdat.sequenceInfo[seqIndex];
-			sseq = sdat.OpenSequence(seqIndex);
 			player = sdat.playerInfo[info.player];
+
+			sseq = sdat.OpenSequence(seqIndex);
 			LoadBank(sdat, info.bankId);
+
+			MasterVolume = info.vol;
 		}
 
 		private void LoadBank(SDat sdat, ushort bankId) {

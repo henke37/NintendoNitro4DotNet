@@ -11,13 +11,22 @@ namespace NitroComposerSeqPlayer {
 
 		private uint nextInstructionId;
 		public bool endFlag;
+
 		private bool noteWait;
+		private bool tieMode;
+
+		private bool portamentoEnabled;
+		private byte portamentoKey;
+		private int portamentoTime;
 
 		private uint waitTimer;
 
 		private bool conditionFlag=false;
 
 		private Instrument instrument;
+
+		private byte Volume=0x7F;
+		private byte Expression=0x7F;
 
 		byte AttackOverride = 0xFF;
 		byte DecayOverride = 0xFF;
@@ -130,6 +139,44 @@ namespace NitroComposerSeqPlayer {
 				callStack.Push(nextInstructionId);
 			}
 			nextInstructionId = cmd.target;
+			return true;
+		}
+
+		private bool ExecuteNextCommand(VolumeCommand cmd) {
+			if(cmd.Master) {
+				sequencePlayer.MasterVolume = cmd.Volume;
+			} else {
+				Volume = cmd.Volume;
+			}
+			return true;
+		}
+		private bool ExecuteNextCommand(VolumeRandCommand cmd) {
+			if(cmd.Master) {
+				sequencePlayer.MasterVolume = (byte)Rand(cmd.VolumeMin,cmd.VolumeMax);
+			} else {
+				Volume = (byte)Rand(cmd.VolumeMin, cmd.VolumeMax);
+			}
+			return true;
+		}
+		private bool ExecuteNextCommand(VolumeVarCommand cmd) {
+			if(cmd.Master) {
+				sequencePlayer.MasterVolume = (byte)Var(cmd.VolumeVar);
+			} else {
+				Volume = (byte)Var(cmd.VolumeVar);
+			}
+			return true;
+		}
+
+		private bool ExecuteNextCommand(ExpressionCommand cmd) {
+			Expression = cmd.Value;
+			return true;
+		}
+		private bool ExecuteNextCommand(ExpressionRandCommand cmd) {
+			Expression = (byte)Rand(cmd.Min, cmd.Max);
+			return true;
+		}
+		private bool ExecuteNextCommand(ExpressionVarCommand cmd) {
+			Expression = (byte)Var(cmd.Var);
 			return true;
 		}
 
