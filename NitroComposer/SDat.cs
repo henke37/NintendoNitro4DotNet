@@ -32,8 +32,8 @@ namespace Nitro.Composer {
         public List<string> groupSymbols;
         public List<string> streamPlayerSymbols;
         public List<string> streamSymbols;
-        private List<BankInfoRecord> bankInfo;
-        private List<WaveArchiveInfoRecord> waveArchiveInfo;
+        public List<BankInfoRecord> bankInfo;
+		public List<WaveArchiveInfoRecord> waveArchiveInfo;
         private List<PlayerInfoRecord> playerInfo;
         private List<GroupInfoRecord> groupInfo;
 
