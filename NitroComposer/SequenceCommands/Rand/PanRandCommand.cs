@@ -1,8 +1,8 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class PanRandCommand : BaseSequenceCommand {
-		public uint PanMin, PanMax;
+		public short PanMin, PanMax;
 
-		public PanRandCommand(uint min, uint max) {
+		public PanRandCommand(short min, short max) {
 			this.PanMin = min;
 			this.PanMax = max;
 		}

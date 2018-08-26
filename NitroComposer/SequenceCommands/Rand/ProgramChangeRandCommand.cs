@@ -1,8 +1,8 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class ProgramChangeRandCommand : BaseSequenceCommand {
-		public uint ProgramMin, ProgramMax;
+		public short ProgramMin, ProgramMax;
 
-		public ProgramChangeRandCommand(uint min, uint max) {
+		public ProgramChangeRandCommand(short min, short max) {
 			this.ProgramMin = min;
 			this.ProgramMax = max;
 		}

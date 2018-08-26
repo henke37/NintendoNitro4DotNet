@@ -1,7 +1,7 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class LoopStartRandCommand : BaseSequenceCommand {
-		public int LoopCountMin, LoopCountMax;
-		public LoopStartRandCommand(int min, int max) {
+		public short LoopCountMin, LoopCountMax;
+		public LoopStartRandCommand(short min, short max) {
 			LoopCountMin = min;
 			LoopCountMax = max;
 		}

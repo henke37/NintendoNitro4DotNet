@@ -1,7 +1,7 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class RestRandCommand : BaseSequenceCommand {
-		public uint RestMin, RestMax;
-		public RestRandCommand(uint min, uint max) {
+		public short RestMin, RestMax;
+		public RestRandCommand(short min, short max) {
 			RestMin = min;
 			RestMax = max;
 		}

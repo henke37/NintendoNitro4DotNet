@@ -33,14 +33,14 @@ namespace NitroComposerSeqPlayer {
 			throw new NotImplementedException();
 		}
 
-		private uint Rand(uint min, uint max) {
+		private short Rand(short min, short max) {
 			throw new NotImplementedException();
 		}
-		private uint Var(uint varId) {
-			throw new NotImplementedException();
+		private short Var(uint varId) {
+			return sequencePlayer.Variables[varId];
 		}
-		private void SetVar(byte variable, uint v) {
-			throw new NotImplementedException();
+		private void SetVar(byte variable, short v) {
+			sequencePlayer.Variables[variable] = v;
 		}
 
 		private void Pan(byte pan) {
@@ -72,10 +72,10 @@ namespace NitroComposerSeqPlayer {
 			return NoteOn(cmd.Note, cmd.Velocity, cmd.Duration);
 		}
 		private bool ExecuteNextCommand(NoteRandCommand cmd) {
-			return NoteOn(cmd.Note, cmd.Velocity, Rand(cmd.DurationMin, cmd.DurationMax));
+			return NoteOn(cmd.Note, cmd.Velocity, (uint)Rand(cmd.DurationMin, cmd.DurationMax));
 		}
 		private bool ExecuteNextCommand(NoteVarCommand cmd) {
-			return NoteOn(cmd.Note, cmd.Velocity, Var(cmd.DurationVar));
+			return NoteOn(cmd.Note, cmd.Velocity, (uint)Var(cmd.DurationVar));
 		}
 
 		private bool ExecuteNextCommand(AllocateTracksCommand cmd) {
@@ -149,25 +149,25 @@ namespace NitroComposerSeqPlayer {
 		private bool ExecuteNextCommand(VarCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
-					SetVar(cmd.Variable, Var(cmd.Variable) + cmd.Operand);
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) + cmd.Operand));
 					break;
 				case VarCommand.Operator.SUB:
-					SetVar(cmd.Variable, Var(cmd.Variable) - cmd.Operand);
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) - cmd.Operand));
 					break;
 				case VarCommand.Operator.MUL:
-					SetVar(cmd.Variable, Var(cmd.Variable) * cmd.Operand);
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) * cmd.Operand));
 					break;
 				case VarCommand.Operator.DIV:
-					SetVar(cmd.Variable, Var(cmd.Variable) / cmd.Operand);
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) / cmd.Operand));
 					break;
 				case VarCommand.Operator.ASSIGN:
 					SetVar(cmd.Variable, cmd.Operand);
 					break;
 				case VarCommand.Operator.SHIFT:
 					if(cmd.Operand<0) {
-						SetVar(cmd.Variable, Var(cmd.Variable) >> (int)(-cmd.Operand));
+						SetVar(cmd.Variable, (short)(Var(cmd.Variable) >> (int)(-cmd.Operand)));
 					} else {
-						SetVar(cmd.Variable, Var(cmd.Variable) << (int)cmd.Operand);
+						SetVar(cmd.Variable, (short)(Var(cmd.Variable) << (int)cmd.Operand));
 					}
 					break;
 				case VarCommand.Operator.RAND:
@@ -198,26 +198,28 @@ namespace NitroComposerSeqPlayer {
 		private bool ExecuteNextCommand(VarVarCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
-					SetVar(cmd.Variable1, Var(cmd.Variable1) + Var(cmd.Variable2));
+					SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) + Var(cmd.Variable2)));
 					break;
 				case VarCommand.Operator.SUB:
-					SetVar(cmd.Variable1, Var(cmd.Variable1) - Var(cmd.Variable2));
+					SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) - Var(cmd.Variable2)));
 					break;
 				case VarCommand.Operator.MUL:
-					SetVar(cmd.Variable1, Var(cmd.Variable1) * Var(cmd.Variable2));
+					SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) * Var(cmd.Variable2)));
 					break;
 				case VarCommand.Operator.DIV:
-					SetVar(cmd.Variable1, Var(cmd.Variable1) / Var(cmd.Variable2));
+					SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) / Var(cmd.Variable2)));
 					break;
 				case VarCommand.Operator.ASSIGN:
 					SetVar(cmd.Variable1, Var(cmd.Variable2));
 					break;
-				case VarCommand.Operator.SHIFT:
-					if(Var(cmd.Variable2) < 0) {
-						SetVar(cmd.Variable1, Var(cmd.Variable1) >> (int)(-Var(cmd.Variable2)));
+				case VarCommand.Operator.SHIFT: {
+					short shiftAmount = Var(cmd.Variable2);
+					if(shiftAmount < 0) {
+						SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) >> (-shiftAmount)));
 					} else {
-						SetVar(cmd.Variable1, Var(cmd.Variable1) << (int)Var(cmd.Variable2));
+						SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) << shiftAmount));
 					}
+				}
 					break;
 				case VarCommand.Operator.RAND:
 					SetVar(cmd.Variable1, Rand(0, Var(cmd.Variable2)));
@@ -247,26 +249,26 @@ namespace NitroComposerSeqPlayer {
 		private bool ExecuteNextCommand(VarRandCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
-					SetVar(cmd.Variable, Var(cmd.Variable) + Rand(cmd.OperandMin,cmd.OperandMax));
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) + Rand(cmd.OperandMin,cmd.OperandMax)));
 					break;
 				case VarCommand.Operator.SUB:
-					SetVar(cmd.Variable, Var(cmd.Variable) - Rand(cmd.OperandMin, cmd.OperandMax));
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) - Rand(cmd.OperandMin, cmd.OperandMax)));
 					break;
 				case VarCommand.Operator.MUL:
-					SetVar(cmd.Variable, Var(cmd.Variable) * Rand(cmd.OperandMin, cmd.OperandMax));
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) * Rand(cmd.OperandMin, cmd.OperandMax)));
 					break;
 				case VarCommand.Operator.DIV:
-					SetVar(cmd.Variable, Var(cmd.Variable) / Rand(cmd.OperandMin, cmd.OperandMax));
+					SetVar(cmd.Variable, (short)(Var(cmd.Variable) / Rand(cmd.OperandMin, cmd.OperandMax)));
 					break;
 				case VarCommand.Operator.ASSIGN:
 					SetVar(cmd.Variable, Rand(cmd.OperandMin, cmd.OperandMax));
 					break;
 				case VarCommand.Operator.SHIFT: {
-					int shiftAmount = (int)Rand(cmd.OperandMin, cmd.OperandMax);
+					int shiftAmount = Rand(cmd.OperandMin, cmd.OperandMax);
 					if(shiftAmount < 0) {
-						SetVar(cmd.Variable, Var(cmd.Variable) >> -shiftAmount);
+						SetVar(cmd.Variable, (short)(Var(cmd.Variable) >> -shiftAmount));
 					} else {
-						SetVar(cmd.Variable, Var(cmd.Variable) << shiftAmount);
+						SetVar(cmd.Variable, (short)(Var(cmd.Variable) << shiftAmount));
 					}
 				}
 					break;

@@ -2,8 +2,8 @@
 
 namespace Nitro.Composer.SequenceCommands.Rand {
 	public class SweepPitchRandCommand : BaseSequenceCommand {
-		public UInt16 AmmountMin, AmmountMax;
-		public SweepPitchRandCommand(UInt16 min, UInt16 max) {
+		public short AmmountMin, AmmountMax;
+		public SweepPitchRandCommand(short min, short max) {
 			AmmountMin = min;
 			AmmountMax = max;
 		}

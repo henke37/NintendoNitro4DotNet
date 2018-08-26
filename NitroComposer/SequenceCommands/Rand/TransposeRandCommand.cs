@@ -1,8 +1,8 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class TransposeRandCommand : BaseSequenceCommand {
-		public uint TransposeMin, TransposeMax;
+		public short TransposeMin, TransposeMax;
 
-		public TransposeRandCommand(uint min, uint max) {
+		public TransposeRandCommand(short min, short max) {
 			TransposeMin = min;
 			TransposeMax = max;
 		}

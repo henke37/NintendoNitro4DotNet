@@ -16,6 +16,8 @@ namespace NitroComposerSeqPlayer {
 		internal TrackPlayer[] tracks;
 		internal ushort tempo=120;
 
+		public short[] Variables = new short[16];
+
 		public SequencePlayer(SDat sdat, string sequenceName) {
 			int seqIndex = sdat.seqSymbols.IndexOf(sequenceName);
 			if(seqIndex == -1) throw new FileNotFoundException();

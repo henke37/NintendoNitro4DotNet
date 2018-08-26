@@ -113,7 +113,7 @@ namespace Nitro.Composer {
                 case 0xBB:
                 case 0xBC:
                 case 0xBD:
-                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadUInt16());
+                    return new VarCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadInt16());
 
                 case 0xC0:
                     return new PanCommand(reader.ReadByte());
@@ -251,14 +251,14 @@ namespace Nitro.Composer {
 		private BaseSequenceCommand readRandomCommand() {
 			uint id = reader.ReadByte();
 			if(id < 0x80) {
-				return new NoteRandCommand(id, reader.ReadByte(), reader.ReadUInt16(), reader.ReadUInt16());
+				return new NoteRandCommand(id, reader.ReadByte(), reader.ReadInt16(), reader.ReadInt16());
 			}
 			switch(id) {
 				case 0x80:
-					return new RestRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new RestRandCommand(reader.ReadInt16(), reader.ReadInt16());
 
 				case 0x81:
-					return new ProgramChangeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new ProgramChangeRandCommand(reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xB0:
 				case 0xB1:
@@ -273,44 +273,44 @@ namespace Nitro.Composer {
 				case 0xBB:
 				case 0xBC:
 				case 0xBD:
-					return new VarRandCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadUInt16(), reader.ReadUInt16());
+					return new VarRandCommand((VarCommand.Operator)id, reader.ReadByte(), reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xC0:
-					return new PanRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new PanRandCommand(reader.ReadInt16(), reader.ReadInt16());
 				case 0xC1:
-					return new VolumeRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
+					return new VolumeRandCommand(reader.ReadInt16(), reader.ReadInt16(), false);
 				case 0xC2:
-					return new VolumeRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), true);
+					return new VolumeRandCommand(reader.ReadInt16(), reader.ReadInt16(), true);
 				case 0xC3:
-					return new TransposeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new TransposeRandCommand(reader.ReadInt16(), reader.ReadInt16());
 				case 0xC4:
-					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), false);
+					return new PitchBendRandCommand(reader.ReadInt16(), reader.ReadInt16(), false);
 				case 0xC5:
-					return new PitchBendRandCommand(reader.ReadUInt16(), reader.ReadUInt16(), true);
+					return new PitchBendRandCommand(reader.ReadInt16(), reader.ReadInt16(), true);
 
 				case 0xCA:
 				case 0xCB:
 				case 0xCC:
 				case 0xCD:
 				case 0xE0:
-					return new ModulationRandCommand((ModulationCommand.ModType)id, reader.ReadUInt16(), reader.ReadUInt16());
+					return new ModulationRandCommand((ModulationCommand.ModType)id, reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xCF:
-					return new PortamentoTimeRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new PortamentoTimeRandCommand(reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xD0:
 				case 0xD1:
 				case 0xD2:
 				case 0xD3:
-					return new ADSRRandCommand((ADSRCommand.EnvPos)id, reader.ReadUInt16(), reader.ReadUInt16());
+					return new ADSRRandCommand((ADSRCommand.EnvPos)id, reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xD4:
-					return new LoopStartRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new LoopStartRandCommand(reader.ReadInt16(), reader.ReadInt16());
 				case 0xD5:
-					return new ExpressionRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new ExpressionRandCommand(reader.ReadInt16(), reader.ReadInt16());
 
 				case 0xE3:
-					return new SweepPitchRandCommand(reader.ReadUInt16(), reader.ReadUInt16());
+					return new SweepPitchRandCommand(reader.ReadInt16(), reader.ReadInt16());
 				default:
 					throw new InvalidDataException("Unknown command");
 			}

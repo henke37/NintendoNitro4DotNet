@@ -2,9 +2,9 @@
     public class VarCommand : BaseSequenceCommand {
         public Operator Op;
         public byte Variable;
-        public uint Operand;
+        public short Operand;
 
-        public VarCommand(Operator Op, byte variable, uint operand) {
+        public VarCommand(Operator Op, byte variable, short operand) {
             this.Op = Op;
             this.Variable = variable;
             this.Operand = operand;

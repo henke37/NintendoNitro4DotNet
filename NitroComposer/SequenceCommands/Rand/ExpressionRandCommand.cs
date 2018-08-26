@@ -1,7 +1,7 @@
 ﻿namespace Nitro.Composer.SequenceCommands.Rand {
 	public class ExpressionRandCommand : BaseSequenceCommand {
-		public uint Min, Max;
-		public ExpressionRandCommand(uint min, uint max) {
+		public short Min, Max;
+		public ExpressionRandCommand(short min, short max) {
 			Min = min;
 			Max = max;
 		}

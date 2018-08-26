@@ -2,9 +2,9 @@
 	public class NoteRandCommand : BaseSequenceCommand {
 		public uint Note;
 		public uint Velocity;
-		public uint DurationMin, DurationMax;
+		public short DurationMin, DurationMax;
 
-		public NoteRandCommand(uint note, uint vel, uint durationMin, uint durationMax) {
+		public NoteRandCommand(uint note, uint vel, short durationMin, short durationMax) {
 			Note = note;
 			Velocity = vel;
 			DurationMin = durationMin;
