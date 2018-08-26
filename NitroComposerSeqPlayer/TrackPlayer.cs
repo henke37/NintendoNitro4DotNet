@@ -26,11 +26,13 @@ namespace NitroComposerSeqPlayer {
 
 		private Stack<uint> callStack=new Stack<uint>();
 		private Stack<LoopEntry> loopStack=new Stack<LoopEntry>();
+		private int Prio;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId=0) {
 			this.sequencePlayer = sequencePlayer;
 			this.nextInstructionId = nextInstructionId;
 
+			Prio = 0;
 			instrument = sequencePlayer.bank.instruments[0];
 		}
 
@@ -39,6 +41,8 @@ namespace NitroComposerSeqPlayer {
 			ChannelInfo channel = sequencePlayer.FindChannelForInstrument(leafInstrument);
 
 			if(channel == null) return noteWait;
+
+			channel.Prio = this.Prio;
 
 			channel.Duration = duration;
 
@@ -144,6 +148,11 @@ namespace NitroComposerSeqPlayer {
 
 		private bool ExecuteNextCommand(MonoPolyCommand cmd) {
 			noteWait = cmd.IsMono;
+			return true;
+		}
+
+		private bool ExecuteNextCommand(PriorityCommand cmd) {
+			this.Prio = cmd.Priority;
 			return true;
 		}
 
