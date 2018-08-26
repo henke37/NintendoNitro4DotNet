@@ -39,7 +39,9 @@ namespace NitroComposerSeqPlayer {
 		private uint Var(uint varId) {
 			throw new NotImplementedException();
 		}
-
+		private void SetVar(byte variable, uint v) {
+			throw new NotImplementedException();
+		}
 
 		private void Pan(byte pan) {
 			throw new NotImplementedException();
@@ -143,6 +145,157 @@ namespace NitroComposerSeqPlayer {
 			nextInstructionId = callStack.Pop();
 			return true;
 		}
+
+		private bool ExecuteNextCommand(VarCommand cmd) {
+			switch(cmd.Op) {
+				case VarCommand.Operator.ADD:
+					SetVar(cmd.Variable, Var(cmd.Variable) + cmd.Operand);
+					break;
+				case VarCommand.Operator.SUB:
+					SetVar(cmd.Variable, Var(cmd.Variable) - cmd.Operand);
+					break;
+				case VarCommand.Operator.MUL:
+					SetVar(cmd.Variable, Var(cmd.Variable) * cmd.Operand);
+					break;
+				case VarCommand.Operator.DIV:
+					SetVar(cmd.Variable, Var(cmd.Variable) / cmd.Operand);
+					break;
+				case VarCommand.Operator.ASSIGN:
+					SetVar(cmd.Variable, cmd.Operand);
+					break;
+				case VarCommand.Operator.SHIFT:
+					if(cmd.Operand<0) {
+						SetVar(cmd.Variable, Var(cmd.Variable) >> (int)(-cmd.Operand));
+					} else {
+						SetVar(cmd.Variable, Var(cmd.Variable) << (int)cmd.Operand);
+					}
+					break;
+				case VarCommand.Operator.RAND:
+					SetVar(cmd.Variable, Rand(0, cmd.Operand));
+					break;
+
+				case VarCommand.Operator.EQU:
+					conditionFlag = Var(cmd.Variable) == cmd.Operand;
+					break;
+				case VarCommand.Operator.NEQ:
+					conditionFlag = Var(cmd.Variable) != cmd.Operand;
+					break;
+				case VarCommand.Operator.GT:
+					conditionFlag = Var(cmd.Variable) > cmd.Operand;
+					break;
+				case VarCommand.Operator.GTE:
+					conditionFlag = Var(cmd.Variable) >= cmd.Operand;
+					break;
+				case VarCommand.Operator.LT:
+					conditionFlag = Var(cmd.Variable) < cmd.Operand;
+					break;
+				case VarCommand.Operator.LTE:
+					conditionFlag = Var(cmd.Variable) <= cmd.Operand;
+					break;
+			}
+			return true;
+		}
+		private bool ExecuteNextCommand(VarVarCommand cmd) {
+			switch(cmd.Op) {
+				case VarCommand.Operator.ADD:
+					SetVar(cmd.Variable1, Var(cmd.Variable1) + Var(cmd.Variable2));
+					break;
+				case VarCommand.Operator.SUB:
+					SetVar(cmd.Variable1, Var(cmd.Variable1) - Var(cmd.Variable2));
+					break;
+				case VarCommand.Operator.MUL:
+					SetVar(cmd.Variable1, Var(cmd.Variable1) * Var(cmd.Variable2));
+					break;
+				case VarCommand.Operator.DIV:
+					SetVar(cmd.Variable1, Var(cmd.Variable1) / Var(cmd.Variable2));
+					break;
+				case VarCommand.Operator.ASSIGN:
+					SetVar(cmd.Variable1, Var(cmd.Variable2));
+					break;
+				case VarCommand.Operator.SHIFT:
+					if(Var(cmd.Variable2) < 0) {
+						SetVar(cmd.Variable1, Var(cmd.Variable1) >> (int)(-Var(cmd.Variable2)));
+					} else {
+						SetVar(cmd.Variable1, Var(cmd.Variable1) << (int)Var(cmd.Variable2));
+					}
+					break;
+				case VarCommand.Operator.RAND:
+					SetVar(cmd.Variable1, Rand(0, Var(cmd.Variable2)));
+					break;
+
+				case VarCommand.Operator.EQU:
+					conditionFlag = Var(cmd.Variable1) == Var(cmd.Variable2);
+					break;
+				case VarCommand.Operator.NEQ:
+					conditionFlag = Var(cmd.Variable1) != Var(cmd.Variable2);
+					break;
+				case VarCommand.Operator.GT:
+					conditionFlag = Var(cmd.Variable1) > Var(cmd.Variable2);
+					break;
+				case VarCommand.Operator.GTE:
+					conditionFlag = Var(cmd.Variable1) >= Var(cmd.Variable2);
+					break;
+				case VarCommand.Operator.LT:
+					conditionFlag = Var(cmd.Variable1) < Var(cmd.Variable2);
+					break;
+				case VarCommand.Operator.LTE:
+					conditionFlag = Var(cmd.Variable1) <= Var(cmd.Variable2);
+					break;
+			}
+			return true;
+		}
+		private bool ExecuteNextCommand(VarRandCommand cmd) {
+			switch(cmd.Op) {
+				case VarCommand.Operator.ADD:
+					SetVar(cmd.Variable, Var(cmd.Variable) + Rand(cmd.OperandMin,cmd.OperandMax));
+					break;
+				case VarCommand.Operator.SUB:
+					SetVar(cmd.Variable, Var(cmd.Variable) - Rand(cmd.OperandMin, cmd.OperandMax));
+					break;
+				case VarCommand.Operator.MUL:
+					SetVar(cmd.Variable, Var(cmd.Variable) * Rand(cmd.OperandMin, cmd.OperandMax));
+					break;
+				case VarCommand.Operator.DIV:
+					SetVar(cmd.Variable, Var(cmd.Variable) / Rand(cmd.OperandMin, cmd.OperandMax));
+					break;
+				case VarCommand.Operator.ASSIGN:
+					SetVar(cmd.Variable, Rand(cmd.OperandMin, cmd.OperandMax));
+					break;
+				case VarCommand.Operator.SHIFT: {
+					int shiftAmount = (int)Rand(cmd.OperandMin, cmd.OperandMax);
+					if(shiftAmount < 0) {
+						SetVar(cmd.Variable, Var(cmd.Variable) >> -shiftAmount);
+					} else {
+						SetVar(cmd.Variable, Var(cmd.Variable) << shiftAmount);
+					}
+				}
+					break;
+				case VarCommand.Operator.RAND:
+					SetVar(cmd.Variable, Rand(0, Rand(cmd.OperandMin, cmd.OperandMax)));
+					break;
+
+				case VarCommand.Operator.EQU:
+					conditionFlag = Var(cmd.Variable) == Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+				case VarCommand.Operator.NEQ:
+					conditionFlag = Var(cmd.Variable) != Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+				case VarCommand.Operator.GT:
+					conditionFlag = Var(cmd.Variable) > Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+				case VarCommand.Operator.GTE:
+					conditionFlag = Var(cmd.Variable) >= Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+				case VarCommand.Operator.LT:
+					conditionFlag = Var(cmd.Variable) < Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+				case VarCommand.Operator.LTE:
+					conditionFlag = Var(cmd.Variable) <= Rand(cmd.OperandMin, cmd.OperandMax);
+					break;
+			}
+			return true;
+		}
+
 
 		private class LoopEntry {
 			public int loopCounter;
