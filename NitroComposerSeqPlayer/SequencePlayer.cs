@@ -16,7 +16,12 @@ namespace NitroComposerSeqPlayer {
 		internal TrackPlayer[] tracks;
 		internal ushort tempo=120;
 
-		public short[] Variables = new short[16];
+		public short[] Variables = new short[16] {
+			-1, -1, -1, -1,
+			-1, -1, -1, -1,
+			-1, -1, -1, -1,
+			-1, -1, -1, -1
+		};
 
 		public SequencePlayer(SDat sdat, string sequenceName) {
 			int seqIndex = sdat.seqSymbols.IndexOf(sequenceName);
