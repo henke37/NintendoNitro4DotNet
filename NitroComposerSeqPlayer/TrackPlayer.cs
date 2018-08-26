@@ -19,6 +19,11 @@ namespace NitroComposerSeqPlayer {
 
 		private Instrument instrument;
 
+		byte AttackOverride = 0xFF;
+		byte DecayOverride = 0xFF;
+		byte SustainOverride = 0xFF;
+		byte ReleaseOverride = 0xFF;
+
 		private Stack<uint> callStack=new Stack<uint>();
 		private Stack<LoopEntry> loopStack=new Stack<LoopEntry>();
 
@@ -30,15 +35,24 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private bool NoteOn(byte note, uint velocity, uint duration) {
-			MixerChannel channel = FindChannelForNote(note);
+			var leafInstrument = instrument.leafInstrumentForNote(note);
+			ChannelInfo channel = sequencePlayer.FindChannelForInstrument(leafInstrument);
+
 			if(channel == null) return noteWait;
+
+			channel.Duration = duration;
+
+			channel.Attack = (AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
+			channel.Decay = (DecayOverride != 0xFF ? AttackOverride : leafInstrument.Decay);
+			channel.Sustain = (SustainOverride != 0xFF ? AttackOverride : leafInstrument.Sustain);
+			channel.Release = (ReleaseOverride != 0xFF ? AttackOverride : leafInstrument.Release);
+
+			channel.state = ChannelInfo.ChannelState.Start;
+
+			channel.ModulationStartCounter = 0;
+			channel.ModulationCounter = 0;
+
 			throw new NotImplementedException();
-		}
-
-		private MixerChannel FindChannelForNote(byte note) {
-			var leafInstrument=instrument.leafInstrumentForNote(note);
-
-			return sequencePlayer.FindChannelForInstrument(leafInstrument);
 		}
 
 		private short Rand(short min, short max) {

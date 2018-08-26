@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelInfo.cs" />
     <Compile Include="Mixer.cs" />
     <Compile Include="MixerChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

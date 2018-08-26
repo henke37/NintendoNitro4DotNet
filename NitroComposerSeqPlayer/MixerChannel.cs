@@ -1,7 +1,7 @@
 ﻿namespace NitroComposerSeqPlayer {
 	internal class MixerChannel {
 
-		MixerChannelMode mode = MixerChannelMode.Off;
+		MixerChannelMode Mode = MixerChannelMode.Off;
 
 		public enum MixerChannelMode {
 			Off,

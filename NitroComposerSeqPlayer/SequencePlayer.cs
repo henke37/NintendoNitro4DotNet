@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace NitroComposerSeqPlayer {
 	public class SequencePlayer {
+		private const int ChannelCount = 16;
+
 		internal SBNK bank;
 		internal SWAR[] swars;
 		internal SSEQ sseq;
@@ -27,7 +29,7 @@ namespace NitroComposerSeqPlayer {
 			-1, -1, -1, -1
 		};
 
-		private ChannelInfo[] channels = new ChannelInfo[16];
+		private ChannelInfo[] channels;
 
 		public SequencePlayer(SDat sdat, string sequenceName) {
 			int seqIndex = sdat.seqSymbols.IndexOf(sequenceName);
@@ -40,6 +42,11 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void Load(SDat sdat, int seqIndex) {
+			channels = new ChannelInfo[ChannelCount];
+			for(int channelId=0;channelId< ChannelCount;++channelId) {
+				channels[channelId] = new ChannelInfo(mixer.channels[channelId]);
+			}
+
 			var info = sdat.sequenceInfo[seqIndex];
 			sseq = sdat.OpenSequence(seqIndex);
 			player = sdat.playerInfo[info.player];
@@ -66,7 +73,7 @@ namespace NitroComposerSeqPlayer {
 		private readonly int[] PulseChannelSearchList = new int[] { 8, 9, 10, 11, 12, 13 };
 		private readonly int[] NoiseChannelSearchList = new int[] { 14, 15 };
 
-		internal MixerChannel FindChannelForInstrument(Instrument instrument) {
+		internal ChannelInfo FindChannelForInstrument(Instrument instrument) {
 			int[] channelSearchList;
 
 			if(instrument is PCMInstrument) {
@@ -77,24 +84,24 @@ namespace NitroComposerSeqPlayer {
 				channelSearchList = NoiseChannelSearchList;
 			}
 
-			int bestChannel = -1;
+			ChannelInfo bestChannel = null;
 
-			foreach(int channel in channelSearchList) {
+			foreach(int candidateChannelID in channelSearchList) {
 				if(player.channelMask != 0) {
-					bool allowed = (player.channelMask & (1 << channel)) != 0;
+					bool allowed = (player.channelMask & (1 << candidateChannelID)) != 0;
 					if(!allowed) continue;
 				}
+				var candidateChannel = channels[candidateChannelID];
 
+				if(bestChannel!=null) {
+					if(bestChannel.Prio > candidateChannel.Prio) continue;
+					if(bestChannel.Vol > candidateChannel.Vol) continue;
+				}
+
+				bestChannel = candidateChannel;
 			}
 
-			if(bestChannel == -1) return null;
-
-			return mixer.channels[bestChannel];
-		}
-
-		class ChannelInfo {
-			public int prio;
-			public int vol;
+			return bestChannel;
 		}
 	}
 }
