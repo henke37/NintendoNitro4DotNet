@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Test")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Sequence Disassembler")]
+[assembly: AssemblyDescription("Small utility to disassemble nitro composer sequences")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Test")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Henke37")]
+[assembly: AssemblyProduct("Nitro 4 .Net")]
+[assembly: AssemblyCopyright("© Henke37 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

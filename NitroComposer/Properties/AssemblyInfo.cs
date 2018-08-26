@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NitroComposer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Library for working with Nitro Composer files")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Henke37")]
-[assembly: AssemblyProduct("NitroComposer")]
+[assembly: AssemblyProduct("Nitro 4 .Net")]
 [assembly: AssemblyCopyright("Copyright 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

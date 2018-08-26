@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NitroSupport")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Nitro Core")]
+[assembly: AssemblyDescription("Core library for working with Nintendo DS files")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NitroSupport")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Henke37")]
+[assembly: AssemblyProduct("Nitro 4 .Net")]
+[assembly: AssemblyCopyright("© Henke37 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
