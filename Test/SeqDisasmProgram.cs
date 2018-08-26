@@ -9,6 +9,15 @@ using Nitro.Composer;
 
 namespace Nitro.Composer.SeqDisasm {
 	class SeqDisasmProgram {
+
+		const int ERR_OK = 0;
+		const int ERR_NDS_FNF = 1;
+		const int ERR_NO_SDAT = 3;
+		const int ERR_SEQ_NOT_FOUNT = 5;
+		const int ERR_IS_STREAM = 20;
+		const int ERR_ARGUMENTS = 90;
+		const int ERR_USAGE = 99;
+
 		static int Main(string[] args) {
 
 			if(args.Length == 0) return ListUsage();
@@ -19,10 +28,15 @@ namespace Nitro.Composer.SeqDisasm {
 				nds = new NDS(File.OpenRead(args[0]));
 			} catch(FileNotFoundException) {
 				Console.Error.WriteLine("NDS file not found");
-				return 1;
+				return ERR_NDS_FNF;
 			}
 
 			var sdats = nds.FileSystem.RootDir.FindMatchingFiles("*.sdat");
+
+			if(sdats.Count == 0) {
+				Console.Error.WriteLine("NDS file not found");
+				return ERR_NO_SDAT;
+			}
 
 			switch(args.Length) {
 				case 1:
@@ -30,7 +44,8 @@ namespace Nitro.Composer.SeqDisasm {
 				case 2:
 					return Disasm(args, nds, sdats);
 				default:
-					return 99;
+					Console.Error.WriteLine("Too many arguments");
+					return ERR_ARGUMENTS;
 			}
 		}
 
@@ -42,7 +57,7 @@ namespace Nitro.Composer.SeqDisasm {
 			Console.WriteLine("SeqDisasm game.nds SSEQ_NAME");
 			Console.WriteLine("List sequences:");
 			Console.WriteLine("SeqDisasm game.nds");
-			return 90;
+			return ERR_USAGE;
 		}
 
 		private static int ListItems(NDS nds, List<FileSystem.File> sdats) {
@@ -52,7 +67,7 @@ namespace Nitro.Composer.SeqDisasm {
 
 				ListItems(sdat);
 			}
-			return 0;
+			return ERR_OK;
 		}
 
 		private static void ListItems(SDat sdat) {
@@ -83,7 +98,7 @@ namespace Nitro.Composer.SeqDisasm {
 					var sseq = sdat.OpenSequence(name);
 					var ser = new SequenceSerializer();
 					Console.Write(ser.Serialize(sseq.sequence));
-					return 0;
+					return ERR_OK;
 				} catch(FileNotFoundException) {
 					//just swallow this one
 				}
@@ -91,14 +106,14 @@ namespace Nitro.Composer.SeqDisasm {
 				try {
 					var strm = sdat.OpenStream(name);
 					Console.WriteLine("Is stream.");
-					return 2;
+					return ERR_IS_STREAM;
 				} catch(FileNotFoundException) {
 					//keep on ignoring missing files
 				}
 			}
 
 			Console.Error.WriteLine("Sequence not found");
-			return 10;
+			return ERR_SEQ_NOT_FOUNT;
 		}
 	}
 }
