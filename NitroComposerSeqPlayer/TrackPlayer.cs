@@ -348,6 +348,55 @@ namespace NitroComposerSeqPlayer {
 			ModulationDelay = cmd.Delay;
 		}
 
+		private void ExecuteNextCommand(ADSRCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					AttackOverride = cmd.Value;
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					DecayOverride = cmd.Value;
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					SustainOverride = cmd.Value;
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					ReleaseOverride = cmd.Value;
+					break;
+			}
+		}
+		private void ExecuteNextCommand(ADSRRandCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					AttackOverride = (byte)Rand(cmd.Min,cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					DecayOverride = (byte)Rand(cmd.Min, cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					SustainOverride = (byte)Rand(cmd.Min, cmd.Max);
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					ReleaseOverride = (byte)Rand(cmd.Min, cmd.Max);
+					break;
+			}
+		}
+		private void ExecuteNextCommand(ADSRVarCommand cmd) {
+			switch(cmd.envPos) {
+				case ADSRCommand.EnvPos.ATTACK:
+					AttackOverride = (byte)Var(cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.DECAY:
+					DecayOverride = (byte)Var(cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.SUSTAIN:
+					SustainOverride = (byte)Var(cmd.Var);
+					break;
+				case ADSRCommand.EnvPos.RELEASE:
+					ReleaseOverride = (byte)Var(cmd.Var);
+					break;
+			}
+		}
+
 		private void ExecuteNextCommand(MonoPolyCommand cmd) {
 			noteWait = cmd.IsMono;
 		}
