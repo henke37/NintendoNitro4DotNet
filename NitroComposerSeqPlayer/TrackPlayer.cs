@@ -41,6 +41,7 @@ namespace NitroComposerSeqPlayer {
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
 		private byte PitchBendRange;
 		private byte PitchBend;
+		private byte Transpose;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -58,6 +59,7 @@ namespace NitroComposerSeqPlayer {
 
 			channel.Prio = this.Prio;
 
+			tieChannel.Note = (byte)(note + Transpose);
 			channel.Duration = duration;
 
 			channel.Attack = (AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
@@ -80,7 +82,7 @@ namespace NitroComposerSeqPlayer {
 			}
 
 			tieChannel.Prio = this.Prio;
-			tieChannel.Note = note;
+			tieChannel.Note = (byte)(note + Transpose);
 			tieChannel.Velocity = velocity;
 			tieChannel.ModulationStartCounter = 0;
 			tieChannel.ModulationCounter = 0;
@@ -244,6 +246,16 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				PitchBend = (byte)Var(cmd.BendVar);
 			}
+		}
+
+		private void ExecuteNextCommand(TransposeCommand cmd) {
+			Transpose = cmd.Transpose;
+		}
+		private void ExecuteNextCommand(TransposeRandCommand cmd) {
+			Transpose = (byte)Rand(cmd.TransposeMin, cmd.TransposeMax);
+		}
+		private void ExecuteNextCommand(TransposeVarCommand cmd) {
+			Transpose = (byte)Var(cmd.TransposeVar);
 		}
 
 		private void ExecuteNextCommand(MonoPolyCommand cmd) {
