@@ -39,8 +39,8 @@ namespace NitroComposerSeqPlayer {
 
 		private Stack<uint> callStack = new Stack<uint>();
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
-
-
+		private byte PitchBendRange;
+		private byte PitchBend;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -222,6 +222,28 @@ namespace NitroComposerSeqPlayer {
 		}
 		private void ExecuteNextCommand(PanRandCommand cmd) {
 			Pan((byte)Rand(cmd.PanMin, cmd.PanMax));
+		}
+
+		private void ExecuteNextCommand(PitchBendCommand cmd) {
+			if(cmd.IsRange) {
+				PitchBendRange = cmd.Bend;
+			} else {
+				PitchBend = cmd.Bend;
+			}
+		}
+		private void ExecuteNextCommand(PitchBendRandCommand cmd) {
+			if(cmd.IsRange) {
+				PitchBendRange = (byte)Rand(cmd.BendMin,cmd.BendMax);
+			} else {
+				PitchBend = (byte)Rand(cmd.BendMin, cmd.BendMax);
+			}
+		}
+		private void ExecuteNextCommand(PitchBendVarCommand cmd) {
+			if(cmd.IsRange) {
+				PitchBendRange = (byte)Var(cmd.BendVar);
+			} else {
+				PitchBend = (byte)Var(cmd.BendVar);
+			}
 		}
 
 		private void ExecuteNextCommand(MonoPolyCommand cmd) {
