@@ -258,6 +258,24 @@ namespace NitroComposerSeqPlayer {
 			Transpose = (byte)Var(cmd.TransposeVar);
 		}
 
+		private void ExecuteNextCommand(PortamentoCommand cmd) {
+			portamentoEnabled = cmd.Enable;
+		}
+
+		private void ExecuteNextCommand(PortamentoKeyCommand cmd) {
+			portamentoKey = (byte)(cmd.Key + Transpose);
+		}
+
+		private void ExecuteNextCommand(PortamentoTimeCommand cmd) {
+			portamentoTime = cmd.Time;
+		}
+		private void ExecuteNextCommand(PortamentoTimeRandCommand cmd) {
+			portamentoTime = Rand(cmd.TimeMin, cmd.TimeMax);
+		}
+		private void ExecuteNextCommand(PortamentoTimeVarCommand cmd) {
+			portamentoTime = Var(cmd.TimeVar);
+		}
+
 		private void ExecuteNextCommand(MonoPolyCommand cmd) {
 			noteWait = cmd.IsMono;
 		}
