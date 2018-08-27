@@ -3,6 +3,9 @@
 		internal int Prio;
 		internal int Vol;
 
+		internal byte Note;
+		internal uint Velocity;
+
 		internal MixerChannel mixerChannel;
 
 		internal byte Attack;

@@ -78,7 +78,12 @@ namespace NitroComposerSeqPlayer {
 				tieChannel = NoteOn(note, velocity, 0);
 				return;
 			}
-			throw new NotImplementedException();
+
+			tieChannel.Prio = this.Prio;
+			tieChannel.Note = note;
+			tieChannel.Velocity = velocity;
+			tieChannel.ModulationStartCounter = 0;
+			tieChannel.ModulationCounter = 0;
 		}
 
 		private short Rand(short min, short max) {
