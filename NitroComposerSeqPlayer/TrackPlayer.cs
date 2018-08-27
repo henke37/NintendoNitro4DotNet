@@ -32,16 +32,23 @@ namespace NitroComposerSeqPlayer {
 		private byte Volume = 0x7F;
 		private byte Expression = 0x7F;
 
+		private byte PitchBendRange;
+		private byte PitchBend;
+		private byte Transpose;
+
 		byte AttackOverride = 0xFF;
 		byte DecayOverride = 0xFF;
 		byte SustainOverride = 0xFF;
 		byte ReleaseOverride = 0xFF;
 
+		private int ModulationDelay;
+		private int ModulationDepth;
+		private int ModulationRange;
+		private int ModulationSpeed;
+		private int ModulationType;
+
 		private Stack<uint> callStack = new Stack<uint>();
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
-		private byte PitchBendRange;
-		private byte PitchBend;
-		private byte Transpose;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -274,6 +281,71 @@ namespace NitroComposerSeqPlayer {
 		}
 		private void ExecuteNextCommand(PortamentoTimeVarCommand cmd) {
 			portamentoTime = Var(cmd.TimeVar);
+		}
+
+		private void ExecuteNextCommand(ModulationCommand cmd) {
+			int val = cmd.Value;
+			switch(cmd.Type) {
+				case ModulationCommand.ModType.DELAY:
+					ModulationDelay = val;
+					break;
+				case ModulationCommand.ModType.DEPTH:
+					ModulationDepth = val;
+					break;
+				case ModulationCommand.ModType.RANGE:
+					ModulationRange = val;
+					break;
+				case ModulationCommand.ModType.SPEED:
+					ModulationSpeed = val;
+					break;
+				case ModulationCommand.ModType.TYPE:
+					ModulationType = val;
+					break;
+			}
+		}
+		private void ExecuteNextCommand(ModulationRandCommand cmd) {
+			int val = Rand(cmd.Min, cmd.Max);
+			switch(cmd.Type) {
+				case ModulationCommand.ModType.DELAY:
+					ModulationDelay = val;
+					break;
+				case ModulationCommand.ModType.DEPTH:
+					ModulationDepth = val;
+					break;
+				case ModulationCommand.ModType.RANGE:
+					ModulationRange = val;
+					break;
+				case ModulationCommand.ModType.SPEED:
+					ModulationSpeed = val;
+					break;
+				case ModulationCommand.ModType.TYPE:
+					ModulationType = val;
+					break;
+			}
+		}
+		private void ExecuteNextCommand(ModulationVarCommand cmd) {
+			int val = Var(cmd.Var);
+			switch(cmd.Type) {
+				case ModulationCommand.ModType.DELAY:
+					ModulationDelay = val;
+					break;
+				case ModulationCommand.ModType.DEPTH:
+					ModulationDepth = val;
+					break;
+				case ModulationCommand.ModType.RANGE:
+					ModulationRange = val;
+					break;
+				case ModulationCommand.ModType.SPEED:
+					ModulationSpeed = val;
+					break;
+				case ModulationCommand.ModType.TYPE:
+					ModulationType = val;
+					break;
+			}
+		}
+
+		private void ExecuteNextCommand(ModulationDelayCommand cmd) {
+			ModulationDelay = cmd.Delay;
 		}
 
 		private void ExecuteNextCommand(MonoPolyCommand cmd) {
