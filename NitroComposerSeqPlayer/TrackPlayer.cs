@@ -58,7 +58,18 @@ namespace NitroComposerSeqPlayer {
 			instrument = sequencePlayer.bank.instruments[0];
 		}
 
-		private ChannelInfo NoteOn(byte note, uint velocity, uint duration) {
+		private void NoteOn(byte note, uint velocity, uint duration) {
+			if(noteWait) {
+				waitTimer = duration;
+			}
+			if(tieMode) {
+				NoteOnTie(note, velocity);
+			} else {
+				NoteOnNormal(note, velocity, duration);
+			}
+		}
+
+		private ChannelInfo NoteOnNormal(byte note, uint velocity, uint duration) {
 			var leafInstrument = instrument.leafInstrumentForNote(note);
 			ChannelInfo channel = sequencePlayer.FindChannelForInstrument(leafInstrument);
 
@@ -86,7 +97,7 @@ namespace NitroComposerSeqPlayer {
 
 		private void NoteOnTie(byte note, uint velocity) {
 			if(tieChannel == null) {
-				tieChannel = NoteOn(note, velocity, 0);
+				tieChannel = NoteOnNormal(note, velocity, 0);
 				return;
 			}
 
@@ -143,36 +154,15 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void ExecuteCommand(NoteCommand cmd) {
-			if(noteWait) {
-				waitTimer = cmd.Duration;
-			}
-			if(tieMode) {
-				NoteOnTie(cmd.Note, cmd.Velocity);
-			} else {
-				NoteOn(cmd.Note, cmd.Velocity, cmd.Duration);
-			}
+			NoteOn(cmd.Note, cmd.Velocity, cmd.Duration);
 		}
 		private void ExecuteCommand(NoteRandCommand cmd) {
 			uint duration = (uint)Rand(cmd.DurationMin, cmd.DurationMax);
-			if(noteWait) {
-				waitTimer = duration;
-			}
-			if(tieMode) {
-				NoteOnTie(cmd.Note, cmd.Velocity);
-			} else {
-				NoteOn(cmd.Note, cmd.Velocity, duration);
-			}
+			NoteOn(cmd.Note, cmd.Velocity, duration);
 		}
 		private void ExecuteCommand(NoteVarCommand cmd) {
 			uint duration = (uint)Var(cmd.DurationVar);
-			if(noteWait) {
-				waitTimer = duration;
-			}
-			if(tieMode) {
-				NoteOnTie(cmd.Note, cmd.Velocity);
-			} else {
-				NoteOn(cmd.Note, cmd.Velocity, duration);
-			}
+			NoteOn(cmd.Note, cmd.Velocity, duration);
 		}
 
 		private void ExecuteCommand(AllocateTracksCommand cmd) {
