@@ -31,7 +31,7 @@ namespace NitroComposerSeqPlayer {
 			-1, -1, -1, -1
 		};
 
-		private ChannelInfo[] channels;
+		internal ChannelInfo[] channels;
 
 		public SequencePlayer(SDat sdat, string sequenceName) {
 			int seqIndex = sdat.seqSymbols.IndexOf(sequenceName);

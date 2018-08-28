@@ -64,15 +64,17 @@ namespace NitroComposerSeqPlayer {
 
 			if(channel == null) return null;
 
+			channel.Track = this;
+
 			channel.Prio = this.Prio;
 
 			tieChannel.Note = (byte)(note + Transpose);
 			channel.Duration = duration;
 
-			channel.Attack = (AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
-			channel.Decay = (DecayOverride != 0xFF ? DecayOverride : leafInstrument.Decay);
-			channel.Sustain = (SustainOverride != 0xFF ? SustainOverride : leafInstrument.Sustain);
-			channel.Release = (ReleaseOverride != 0xFF ? ReleaseOverride : leafInstrument.Release);
+			channel.AttackLevel = (AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
+			channel.DecayRate = (DecayOverride != 0xFF ? DecayOverride : leafInstrument.Decay);
+			channel.SustainLevel = (SustainOverride != 0xFF ? SustainOverride : leafInstrument.Sustain);
+			channel.ReleaseRate = (ReleaseOverride != 0xFF ? ReleaseOverride : leafInstrument.Release);
 
 			channel.state = ChannelInfo.ChannelState.Start;
 
@@ -110,7 +112,13 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void ReleaseAllNotes() {
-			throw new NotImplementedException();
+			tieChannel = null;
+			foreach(var chan in sequencePlayer.channels) {
+				if(chan.Track != this) continue;
+				if(chan.state == ChannelInfo.ChannelState.None) continue;
+				if(chan.state == ChannelInfo.ChannelState.Release) continue;
+				chan.Release();
+			}
 		}
 
 		/** Returns true if another command should be executed right away and false if there is a delay to wait out */

@@ -1,5 +1,10 @@
-﻿namespace NitroComposerSeqPlayer {
+﻿using System;
+
+namespace NitroComposerSeqPlayer {
 	internal class ChannelInfo {
+
+		internal TrackPlayer Track;
+
 		internal int Prio;
 		internal int Vol;
 
@@ -8,10 +13,10 @@
 
 		internal MixerChannel mixerChannel;
 
-		internal byte Attack;
-		internal byte Decay;
-		internal byte Sustain;
-		internal byte Release;
+		internal byte AttackLevel;
+		internal byte DecayRate;
+		internal byte SustainLevel;
+		internal byte ReleaseRate;
 
 		internal uint Duration;
 
@@ -31,6 +36,11 @@
 			Decay,
 			Sustain,
 			Release		
+		}
+
+		internal void Release() {
+			state = ChannelState.Release;
+			Prio = 1;
 		}
 	}
 }
