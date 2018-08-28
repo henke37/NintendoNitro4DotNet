@@ -125,24 +125,24 @@ namespace NitroComposerSeqPlayer {
 		internal bool ExecuteNextCommand() {
 			dynamic command = sequencePlayer.sseq.sequence.commands[(int)nextInstructionId++];
 			if(command.Conditional && !conditionFlag) return true;
-			ExecuteNextCommand(command);
+			ExecuteCommand(command);
 
 			return waitTimer > 0;
 		}
 
-		private void ExecuteNextCommand(BaseSequenceCommand cmd) {
+		private void ExecuteCommand(BaseSequenceCommand cmd) {
 			throw new NotImplementedException();
 		}
 
-		private void ExecuteNextCommand(RestCommand cmd) {
+		private void ExecuteCommand(RestCommand cmd) {
 			waitTimer = cmd.Rest;
 		}
 
-		private void ExecuteNextCommand(ProgramChangeCommand cmd) {
+		private void ExecuteCommand(ProgramChangeCommand cmd) {
 			instrument = sequencePlayer.bank.instruments[(int)cmd.Program];
 		}
 
-		private void ExecuteNextCommand(NoteCommand cmd) {
+		private void ExecuteCommand(NoteCommand cmd) {
 			if(noteWait) {
 				waitTimer = cmd.Duration;
 			}
@@ -152,7 +152,7 @@ namespace NitroComposerSeqPlayer {
 				NoteOn(cmd.Note, cmd.Velocity, cmd.Duration);
 			}
 		}
-		private void ExecuteNextCommand(NoteRandCommand cmd) {
+		private void ExecuteCommand(NoteRandCommand cmd) {
 			uint duration = (uint)Rand(cmd.DurationMin, cmd.DurationMax);
 			if(noteWait) {
 				waitTimer = duration;
@@ -163,7 +163,7 @@ namespace NitroComposerSeqPlayer {
 				NoteOn(cmd.Note, cmd.Velocity, duration);
 			}
 		}
-		private void ExecuteNextCommand(NoteVarCommand cmd) {
+		private void ExecuteCommand(NoteVarCommand cmd) {
 			uint duration = (uint)Var(cmd.DurationVar);
 			if(noteWait) {
 				waitTimer = duration;
@@ -175,7 +175,7 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(AllocateTracksCommand cmd) {
+		private void ExecuteCommand(AllocateTracksCommand cmd) {
 			sequencePlayer.tracks = new TrackPlayer[16];
 			sequencePlayer.tracks[0] = this;
 		}
@@ -184,36 +184,36 @@ namespace NitroComposerSeqPlayer {
 			sequencePlayer.tracks[cmd.Track] = new TrackPlayer(sequencePlayer, cmd.target);
 		}
 
-		private void ExecuteNextCommand(TempoCommand cmd) {
+		private void ExecuteCommand(TempoCommand cmd) {
 			sequencePlayer.tempo = cmd.Tempo;
 		}
 
-		private void ExecuteNextCommand(EndTrackCommand cmd) {
+		private void ExecuteCommand(EndTrackCommand cmd) {
 			endFlag = true;
 		}
 
-		private void ExecuteNextCommand(JumpCommand cmd) {
+		private void ExecuteCommand(JumpCommand cmd) {
 			if(cmd.type == JumpCommand.JumpType.CALL) {
 				callStack.Push(nextInstructionId);
 			}
 			nextInstructionId = cmd.target;
 		}
 
-		private void ExecuteNextCommand(VolumeCommand cmd) {
+		private void ExecuteCommand(VolumeCommand cmd) {
 			if(cmd.Master) {
 				sequencePlayer.MasterVolume = cmd.Volume;
 			} else {
 				Volume = cmd.Volume;
 			}
 		}
-		private void ExecuteNextCommand(VolumeRandCommand cmd) {
+		private void ExecuteCommand(VolumeRandCommand cmd) {
 			if(cmd.Master) {
 				sequencePlayer.MasterVolume = (byte)Rand(cmd.VolumeMin, cmd.VolumeMax);
 			} else {
 				Volume = (byte)Rand(cmd.VolumeMin, cmd.VolumeMax);
 			}
 		}
-		private void ExecuteNextCommand(VolumeVarCommand cmd) {
+		private void ExecuteCommand(VolumeVarCommand cmd) {
 			if(cmd.Master) {
 				sequencePlayer.MasterVolume = (byte)Var(cmd.VolumeVar);
 			} else {
@@ -221,41 +221,41 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(ExpressionCommand cmd) {
+		private void ExecuteCommand(ExpressionCommand cmd) {
 			Expression = cmd.Value;
 		}
-		private void ExecuteNextCommand(ExpressionRandCommand cmd) {
+		private void ExecuteCommand(ExpressionRandCommand cmd) {
 			Expression = (byte)Rand(cmd.Min, cmd.Max);
 		}
-		private void ExecuteNextCommand(ExpressionVarCommand cmd) {
+		private void ExecuteCommand(ExpressionVarCommand cmd) {
 			Expression = (byte)Var(cmd.Var);
 		}
 
-		private void ExecuteNextCommand(PanCommand cmd) {
+		private void ExecuteCommand(PanCommand cmd) {
 			Pan(cmd.Pan);
 		}
-		private void ExecuteNextCommand(PanVarCommand cmd) {
+		private void ExecuteCommand(PanVarCommand cmd) {
 			Pan((byte)Var(cmd.PanVar));
 		}
-		private void ExecuteNextCommand(PanRandCommand cmd) {
+		private void ExecuteCommand(PanRandCommand cmd) {
 			Pan((byte)Rand(cmd.PanMin, cmd.PanMax));
 		}
 
-		private void ExecuteNextCommand(PitchBendCommand cmd) {
+		private void ExecuteCommand(PitchBendCommand cmd) {
 			if(cmd.IsRange) {
 				PitchBendRange = cmd.Bend;
 			} else {
 				PitchBend = cmd.Bend;
 			}
 		}
-		private void ExecuteNextCommand(PitchBendRandCommand cmd) {
+		private void ExecuteCommand(PitchBendRandCommand cmd) {
 			if(cmd.IsRange) {
 				PitchBendRange = (byte)Rand(cmd.BendMin,cmd.BendMax);
 			} else {
 				PitchBend = (byte)Rand(cmd.BendMin, cmd.BendMax);
 			}
 		}
-		private void ExecuteNextCommand(PitchBendVarCommand cmd) {
+		private void ExecuteCommand(PitchBendVarCommand cmd) {
 			if(cmd.IsRange) {
 				PitchBendRange = (byte)Var(cmd.BendVar);
 			} else {
@@ -263,35 +263,35 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(TransposeCommand cmd) {
+		private void ExecuteCommand(TransposeCommand cmd) {
 			Transpose = cmd.Transpose;
 		}
-		private void ExecuteNextCommand(TransposeRandCommand cmd) {
+		private void ExecuteCommand(TransposeRandCommand cmd) {
 			Transpose = (byte)Rand(cmd.TransposeMin, cmd.TransposeMax);
 		}
-		private void ExecuteNextCommand(TransposeVarCommand cmd) {
+		private void ExecuteCommand(TransposeVarCommand cmd) {
 			Transpose = (byte)Var(cmd.TransposeVar);
 		}
 
-		private void ExecuteNextCommand(PortamentoCommand cmd) {
+		private void ExecuteCommand(PortamentoCommand cmd) {
 			portamentoEnabled = cmd.Enable;
 		}
 
-		private void ExecuteNextCommand(PortamentoKeyCommand cmd) {
+		private void ExecuteCommand(PortamentoKeyCommand cmd) {
 			portamentoKey = (byte)(cmd.Key + Transpose);
 		}
 
-		private void ExecuteNextCommand(PortamentoTimeCommand cmd) {
+		private void ExecuteCommand(PortamentoTimeCommand cmd) {
 			portamentoTime = cmd.Time;
 		}
-		private void ExecuteNextCommand(PortamentoTimeRandCommand cmd) {
+		private void ExecuteCommand(PortamentoTimeRandCommand cmd) {
 			portamentoTime = Rand(cmd.TimeMin, cmd.TimeMax);
 		}
-		private void ExecuteNextCommand(PortamentoTimeVarCommand cmd) {
+		private void ExecuteCommand(PortamentoTimeVarCommand cmd) {
 			portamentoTime = Var(cmd.TimeVar);
 		}
 
-		private void ExecuteNextCommand(ModulationCommand cmd) {
+		private void ExecuteCommand(ModulationCommand cmd) {
 			int val = cmd.Value;
 			switch(cmd.Type) {
 				case ModulationCommand.ModType.DELAY:
@@ -311,7 +311,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(ModulationRandCommand cmd) {
+		private void ExecuteCommand(ModulationRandCommand cmd) {
 			int val = Rand(cmd.Min, cmd.Max);
 			switch(cmd.Type) {
 				case ModulationCommand.ModType.DELAY:
@@ -331,7 +331,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(ModulationVarCommand cmd) {
+		private void ExecuteCommand(ModulationVarCommand cmd) {
 			int val = Var(cmd.Var);
 			switch(cmd.Type) {
 				case ModulationCommand.ModType.DELAY:
@@ -352,11 +352,11 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(ModulationDelayCommand cmd) {
+		private void ExecuteCommand(ModulationDelayCommand cmd) {
 			ModulationDelay = cmd.Delay;
 		}
 
-		private void ExecuteNextCommand(ADSRCommand cmd) {
+		private void ExecuteCommand(ADSRCommand cmd) {
 			switch(cmd.envPos) {
 				case ADSRCommand.EnvPos.ATTACK:
 					AttackOverride = cmd.Value;
@@ -372,7 +372,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(ADSRRandCommand cmd) {
+		private void ExecuteCommand(ADSRRandCommand cmd) {
 			switch(cmd.envPos) {
 				case ADSRCommand.EnvPos.ATTACK:
 					AttackOverride = (byte)Rand(cmd.Min,cmd.Max);
@@ -388,7 +388,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(ADSRVarCommand cmd) {
+		private void ExecuteCommand(ADSRVarCommand cmd) {
 			switch(cmd.envPos) {
 				case ADSRCommand.EnvPos.ATTACK:
 					AttackOverride = (byte)Var(cmd.Var);
@@ -405,24 +405,24 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(MonoPolyCommand cmd) {
+		private void ExecuteCommand(MonoPolyCommand cmd) {
 			noteWait = cmd.IsMono;
 		}
 
-		private void ExecuteNextCommand(TieCommand cmd) {
+		private void ExecuteCommand(TieCommand cmd) {
 			tieMode = cmd.Tie;
 			ReleaseAllNotes();
 		}
 
-		private void ExecuteNextCommand(PriorityCommand cmd) {
+		private void ExecuteCommand(PriorityCommand cmd) {
 			this.Prio = cmd.Priority;
 		}
 
-		private void ExecuteNextCommand(LoopStartCommand cmd) {
+		private void ExecuteCommand(LoopStartCommand cmd) {
 			loopStack.Push(new LoopEntry(cmd.LoopCount, nextInstructionId));
 		}
 
-		private void ExecuteNextCommand(LoopEndCommand cmd) {
+		private void ExecuteCommand(LoopEndCommand cmd) {
 			var entry = loopStack.Peek();
 			if(entry.loopCounter == 0) {
 				loopStack.Pop();
@@ -431,11 +431,11 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void ExecuteNextCommand(ReturnCommand cmd) {
+		private void ExecuteCommand(ReturnCommand cmd) {
 			nextInstructionId = callStack.Pop();
 		}
 
-		private void ExecuteNextCommand(VarCommand cmd) {
+		private void ExecuteCommand(VarCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
 					SetVar(cmd.Variable, (short)(Var(cmd.Variable) + cmd.Operand));
@@ -483,7 +483,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(VarVarCommand cmd) {
+		private void ExecuteCommand(VarVarCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
 					SetVar(cmd.Variable1, (short)(Var(cmd.Variable1) + Var(cmd.Variable2)));
@@ -533,7 +533,7 @@ namespace NitroComposerSeqPlayer {
 					break;
 			}
 		}
-		private void ExecuteNextCommand(VarRandCommand cmd) {
+		private void ExecuteCommand(VarRandCommand cmd) {
 			switch(cmd.Op) {
 				case VarCommand.Operator.ADD:
 					SetVar(cmd.Variable, (short)(Var(cmd.Variable) + Rand(cmd.OperandMin, cmd.OperandMax)));
