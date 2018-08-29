@@ -199,6 +199,7 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				Volume = cmd.Volume;
 			}
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 		private void ExecuteCommand(VolumeRandCommand cmd) {
 			if(cmd.Master) {
@@ -206,6 +207,7 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				Volume = (byte)Rand(cmd.VolumeMin, cmd.VolumeMax);
 			}
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 		private void ExecuteCommand(VolumeVarCommand cmd) {
 			if(cmd.Master) {
@@ -213,26 +215,33 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				Volume = (byte)Var(cmd.VolumeVar);
 			}
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 
 		private void ExecuteCommand(ExpressionCommand cmd) {
 			Expression = cmd.Value;
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 		private void ExecuteCommand(ExpressionRandCommand cmd) {
 			Expression = (byte)Rand(cmd.Min, cmd.Max);
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 		private void ExecuteCommand(ExpressionVarCommand cmd) {
 			Expression = (byte)Var(cmd.Var);
+			updateFlags |= TrackUpdateFlags.Volume;
 		}
 
 		private void ExecuteCommand(PanCommand cmd) {
 			Pan(cmd.Pan);
+			updateFlags |= TrackUpdateFlags.Pan;
 		}
 		private void ExecuteCommand(PanVarCommand cmd) {
 			Pan((byte)Var(cmd.PanVar));
+			updateFlags |= TrackUpdateFlags.Pan;
 		}
 		private void ExecuteCommand(PanRandCommand cmd) {
 			Pan((byte)Rand(cmd.PanMin, cmd.PanMax));
+			updateFlags |= TrackUpdateFlags.Pan;
 		}
 
 		private void ExecuteCommand(PitchBendCommand cmd) {
@@ -241,6 +250,7 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				PitchBend = cmd.Bend;
 			}
+			updateFlags |= TrackUpdateFlags.Timer;
 		}
 		private void ExecuteCommand(PitchBendRandCommand cmd) {
 			if(cmd.IsRange) {
@@ -248,6 +258,7 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				PitchBend = (byte)Rand(cmd.BendMin, cmd.BendMax);
 			}
+			updateFlags |= TrackUpdateFlags.Timer;
 		}
 		private void ExecuteCommand(PitchBendVarCommand cmd) {
 			if(cmd.IsRange) {
@@ -255,6 +266,7 @@ namespace NitroComposerSeqPlayer {
 			} else {
 				PitchBend = (byte)Var(cmd.BendVar);
 			}
+			updateFlags |= TrackUpdateFlags.Timer;
 		}
 
 		private void ExecuteCommand(TransposeCommand cmd) {
@@ -304,6 +316,7 @@ namespace NitroComposerSeqPlayer {
 					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
+			updateFlags |= TrackUpdateFlags.Modulation;
 		}
 		private void ExecuteCommand(ModulationRandCommand cmd) {
 			int val = Rand(cmd.Min, cmd.Max);
@@ -324,6 +337,7 @@ namespace NitroComposerSeqPlayer {
 					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
+			updateFlags |= TrackUpdateFlags.Modulation;
 		}
 		private void ExecuteCommand(ModulationVarCommand cmd) {
 			int val = Var(cmd.Var);
@@ -344,10 +358,12 @@ namespace NitroComposerSeqPlayer {
 					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
+			updateFlags |= TrackUpdateFlags.Modulation;
 		}
 
 		private void ExecuteCommand(ModulationDelayCommand cmd) {
 			ModulationDelay = cmd.Delay;
+			updateFlags |= TrackUpdateFlags.Modulation;
 		}
 
 		private void ExecuteCommand(SweepPitchCommand cmd) {
