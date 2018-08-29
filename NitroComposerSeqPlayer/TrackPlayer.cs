@@ -47,6 +47,8 @@ namespace NitroComposerSeqPlayer {
 		internal int ModulationSpeed;
 		internal ModulationTypeEnum ModulationType;
 
+		internal ushort SweepPitch;
+
 		private Stack<uint> callStack = new Stack<uint>();
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
 		
@@ -346,6 +348,16 @@ namespace NitroComposerSeqPlayer {
 
 		private void ExecuteCommand(ModulationDelayCommand cmd) {
 			ModulationDelay = cmd.Delay;
+		}
+
+		private void ExecuteCommand(SweepPitchCommand cmd) {
+			SweepPitch = cmd.Ammount;
+		}
+		private void ExecuteCommand(SweepPitchRandCommand cmd) {
+			SweepPitch = (ushort)Rand(cmd.AmmountMin,cmd.AmmountMax);
+		}
+		private void ExecuteCommand(SweepPitchVarCommand cmd) {
+			SweepPitch = (ushort)Var(cmd.Var);
 		}
 
 		private void ExecuteCommand(ADSRCommand cmd) {
