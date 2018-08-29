@@ -19,7 +19,11 @@ namespace NitroComposerSeqPlayer {
 
 		internal TrackPlayer mainTrack;
 		internal TrackPlayer[] tracks;
-		internal ushort tempo = 120;
+
+		private ushort tempoCounter = 0;
+		private const ushort TempoBase = 240;
+		internal ushort Tempo = 120;
+		public ushort TempoRate = 0x100;
 
 		internal byte MasterVolume;
 
@@ -67,10 +71,23 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void RunCommandsForTracks() {
-			foreach(var track in tracks) {
-				while(track.ExecuteNextCommand()) ;
+		private void Update() {
+			foreach(var chan in channels) {
+				chan.UpdateTrackData();
 			}
+			foreach(var track in tracks) {
+				track.updateFlags = 0;
+			}
+			foreach(var chan in channels) {
+				chan.Update();
+			}
+
+			for(; tempoCounter>TempoBase; tempoCounter -= TempoBase) {
+				foreach(var track in tracks) {
+					while(track.ExecuteNextCommand()) ;
+				}
+			}
+			tempoCounter += (ushort)(Tempo * TempoRate >> 8);
 		}
 
 		private readonly int[] PCMChannelSearchList = new int[] { 4, 5, 6, 7, 2, 0, 3, 1, 8, 9, 10, 11, 14, 12, 15, 13 };

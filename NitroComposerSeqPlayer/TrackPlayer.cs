@@ -179,7 +179,7 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void ExecuteCommand(TempoCommand cmd) {
-			sequencePlayer.tempo = cmd.Tempo;
+			sequencePlayer.Tempo = cmd.Tempo;
 		}
 
 		private void ExecuteCommand(EndTrackCommand cmd) {
