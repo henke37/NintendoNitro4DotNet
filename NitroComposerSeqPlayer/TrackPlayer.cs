@@ -86,10 +86,10 @@ namespace NitroComposerSeqPlayer {
 			tieChannel.Note = (byte)(note + Transpose);
 			channel.Duration = duration;
 
-			channel.AttackLevel = (AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
-			channel.DecayRate = (DecayOverride != 0xFF ? DecayOverride : leafInstrument.Decay);
-			channel.SustainLevel = (SustainOverride != 0xFF ? SustainOverride : leafInstrument.Sustain);
-			channel.ReleaseRate = (ReleaseOverride != 0xFF ? ReleaseOverride : leafInstrument.Release);
+			channel.AttackLevel = Remap.Attack(AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
+			channel.DecayRate = Remap.Rate(DecayOverride != 0xFF ? DecayOverride : leafInstrument.Decay);
+			channel.SustainLevel = Remap.Level(SustainOverride != 0xFF ? SustainOverride : leafInstrument.Sustain);
+			channel.ReleaseRate = Remap.Rate(ReleaseOverride != 0xFF ? ReleaseOverride : leafInstrument.Release);
 
 			channel.state = ChannelInfo.ChannelState.Start;
 

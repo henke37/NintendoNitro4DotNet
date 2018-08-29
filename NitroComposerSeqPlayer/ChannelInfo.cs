@@ -13,19 +13,22 @@ namespace NitroComposerSeqPlayer {
 
 		internal MixerChannel mixerChannel;
 
-		internal byte AttackLevel;
-		internal byte DecayRate;
-		internal byte SustainLevel;
-		internal byte ReleaseRate;
+		internal int AttackLevel;
+		internal int DecayRate;
+		internal int SustainLevel;
+		internal int ReleaseRate;
+
+		private const int EnvelopeStartLevel = -723 << 7;
+		private int EnvelopeLevel;
 
 		internal uint Duration;
-
 		internal ChannelState state;
 
 		internal int ModulationStartCounter;
 		internal int ModulationCounter;
 
 		private ChannelUpdateFlags updateFlags;
+
 
 		internal ChannelInfo(MixerChannel mixerChannel) {
 			this.mixerChannel = mixerChannel;
@@ -83,15 +86,11 @@ namespace NitroComposerSeqPlayer {
 		private void UpdateVolume() {
 			int finalVol = Track.sequencePlayer.MasterVolume;
 			finalVol += Track.sequencePlayer.seqInfo.vol;
-			finalVol += ConvertLevel(Track.Volume);
-			finalVol += ConvertLevel(Track.Expression);
+			finalVol += Remap.Level(Track.Volume);
+			finalVol += Remap.Level(Track.Expression);
 
 		}
-
-		private int ConvertLevel(byte volume) {
-			throw new NotImplementedException();
-		}
-
+		
 		internal void Update() {
 
 			bool bNotInSustain = state != ChannelState.Sustain;
@@ -106,11 +105,16 @@ namespace NitroComposerSeqPlayer {
 				case ChannelState.None:
 					return;
 				case ChannelState.Start:
+					EnvelopeLevel = EnvelopeStartLevel;
 					state = ChannelState.Attack;
 					goto case ChannelState.Attack;
 				case ChannelState.Attack:
 					break;
+				case ChannelState.Decay:
+					EnvelopeLevel -= DecayRate;
+					break;
 				case ChannelState.Release:
+					EnvelopeLevel -= ReleaseRate;
 					break;
 			}
 
