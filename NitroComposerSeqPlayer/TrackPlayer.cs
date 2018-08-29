@@ -49,6 +49,8 @@ namespace NitroComposerSeqPlayer {
 
 		private Stack<uint> callStack = new Stack<uint>();
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
+		
+		internal TrackUpdateFlags updateFlags;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -583,6 +585,15 @@ namespace NitroComposerSeqPlayer {
 				loopCounter = loopCount;
 				this.loopStart = loopStart;
 			}
+		}
+
+		[Flags]
+		internal enum TrackUpdateFlags {
+			Volume = 1,
+			Pan = 2,
+			Timer = 4,
+			Modulation = 8,
+			Length = 16
 		}
 	}
 }

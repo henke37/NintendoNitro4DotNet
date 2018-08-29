@@ -25,8 +25,6 @@ namespace NitroComposerSeqPlayer {
 		internal int ModulationStartCounter;
 		internal int ModulationCounter;
 
-		private CacheStalenessFlags staleFlags;
-
 		internal ChannelInfo(MixerChannel mixerChannel) {
 			this.mixerChannel = mixerChannel;
 		}
@@ -40,24 +38,18 @@ namespace NitroComposerSeqPlayer {
 			Release=5		
 		}
 
-		[Flags]
-		private enum CacheStalenessFlags {
-			Volume=1,
-			Pan=2,
-			Timer=4,
-			Modulation=8,
-			Length=16
-		}
-
 		internal void Release() {
 			state = ChannelState.Release;
 			Prio = 1;
 		}
 
-		internal void UpdateCachedData() {
-			if(staleFlags == 0) return;
+		internal void UpdateTrackData() {
 
-			if(staleFlags.HasFlag(CacheStalenessFlags.Length)) {
+			var trackFlags = Track.updateFlags;
+
+			if(trackFlags == 0) return;
+
+			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Length)) {
 				if(state>ChannelState.Start) {
 					if(state<ChannelState.Release && this.Duration>0) {
 						Release();
@@ -66,19 +58,19 @@ namespace NitroComposerSeqPlayer {
 				}
 			}
 
-			if(staleFlags.HasFlag(CacheStalenessFlags.Volume)) {
+			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Volume)) {
 				UpdateVolume();
 			}
 
-			if(staleFlags.HasFlag(CacheStalenessFlags.Pan)) {
+			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Pan)) {
 				//UpdatePan();
 			}
 
-			if(staleFlags.HasFlag(CacheStalenessFlags.Timer)) {
+			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Timer)) {
 				//UpdateTimer();
 			}
 
-			if(staleFlags.HasFlag(CacheStalenessFlags.Modulation)) {
+			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Modulation)) {
 				//UpdateModulation();
 			}
 		}
