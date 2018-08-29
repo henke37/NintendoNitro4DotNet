@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace NitroComposerSeqPlayer {
 	internal class TrackPlayer {
-		private SequencePlayer sequencePlayer;
+		internal SequencePlayer sequencePlayer;
 
 		private uint nextInstructionId;
 		public bool endFlag;
@@ -29,8 +29,8 @@ namespace NitroComposerSeqPlayer {
 
 		private int Prio;
 
-		private byte Volume = 0x7F;
-		private byte Expression = 0x7F;
+		internal byte Volume = 0x7F;
+		internal byte Expression = 0x7F;
 
 		private byte PitchBendRange;
 		private byte PitchBend;

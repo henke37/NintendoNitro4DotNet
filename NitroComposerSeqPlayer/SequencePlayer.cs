@@ -15,6 +15,7 @@ namespace NitroComposerSeqPlayer {
 		internal SWAR[] swars;
 		internal SSEQ sseq;
 		internal SDat.PlayerInfoRecord player;
+		internal SDat.SequenceInfoRecord seqInfo;
 
 		internal TrackPlayer mainTrack;
 		internal TrackPlayer[] tracks;
@@ -49,13 +50,11 @@ namespace NitroComposerSeqPlayer {
 				channels[channelId] = new ChannelInfo(mixer.channels[channelId]);
 			}
 
-			var info = sdat.sequenceInfo[seqIndex];
-			player = sdat.playerInfo[info.player];
+			seqInfo = sdat.sequenceInfo[seqIndex];
+			player = sdat.playerInfo[seqInfo.player];
 
 			sseq = sdat.OpenSequence(seqIndex);
-			LoadBank(sdat, info.bankId);
-
-			MasterVolume = info.vol;
+			LoadBank(sdat, seqInfo.bankId);
 		}
 
 		private void LoadBank(SDat sdat, ushort bankId) {
