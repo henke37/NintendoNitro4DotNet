@@ -41,11 +41,11 @@ namespace NitroComposerSeqPlayer {
 		byte SustainOverride = 0xFF;
 		byte ReleaseOverride = 0xFF;
 
-		private int ModulationDelay;
-		private int ModulationDepth;
-		private int ModulationRange;
-		private int ModulationSpeed;
-		private int ModulationType;
+		internal int ModulationDelay;
+		internal int ModulationDepth;
+		internal int ModulationRange;
+		internal int ModulationSpeed;
+		internal ModulationTypeEnum ModulationType;
 
 		private Stack<uint> callStack = new Stack<uint>();
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
@@ -299,7 +299,7 @@ namespace NitroComposerSeqPlayer {
 					ModulationSpeed = val;
 					break;
 				case ModulationCommand.ModType.TYPE:
-					ModulationType = val;
+					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
 		}
@@ -319,7 +319,7 @@ namespace NitroComposerSeqPlayer {
 					ModulationSpeed = val;
 					break;
 				case ModulationCommand.ModType.TYPE:
-					ModulationType = val;
+					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
 		}
@@ -339,7 +339,7 @@ namespace NitroComposerSeqPlayer {
 					ModulationSpeed = val;
 					break;
 				case ModulationCommand.ModType.TYPE:
-					ModulationType = val;
+					ModulationType = (ModulationTypeEnum)val;
 					break;
 			}
 		}
@@ -594,6 +594,12 @@ namespace NitroComposerSeqPlayer {
 			Timer = 4,
 			Modulation = 8,
 			Length = 16
+		}
+
+		internal enum ModulationTypeEnum {
+			Pitch=0,
+			Volume=1,
+			Pan=2
 		}
 	}
 }
