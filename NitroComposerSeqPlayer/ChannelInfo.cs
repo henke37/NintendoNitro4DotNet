@@ -53,6 +53,14 @@ namespace NitroComposerSeqPlayer {
 			Prio = 1;
 		}
 
+		private void Kill() {
+			state = ChannelState.None;
+			Track = null;
+			Prio = 0;
+			Vol = 0;
+			Duration = 0;
+		}
+
 		internal void UpdateTrackData() {
 
 			var trackFlags = Track.updateFlags;
