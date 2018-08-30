@@ -17,9 +17,9 @@ namespace NitroComposerSeqPlayer {
 		private bool tieMode;
 		private ChannelInfo tieChannel;
 
-		private bool portamentoEnabled;
-		private byte portamentoKey;
-		private int portamentoTime;
+		internal bool portamentoEnabled;
+		internal byte portamentoKey;
+		internal int portamentoTime;
 
 		private uint waitTimer;
 

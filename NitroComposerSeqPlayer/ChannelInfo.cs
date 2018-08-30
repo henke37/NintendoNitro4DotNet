@@ -27,6 +27,7 @@ namespace NitroComposerSeqPlayer {
 		internal int ModulationStartCounter;
 		internal int ModulationCounter;
 
+		private bool ManualSweep;
 		private uint SweepLength;
 		private uint SweepCounter;
 		private ushort SweepPitch;
@@ -93,6 +94,27 @@ namespace NitroComposerSeqPlayer {
 			finalVol += Remap.Level(Track.Volume);
 			finalVol += Remap.Level(Track.Expression);
 
+		}
+
+		private void UpdatePorta() {
+			ManualSweep = false;
+			SweepPitch = Track.SweepPitch;
+			SweepCounter = 0;
+			if(!Track.portamentoEnabled) {
+				SweepLength = 0;
+				return;
+			}
+
+			ushort diff = (ushort)(Track.portamentoKey - Note << 22);
+			SweepPitch += diff;
+
+			if(Track.portamentoTime==0) {
+				SweepLength = Duration;
+				ManualSweep = true;
+			} else {
+				int squaredTime = Track.portamentoTime * Track.portamentoTime;
+				SweepLength = (uint)(Math.Abs(SweepPitch) * squaredTime);
+			}
 		}
 		
 		internal void Update() {
