@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Nitro.Graphics {
+	public class NCGR : GraphicsBank {
+		private ushort GridX;
+		private ushort GridY;
+
+		public NCGR(Stream stream) {
+			Load(stream);
+		}
+
+		private void Load(Stream stream) {
+			var sections = new SectionedFile(stream);
+			if(sections.MainId != "RGCN") throw new InvalidDataException();
+			ParseRAHC(sections.Open("RAHC"));
+		}
+
+		private void ParseRAHC(Stream stream) {
+			using(var r=new BinaryReader(stream)) {
+				TilesX = r.ReadUInt16();
+				TilesY = r.ReadUInt16();
+
+				Format = (TextureFormat)r.ReadUInt32();//format
+
+				GridX = r.ReadUInt16();
+				GridY = r.ReadUInt16();
+
+				var tileType = r.ReadUInt32();
+
+				var dataSize = r.ReadUInt32();
+				var dataOffset = r.ReadUInt32();
+
+				stream.Position = dataOffset;
+			}
+		}
+	}
+}
