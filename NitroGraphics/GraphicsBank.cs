@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Nitro.Graphics {
@@ -9,12 +10,45 @@ namespace Nitro.Graphics {
 
 		public TextureFormat Format;
 
-		public List<Tile> Tiles;
+		public Tile[] Tiles;
+		public byte[] Pixels;
 
-		public void ParseTiled(BinaryReader reader, int tileCount) {
-			Tiles = new List<Tile>(tileCount);
+		protected void ParseTiled(BinaryReader reader, int tileCount) {
+			Tiles = new Tile[tileCount];
 			for(int tileIndex=0;tileIndex<tileCount;++tileIndex) {
-				Tiles.Add(reader.ReadTile(Format));
+				Tiles[tileIndex]=reader.ReadTile(Format);
+			}
+		}
+
+		protected void ParseScanned(BinaryReader reader, int pixelCount) {
+			Pixels = new byte[pixelCount];
+			switch(Format) {
+				case TextureFormat.PLTT4: {
+					for(int i=0;i<pixelCount;) {
+						byte b = reader.ReadByte();
+						Pixels[i++] = (byte)(b & 3);
+						b >>= 2;
+						Pixels[i++] = (byte)(b & 3);
+						b >>= 2;
+						Pixels[i++] = (byte)(b & 3);
+						b >>= 2;
+						Pixels[i++] = (byte)(b & 3);
+					}
+				} break;
+				case TextureFormat.PLTT16: {
+					for(int i = 0; i < pixelCount;) {
+						byte b = reader.ReadByte();
+						Pixels[i++] = (byte)(b & 0xF);
+						Pixels[i++] = (byte)(b >> 4);
+					}
+				} break;
+				case TextureFormat.PLTT256: {
+					for(int i = 0; i < pixelCount;) {
+						Pixels[i++] = reader.ReadByte();
+					}
+				} break;
+				default:
+					throw new NotSupportedException();
 			}
 		}
 	}
