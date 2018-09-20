@@ -30,12 +30,22 @@ namespace Nitro.Graphics {
 				GridX = r.ReadUInt16();
 				GridY = r.ReadUInt16();
 
-				var tileType = r.ReadUInt32();
+				Mapping = (MappingMode)r.ReadUInt16();
+				var charMode=r.ReadUInt16();
 
-				var dataSize = r.ReadUInt32();
+				int dataSize = r.ReadInt32();
 				var dataOffset = r.ReadUInt32();
 
 				stream.Position = dataOffset;
+
+				switch(Mapping) {
+					case MappingMode.Char_2D:
+						ParseTiled(r, BytesToPixels(dataSize));
+						break;
+					default:
+						ParseScanned(r, BytesToPixels(dataSize));
+						break;
+				}
 			}
 		}
 	}

@@ -13,6 +13,14 @@ namespace Nitro.Graphics {
 		public const int Width = 8;
 		public const int Height = 8;
 
+		public Tile() {
+			TileData = new byte[Width * Height];
+		}
+
+		public Tile(byte[] tileData) {
+			TileData = tileData;
+		}
+
 		public Tile(BinaryReader reader, TextureFormat format) {
 			TileData = new byte[Width * Height];
 			switch(format) {

@@ -9,6 +9,7 @@ namespace Nitro.Graphics {
 		public ushort TilesY;
 
 		public TextureFormat Format;
+		protected MappingMode Mapping;
 
 		public Tile[] Tiles;
 		public byte[] Pixels;
@@ -49,6 +50,34 @@ namespace Nitro.Graphics {
 				} break;
 				default:
 					throw new NotSupportedException();
+			}
+		}
+
+		protected enum MappingMode {
+			Char_2D = 0,
+			Char_1D_32K = 1,
+			Char_1D_64K = 2,
+			Char_1D_128K = 3,
+			Char_1D_126K = 4
+		}
+
+		protected int BytesToPixels(int bytes) {
+			switch(Format) {
+				case TextureFormat.A3I5:
+				case TextureFormat.A5I3:
+				case TextureFormat.Direct:
+					return bytes / 2;
+				case TextureFormat.PLTT256:
+					return bytes;
+				case TextureFormat.PLTT16:
+					return bytes * 2;
+				case TextureFormat.PLTT4:
+					return bytes * 4;
+				case TextureFormat.COMP4x4:
+					throw new NotImplementedException();
+				case TextureFormat.None:
+				default:
+					throw new InvalidOperationException();
 			}
 		}
 	}
