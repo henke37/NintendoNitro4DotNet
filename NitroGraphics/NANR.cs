@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Nitro.Graphics.NANR.Animation;
 
 namespace Nitro.Graphics {
 	public class NANR {
@@ -33,12 +34,12 @@ namespace Nitro.Graphics {
 					var anim = new Animation();
 					var animationFrames = animationReader.ReadUInt16();
 					anim.LoopStart = animationReader.ReadUInt16();
-					var positionType = (Animation.FramePosition.PositionType)animationReader.ReadUInt32();
-					anim.PlaybackMode = (Animation.AnimationPlaybackMode)animationReader.ReadUInt32();
+					var positionType = (FramePosition.PositionType)animationReader.ReadUInt32();
+					anim.PlaybackMode = (AnimationPlaybackMode)animationReader.ReadUInt32();
 					var frameOffset = animationReader.ReadUInt32();
 
 					using(var frameReader = new BinaryReader(new SubStream(r.BaseStream, frameBaseOffset + frameOffset))) {
-						anim.Frames = readFrames(animationFrames, positionType, frameReader, positionReader);
+						anim.Frames = ReadFrames(animationFrames, positionType, frameReader, positionReader);
 					}
 				}
 			}
@@ -46,28 +47,28 @@ namespace Nitro.Graphics {
 
 		private class PositionReader {
 			BinaryReader reader;
-			Dictionary<int, Animation.FramePosition> positions = new Dictionary<int, Animation.FramePosition>();
+			Dictionary<int, FramePosition> positions = new Dictionary<int, FramePosition>();
 
 			public PositionReader(Stream stream) {
 				reader = new BinaryReader(stream);
 			}
 
-			public Animation.FramePosition ReadPosition(int positionOffset, Animation.FramePosition.PositionType positionType) {
-				Animation.FramePosition Position;
+			public FramePosition ReadPosition(int positionOffset, FramePosition.PositionType positionType) {
+				FramePosition Position;
 				if(positions.TryGetValue(positionOffset, out Position)) {
 					return Position;
 				}
 
 				reader.Seek(positionOffset);
-				var position = new Animation.FramePosition();
+				var position = new FramePosition();
 				position.CellIndex = reader.ReadUInt16();
 
 				switch(positionType) {
-					case Animation.FramePosition.PositionType.Index:
+					case FramePosition.PositionType.Index:
 						break;
-					case Animation.FramePosition.PositionType.IndexRotationScaleTranslation:
+					case FramePosition.PositionType.IndexRotationScaleTranslation:
 						throw new NotImplementedException();
-					case Animation.FramePosition.PositionType.IndexTranslation:
+					case FramePosition.PositionType.IndexTranslation:
 						reader.Skip(2);
 						var tx = reader.ReadInt16();
 						var ty = reader.ReadInt16();
@@ -78,11 +79,11 @@ namespace Nitro.Graphics {
 			}
 		}
 
-		private List<Animation.AnimationFrame> readFrames(ushort totalFrames, Animation.FramePosition.PositionType positionType, BinaryReader frameReader, PositionReader positionReader) {
+		private List<AnimationFrame> ReadFrames(ushort totalFrames, FramePosition.PositionType positionType, BinaryReader frameReader, PositionReader positionReader) {
 
-			List<Animation.AnimationFrame> Frames = new List<Animation.AnimationFrame>();
+			List<AnimationFrame> Frames = new List<AnimationFrame>();
 			for(int frameIndex = 0; frameIndex < totalFrames; ++frameIndex) {
-				var frame = new Animation.AnimationFrame();
+				var frame = new AnimationFrame();
 				int positionOffset = frameReader.ReadInt32();
 				frame.Position = positionReader.ReadPosition(positionOffset, positionType);
 
