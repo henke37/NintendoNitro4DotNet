@@ -44,6 +44,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GraphicsBank.cs" />
+    <Compile Include="NANR.cs" />
     <Compile Include="NCER.cs" />
     <Compile Include="NCGR.cs" />
     <Compile Include="NCLR.cs" />
