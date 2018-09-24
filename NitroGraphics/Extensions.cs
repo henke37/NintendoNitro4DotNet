@@ -12,5 +12,11 @@ namespace Nitro.Graphics {
 		public static Tile ReadTile(this BinaryReader reader, TextureFormat format) {
 			return new Tile(reader, format);
 		}
+
+		public static OAMEntry ReadOAMEntry(this BinaryReader reader, int tileIndexShift, uint tileIndexNudge) {
+			var o = new OAMEntry();
+			o.Load(reader, tileIndexShift, tileIndexNudge);
+			return o;
+		}
 	}
 }
