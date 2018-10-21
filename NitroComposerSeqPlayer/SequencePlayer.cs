@@ -17,6 +17,7 @@ namespace NitroComposerSeqPlayer {
 		internal SDat.PlayerInfoRecord player;
 		internal SDat.SequenceInfoRecord seqInfo;
 
+		private const int TRACKPLAYER_COUNT=16;
 		internal TrackPlayer mainTrack;
 		internal TrackPlayer[] tracks;
 
@@ -59,8 +60,8 @@ namespace NitroComposerSeqPlayer {
 			sseq = sdat.OpenSequence(seqIndex);
 			LoadBank(sdat, seqInfo.bankId);
 
-
-			mainTrack = new TrackPlayer(this);
+			tracks = new TrackPlayer[TRACKPLAYER_COUNT];
+			tracks[0]=mainTrack = new TrackPlayer(this);
 		}
 
 		private void LoadBank(SDat sdat, ushort bankId) {
@@ -73,19 +74,21 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
-		private void Update() {
+		public void Update() {
 			foreach(var chan in channels) {
 				chan.UpdateTrackData();
 			}
 			foreach(var track in tracks) {
+				if(track == null) continue;
 				track.updateFlags = 0;
 			}
 			foreach(var chan in channels) {
 				chan.Update();
 			}
 
-			for(; tempoCounter>TempoBase; tempoCounter -= TempoBase) {
+			for(; tempoCounter>=0; tempoCounter -= TempoBase) {
 				foreach(var track in tracks) {
+					if(track == null) continue;
 					while(track.ExecuteNextCommand()) ;
 				}
 			}

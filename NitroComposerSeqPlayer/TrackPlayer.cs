@@ -12,7 +12,7 @@ namespace NitroComposerSeqPlayer {
 		private uint nextInstructionId;
 		public bool endFlag;
 
-		private bool noteWait;
+		private bool noteWait = true;
 
 		private bool tieMode;
 		private ChannelInfo tieChannel;
@@ -142,7 +142,7 @@ namespace NitroComposerSeqPlayer {
 			if(command.Conditional && !conditionFlag) return true;
 			ExecuteCommand(command);
 
-			return waitTimer > 0;
+			return waitTimer == 0;
 		}
 
 		private void ExecuteCommand(BaseSequenceCommand cmd) {
@@ -170,11 +170,9 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void ExecuteCommand(AllocateTracksCommand cmd) {
-			sequencePlayer.tracks = new TrackPlayer[16];
-			sequencePlayer.tracks[0] = this;
 		}
 
-		private void ExecuteNextComand(OpenTrackCommand cmd) {
+		private void ExecuteCommand(OpenTrackCommand cmd) {
 			sequencePlayer.tracks[cmd.Track] = new TrackPlayer(sequencePlayer, cmd.target);
 		}
 

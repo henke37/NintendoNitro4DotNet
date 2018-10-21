@@ -62,6 +62,7 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		internal void UpdateTrackData() {
+			if(Track == null) return;
 
 			var trackFlags = Track.updateFlags;
 
@@ -130,7 +131,7 @@ namespace NitroComposerSeqPlayer {
 			bool bNotInSustain = state != ChannelState.Sustain;
 			bool bInStart = state == ChannelState.Start;
 			bool bPitchSweep = SweepPitch!=0 && SweepLength!=0 && SweepCounter <= SweepLength;
-			bool bModulation = Track.ModulationDepth != 0;
+			bool bModulation = Track!=null && Track.ModulationDepth != 0;
 			bool bVolNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Volume) || bNotInSustain;
 			bool bPanNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Pan) || bInStart;
 			bool bTmrNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Timer) || bInStart || bPitchSweep;

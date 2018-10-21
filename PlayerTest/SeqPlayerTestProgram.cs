@@ -65,6 +65,7 @@ namespace PlayerTest {
 		}
 
 		private static int Play(SequencePlayer player) {
+			player.Update();
 			return ERR_OK;
 		}
 
