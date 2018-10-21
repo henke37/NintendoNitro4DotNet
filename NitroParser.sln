@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Small Tests", "Small Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroComposerSeqPlayer", "NitroComposerSeqPlayer\NitroComposerSeqPlayer.csproj", "{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerTest", "PlayerTest\PlayerTest.csproj", "{8906B115-747C-4DE6-A8D7-92939F34755B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8906B115-747C-4DE6-A8D7-92939F34755B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8906B115-747C-4DE6-A8D7-92939F34755B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8906B115-747C-4DE6-A8D7-92939F34755B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8906B115-747C-4DE6-A8D7-92939F34755B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{8ED1ADE5-133D-4D33-B053-990FE13270C8} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
+		{8906B115-747C-4DE6-A8D7-92939F34755B} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8774CF6C-5C61-469D-A739-9FC042591AD9}

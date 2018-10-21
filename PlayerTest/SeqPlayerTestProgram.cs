@@ -1,0 +1,131 @@
+﻿using Nitro;
+using Nitro.Composer;
+using NitroComposerSeqPlayer;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+
+namespace PlayerTest {
+	class SeqPlayerTestProgram {
+
+		const int ERR_OK = 0;
+		const int ERR_NDS_FNF = 1;
+		const int ERR_NO_SDAT = 3;
+		const int ERR_SEQ_NOT_FOUND = 5;
+		const int ERR_IS_STREAM = 20;
+		const int ERR_ARGUMENTS = 90;
+		const int ERR_USAGE = 99;
+
+		static int Main(string[] args) {
+
+			if(args.Length == 0) return ListUsage();
+
+			NDS nds;
+
+			try {
+				nds = new NDS(File.OpenRead(args[0]));
+			} catch(FileNotFoundException) {
+				Console.Error.WriteLine("NDS file not found");
+				return ERR_NDS_FNF;
+			}
+
+			var sdats = nds.FileSystem.RootDir.FindMatchingFiles("*.sdat");
+
+			if(sdats.Count == 0) {
+				Console.Error.WriteLine("NDS file not found");
+				return ERR_NO_SDAT;
+			}
+
+
+			switch(args.Length) {
+				case 1:
+					return ListItems(nds, sdats);
+				case 2:
+					return Play(args[1], nds, sdats);
+				default:
+					Console.Error.WriteLine("Too many arguments");
+					return ERR_ARGUMENTS;
+			}
+
+		}
+
+		private static int Play(SSEQ sseq, SBNK bank, SWAR[] waveArchs) {
+			throw new NotImplementedException();
+		}
+
+		private static int Play(string name, NDS nds, List<FileSystem.File> sdats) {
+			foreach(var sdatFile in sdats) {
+				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
+
+				int res = Play(sdat, name);
+				if(res == ERR_SEQ_NOT_FOUND) continue;
+				return res;
+			}
+
+			Console.Error.WriteLine("Sequence not found");
+			return ERR_SEQ_NOT_FOUND;
+		}
+
+		private static int Play(SDat sdat, string name) {
+			if(Regex.IsMatch(name, @"^[0-9]+$")) {
+				return Play(sdat, int.Parse(name));
+			}
+			try {
+				var player = new SequencePlayer(sdat, name);
+				return ERR_OK;
+			} catch(FileNotFoundException) {
+				//just swallow this one
+			}
+
+			try {
+				var strm = sdat.OpenStream(name);
+				Console.WriteLine("Is stream.");
+				return ERR_IS_STREAM;
+			} catch(FileNotFoundException) {
+				//keep on ignoring missing files
+			}
+
+			return ERR_SEQ_NOT_FOUND;
+		}
+
+		private static int Play(SDat sdat, int index) {
+			var player = new SequencePlayer(sdat, index);
+			return ERR_OK;
+		}
+
+		private static int ListUsage() {
+			return ERR_USAGE;
+		}
+
+		private static int ListItems(NDS nds, List<FileSystem.File> sdats) {
+
+			foreach(var sdatFile in sdats) {
+				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
+
+				ListItems(sdat);
+			}
+			return ERR_OK;
+		}
+
+		private static void ListItems(SDat sdat) {
+			for(int seqIndex = 0; seqIndex < sdat.sequenceInfo.Count; ++seqIndex) {
+				if(sdat.sequenceInfo[seqIndex] == null) continue;
+				if(sdat.seqSymbols != null & sdat.seqSymbols[seqIndex] != null) {
+					Console.WriteLine(sdat.seqSymbols[seqIndex]);
+				} else {
+					Console.WriteLine($"SSEQ #{seqIndex}");
+				}
+			}
+
+			for(int strmIndex = 0; strmIndex < sdat.streamInfo.Count; ++strmIndex) {
+				if(sdat.streamInfo[strmIndex] == null) continue;
+				if(sdat.streamSymbols != null & sdat.streamSymbols[strmIndex] != null) {
+					Console.WriteLine(sdat.streamSymbols[strmIndex]);
+				} else {
+					Console.WriteLine($"STRM #{strmIndex}");
+				}
+			}
+		}
+	}
+}

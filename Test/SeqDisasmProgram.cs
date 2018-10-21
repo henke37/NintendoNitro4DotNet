@@ -14,7 +14,7 @@ namespace Nitro.Composer.SeqDisasm {
 		const int ERR_OK = 0;
 		const int ERR_NDS_FNF = 1;
 		const int ERR_NO_SDAT = 3;
-		const int ERR_SEQ_NOT_FOUNT = 5;
+		const int ERR_SEQ_NOT_FOUND = 5;
 		const int ERR_IS_STREAM = 20;
 		const int ERR_ARGUMENTS = 90;
 		const int ERR_USAGE = 99;
@@ -96,12 +96,12 @@ namespace Nitro.Composer.SeqDisasm {
 				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
 
 				int res=Disasm(sdat, name);
-				if(res == ERR_SEQ_NOT_FOUNT) continue;
+				if(res == ERR_SEQ_NOT_FOUND) continue;
 				return res;
 			}
 
 			Console.Error.WriteLine("Sequence not found");
-			return ERR_SEQ_NOT_FOUNT;
+			return ERR_SEQ_NOT_FOUND;
 		}
 
 		private static int Disasm(SDat sdat, string name) {
@@ -125,7 +125,7 @@ namespace Nitro.Composer.SeqDisasm {
 				//keep on ignoring missing files
 			}
 
-			return ERR_SEQ_NOT_FOUNT;
+			return ERR_SEQ_NOT_FOUND;
 		}
 
 		private static int Disasm(SDat sdat, int index) {
@@ -135,7 +135,7 @@ namespace Nitro.Composer.SeqDisasm {
 				Console.Write(ser.Serialize(sseq.sequence));
 				return ERR_OK;
 			} catch(FileNotFoundException) {
-				return ERR_SEQ_NOT_FOUNT;
+				return ERR_SEQ_NOT_FOUND;
 			}
 		}
 	}
