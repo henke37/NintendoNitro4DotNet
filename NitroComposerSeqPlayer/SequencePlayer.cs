@@ -45,7 +45,6 @@ namespace NitroComposerSeqPlayer {
 		}
 		public SequencePlayer(SDat sdat, int seqIndex) {
 			Load(sdat, seqIndex);
-			mainTrack = new TrackPlayer(this);
 		}
 
 		private void Load(SDat sdat, int seqIndex) {
@@ -59,6 +58,9 @@ namespace NitroComposerSeqPlayer {
 
 			sseq = sdat.OpenSequence(seqIndex);
 			LoadBank(sdat, seqInfo.bankId);
+
+
+			mainTrack = new TrackPlayer(this);
 		}
 
 		private void LoadBank(SDat sdat, ushort bankId) {

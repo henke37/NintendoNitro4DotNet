@@ -64,13 +64,17 @@ namespace PlayerTest {
 			return ERR_SEQ_NOT_FOUND;
 		}
 
+		private static int Play(SequencePlayer player) {
+			return ERR_OK;
+		}
+
 		private static int Play(SDat sdat, string name) {
 			if(Regex.IsMatch(name, @"^[0-9]+$")) {
 				return Play(sdat, int.Parse(name));
 			}
 			try {
 				var player = new SequencePlayer(sdat, name);
-				return ERR_OK;
+				return Play(player);
 			} catch(FileNotFoundException) {
 				//just swallow this one
 			}
@@ -86,9 +90,10 @@ namespace PlayerTest {
 			return ERR_SEQ_NOT_FOUND;
 		}
 
+
 		private static int Play(SDat sdat, int index) {
 			var player = new SequencePlayer(sdat, index);
-			return ERR_OK;
+			return Play(player);
 		}
 
 		private static int ListUsage() {
