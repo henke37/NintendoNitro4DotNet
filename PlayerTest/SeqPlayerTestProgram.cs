@@ -4,6 +4,7 @@ using NitroComposerSeqPlayer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace PlayerTest {
@@ -50,10 +51,6 @@ namespace PlayerTest {
 
 		}
 
-		private static int Play(SSEQ sseq, SBNK bank, SWAR[] waveArchs) {
-			throw new NotImplementedException();
-		}
-
 		private static int Play(string name, NDS nds, List<FileSystem.File> sdats) {
 			foreach(var sdatFile in sdats) {
 				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
@@ -95,6 +92,11 @@ namespace PlayerTest {
 		}
 
 		private static int ListUsage() {
+			string cmdName = Assembly.GetCallingAssembly().GetName().Name;
+			Console.WriteLine("Sequence test player");
+			Console.WriteLine();
+			Console.WriteLine("Usage:");
+			Console.WriteLine(cmdName+" file.nds sequenceName");
 			return ERR_USAGE;
 		}
 
