@@ -120,8 +120,8 @@ namespace NitroComposerSeqPlayer {
 				var candidateChannel = channels[candidateChannelID];
 
 				if(bestChannel!=null) {
-					if(bestChannel.Prio > candidateChannel.Prio) continue;
-					if(bestChannel.Vol > candidateChannel.Vol) continue;
+					if(bestChannel.Prio >= candidateChannel.Prio) continue;
+					if(bestChannel.Vol >= candidateChannel.Vol) continue;
 				}
 
 				bestChannel = candidateChannel;
