@@ -21,8 +21,8 @@ namespace NitroComposerSeqPlayer {
 		internal TrackPlayer mainTrack;
 		internal TrackPlayer[] tracks;
 
-		private ushort tempoCounter = 0;
-		private const ushort TempoBase = 240;
+		private short tempoCounter = 0;
+		private const short TempoBase = 240;
 		internal ushort Tempo = 120;
 		public ushort TempoRate = 0x100;
 
@@ -92,7 +92,7 @@ namespace NitroComposerSeqPlayer {
 					while(track.ExecuteNextCommand()) ;
 				}
 			}
-			tempoCounter += (ushort)(Tempo * TempoRate >> 8);
+			tempoCounter += (short)(Tempo * TempoRate >> 8);
 		}
 
 		private readonly int[] PCMChannelSearchList = new int[] { 4, 5, 6, 7, 2, 0, 3, 1, 8, 9, 10, 11, 14, 12, 15, 13 };
