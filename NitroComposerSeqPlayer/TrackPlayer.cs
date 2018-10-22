@@ -53,6 +53,7 @@ namespace NitroComposerSeqPlayer {
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
 		
 		internal TrackUpdateFlags updateFlags;
+		private int pan;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -83,7 +84,7 @@ namespace NitroComposerSeqPlayer {
 
 			channel.Prio = this.Prio;
 
-			tieChannel.Note = (byte)(note + Transpose);
+			channel.Note = (byte)(note + Transpose);
 			channel.Duration = duration;
 
 			channel.AttackLevel = Remap.Attack(AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
@@ -122,8 +123,9 @@ namespace NitroComposerSeqPlayer {
 			sequencePlayer.Variables[variable] = v;
 		}
 
-		private void Pan(byte pan) {
-			throw new NotImplementedException();
+		private void DoPan(byte pan) {
+			this.pan = pan - 64;
+			updateFlags |= TrackUpdateFlags.Pan;
 		}
 
 		private void ReleaseAllNotes() {
@@ -230,16 +232,13 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void ExecuteCommand(PanCommand cmd) {
-			Pan(cmd.Pan);
-			updateFlags |= TrackUpdateFlags.Pan;
+			DoPan(cmd.Pan);
 		}
 		private void ExecuteCommand(PanVarCommand cmd) {
-			Pan((byte)Var(cmd.PanVar));
-			updateFlags |= TrackUpdateFlags.Pan;
+			DoPan((byte)Var(cmd.PanVar));
 		}
 		private void ExecuteCommand(PanRandCommand cmd) {
-			Pan((byte)Rand(cmd.PanMin, cmd.PanMax));
-			updateFlags |= TrackUpdateFlags.Pan;
+			DoPan((byte)Rand(cmd.PanMin, cmd.PanMax));
 		}
 
 		private void ExecuteCommand(PitchBendCommand cmd) {
