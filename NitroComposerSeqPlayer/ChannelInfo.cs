@@ -1,4 +1,5 @@
 ﻿using System;
+using Nitro.Composer.Instruments;
 
 namespace NitroComposerSeqPlayer {
 	internal class ChannelInfo {
@@ -33,7 +34,7 @@ namespace NitroComposerSeqPlayer {
 		private ushort SweepPitch;
 
 		private ChannelUpdateFlags updateFlags;
-
+		internal BaseLeafInstrument Instrument;
 
 		internal ChannelInfo(MixerChannel mixerChannel) {
 			this.mixerChannel = mixerChannel;
@@ -78,7 +79,6 @@ namespace NitroComposerSeqPlayer {
 			}
 
 			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Volume)) {
-				UpdateVolume();
 				updateFlags |= ChannelUpdateFlags.Volume;
 			}
 
@@ -95,14 +95,6 @@ namespace NitroComposerSeqPlayer {
 			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Modulation)) {
 				//UpdateModulation();
 			}
-		}
-
-		private void UpdateVolume() {
-			int finalVol = Track.sequencePlayer.MasterVolume;
-			finalVol += Track.sequencePlayer.seqInfo.vol;
-			finalVol += Remap.Level(Track.Volume);
-			finalVol += Remap.Level(Track.Expression);
-
 		}
 
 		private void UpdatePorta() {
@@ -135,6 +127,8 @@ namespace NitroComposerSeqPlayer {
 			bool bVolNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Volume) || bNotInSustain;
 			bool bPanNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Pan) || bInStart;
 			bool bTmrNeedUpdate = updateFlags.HasFlag(ChannelUpdateFlags.Timer) || bInStart || bPitchSweep;
+
+			int modParam=0;
 
 			switch(state) {
 				case ChannelState.None:
@@ -169,6 +163,56 @@ namespace NitroComposerSeqPlayer {
 					case TrackPlayer.ModulationTypeEnum.Pan:
 						bPanNeedUpdate = true;
 						break;
+				}
+
+				modParam = Remap.Sine(ModulationCounter >> 8) * Track.ModulationRange * Track.ModulationDepth;
+				if(Track.ModulationType==TrackPlayer.ModulationTypeEnum.Pitch) {
+					modParam = modParam * 60 >> 14;
+				} else {
+					//modParam = (modParam & ~0xFC000000) >> 8) | ((((modParam < 0 ? -1 : 0) << 6) | (modParam >> 26)) << 18;
+				}
+
+				//TODO clean up the reverse engineered math and implement this
+			}
+
+			if(bTmrNeedUpdate) {
+				int totaAdj = this.Note - Instrument.BaseNote * 64;
+				totaAdj += Track.PitchBend * Track.PitchBendRange >> 1;
+
+				if(bModulation && Track.ModulationType== TrackPlayer.ModulationTypeEnum.Pitch) {
+					totaAdj += modParam;
+				}
+
+				if(bPitchSweep) {
+					totaAdj += (int)(SweepPitch * (double)(SweepLength - SweepCounter) / SweepLength);
+					if(!ManualSweep) {
+						SweepCounter++;
+					}
+				}
+
+
+			}
+
+			if(bVolNeedUpdate ||bPanNeedUpdate) {
+				if(bVolNeedUpdate) {
+					int totalVol = this.EnvelopeLevel >> 7;
+					totalVol += Track.sequencePlayer.MasterVolume;
+					totalVol += Track.sequencePlayer.seqInfo.vol;
+					totalVol += Remap.Level(Track.Volume);
+					totalVol += Remap.Level(Track.Expression);
+					totalVol += (int)Velocity;
+					if(bModulation && Track.ModulationType==TrackPlayer.ModulationTypeEnum.Volume) {
+						totalVol += modParam;
+					}
+				}
+
+				if(bPanNeedUpdate) {
+					int realPan = Instrument.Pan - 64;
+					realPan += Track.Pan;
+					if(bModulation && Track.ModulationType==TrackPlayer.ModulationTypeEnum.Pan) {
+						realPan += modParam;
+					}
+					realPan += 64;
 				}
 			}
 		}

@@ -25,16 +25,16 @@ namespace NitroComposerSeqPlayer {
 
 		private bool conditionFlag = false;
 
-		private Instrument instrument;
+		internal Instrument instrument;
 
 		private int Prio;
 
 		internal byte Volume = 0x7F;
 		internal byte Expression = 0x7F;
 
-		private byte PitchBendRange;
-		private byte PitchBend;
-		private byte Transpose;
+		internal byte PitchBendRange;
+		internal byte PitchBend;
+		internal byte Transpose;
 
 		byte AttackOverride = 0xFF;
 		byte DecayOverride = 0xFF;
@@ -53,7 +53,8 @@ namespace NitroComposerSeqPlayer {
 		private Stack<LoopEntry> loopStack = new Stack<LoopEntry>();
 		
 		internal TrackUpdateFlags updateFlags;
-		private int pan;
+
+		internal int Pan;
 
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
@@ -81,6 +82,7 @@ namespace NitroComposerSeqPlayer {
 			if(channel == null) return null;
 
 			channel.Track = this;
+			channel.Instrument = leafInstrument;
 
 			channel.Prio = this.Prio;
 
@@ -124,7 +126,7 @@ namespace NitroComposerSeqPlayer {
 		}
 
 		private void DoPan(byte pan) {
-			this.pan = pan - 64;
+			this.Pan = pan - 64;
 			updateFlags |= TrackUpdateFlags.Pan;
 		}
 
@@ -146,6 +148,8 @@ namespace NitroComposerSeqPlayer {
 
 			return waitTimer == 0;
 		}
+
+		#region Command handlers
 
 		private void ExecuteCommand(BaseSequenceCommand cmd) {
 			throw new NotImplementedException();
@@ -601,6 +605,7 @@ namespace NitroComposerSeqPlayer {
 			}
 		}
 
+		#endregion
 
 		private class LoopEntry {
 			public int loopCounter;
