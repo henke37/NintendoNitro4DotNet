@@ -3,7 +3,7 @@
 namespace NitroComposerSeqPlayer {
 	internal class MixerChannel {
 
-		MixerChannelMode Mode = MixerChannelMode.Off;
+		internal MixerChannelMode Mode = MixerChannelMode.Off;
 
 		private ushort noiseState;
 

@@ -34,7 +34,15 @@ namespace NitroComposerSeqPlayer {
 		private ushort SweepPitch;
 
 		private ChannelUpdateFlags updateFlags;
-		internal BaseLeafInstrument Instrument;
+		private BaseLeafInstrument instrument;
+
+		internal BaseLeafInstrument Instrument {
+			get => instrument; set {
+				instrument = value;
+				SetupMixerChannelForNote();
+			}
+		}
+
 
 		internal ChannelInfo(MixerChannel mixerChannel) {
 			this.mixerChannel = mixerChannel;
@@ -215,6 +223,30 @@ namespace NitroComposerSeqPlayer {
 					realPan += 64;
 				}
 			}
+		}
+
+
+		private void SetupMixerChannelForNote() {
+			var pcmInstrument = instrument as PCMInstrument;
+			if(pcmInstrument!=null) {
+				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;
+				var swar = Track.sequencePlayer.swars[pcmInstrument.swar];
+				var swav = swar.waves[pcmInstrument.swav];
+				return;
+			}
+			var pulseInstrument = instrument as PulseInstrument;
+			if(pulseInstrument!=null) {
+				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pulse;
+				mixerChannel.pulseWidth = pulseInstrument.Duty;
+				return;
+			}
+			var noiseInstrument = instrument as NoiseInstrument;
+			if(noiseInstrument!=null) {
+				mixerChannel.Mode = MixerChannel.MixerChannelMode.Noise;
+				return;
+			}
+			if(instrument == null) return;
+			throw new InvalidOperationException();
 		}
 
 		[Flags]
