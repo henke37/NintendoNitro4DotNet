@@ -7,8 +7,8 @@
     <ProjectGuid>{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NitroComposerSeqPlayer</RootNamespace>
-    <AssemblyName>NitroComposerSeqPlayer</AssemblyName>
+    <RootNamespace>NitroComposerPlayer</RootNamespace>
+    <AssemblyName>NitroComposerPlayer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Remap.cs" />
     <Compile Include="SequencePlayer.cs" />
+    <Compile Include="StreamPlayer.cs" />
     <Compile Include="TrackPlayer.cs" />
   </ItemGroup>
   <ItemGroup>

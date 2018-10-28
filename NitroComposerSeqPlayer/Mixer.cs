@@ -1,4 +1,4 @@
-﻿namespace NitroComposerSeqPlayer {
+﻿namespace NitroComposerPlayer {
 	internal class Mixer {
 
 		internal MixerChannel[] channels;

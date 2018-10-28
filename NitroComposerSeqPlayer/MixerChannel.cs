@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NitroComposerSeqPlayer {
+namespace NitroComposerPlayer {
 	internal class MixerChannel {
 
 		internal MixerChannelMode Mode = MixerChannelMode.Off;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Nitro.Composer.Instruments;
 
-namespace NitroComposerSeqPlayer {
+namespace NitroComposerPlayer {
 	internal class ChannelInfo {
 
 		internal TrackPlayer Track;
@@ -181,6 +181,18 @@ namespace NitroComposerSeqPlayer {
 				}
 
 				//TODO clean up the reverse engineered math and implement this
+				/*
+
+				uint16_t speed = static_cast<uint16_t>(this->modSpeed) << 6;
+				uint16_t counter = (this->modCounter + speed) >> 8;
+
+				while (counter >= 0x80)
+					counter -= 0x80;
+
+				this->modCounter += speed;
+				this->modCounter &= 0xFF;
+				this->modCounter |= counter << 8;
+				*/
 			}
 
 			if(bTmrNeedUpdate) {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NitroComposerSeqPlayer {
+namespace NitroComposerPlayer {
 	public class SequencePlayer {
 		private const int ChannelCount = 16;
 

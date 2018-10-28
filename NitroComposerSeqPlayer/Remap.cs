@@ -1,4 +1,4 @@
-﻿namespace NitroComposerSeqPlayer {
+﻿namespace NitroComposerPlayer {
 	internal class Remap {
 
 		public static int Attack(int attk) {

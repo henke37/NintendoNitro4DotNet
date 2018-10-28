@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NitroComposerSeqPlayer\NitroComposerSeqPlayer.csproj">
+    <ProjectReference Include="..\NitroComposerSeqPlayer\NitroComposerPlayer.csproj">
       <Project>{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}</Project>
-      <Name>NitroComposerSeqPlayer</Name>
+      <Name>NitroComposerPlayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\NitroComposer\NitroComposer.csproj">
       <Project>{DA199528-344E-4EAB-9479-2BF823DFC7A2}</Project>

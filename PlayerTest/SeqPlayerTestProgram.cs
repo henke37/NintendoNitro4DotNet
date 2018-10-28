@@ -1,6 +1,6 @@
 ﻿using Nitro;
 using Nitro.Composer;
-using NitroComposerSeqPlayer;
+using NitroComposerPlayer;
 using System;
 using System.Collections.Generic;
 using System.IO;

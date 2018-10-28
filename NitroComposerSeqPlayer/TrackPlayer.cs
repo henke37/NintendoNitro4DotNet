@@ -5,7 +5,7 @@ using Nitro.Composer.SequenceCommands.Var;
 using System;
 using System.Collections.Generic;
 
-namespace NitroComposerSeqPlayer {
+namespace NitroComposerPlayer {
 	internal class TrackPlayer {
 		internal SequencePlayer sequencePlayer;
 

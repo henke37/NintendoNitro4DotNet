@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arm7Hasher", "Arm7Hasher\Ar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Small Tests", "Small Tests", "{7CBC6B38-5699-489D-B84B-BC3BD222F390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroComposerSeqPlayer", "NitroComposerSeqPlayer\NitroComposerSeqPlayer.csproj", "{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroComposerPlayer", "NitroComposerSeqPlayer\NitroComposerPlayer.csproj", "{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerTest", "PlayerTest\PlayerTest.csproj", "{8906B115-747C-4DE6-A8D7-92939F34755B}"
 EndProject
