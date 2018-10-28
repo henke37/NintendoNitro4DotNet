@@ -8,7 +8,7 @@ using HenkesUtils;
 
 namespace Nitro.Composer {
     public class STRM {
-        public byte encoding;
+        public WaveEncoding encoding;
         public bool loop;
         public byte channels;
         public ushort sampleRate;
@@ -29,7 +29,7 @@ namespace Nitro.Composer {
 
         private void readHEAD(Stream stream) {
             using(var r=new BinaryReader(stream)) {
-                encoding = r.ReadByte();
+                encoding = (WaveEncoding)r.ReadByte();
                 loop = r.ReadBoolean();
                 channels = r.ReadByte();
                 r.Skip(1);

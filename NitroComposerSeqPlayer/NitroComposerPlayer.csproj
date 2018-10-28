@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decoders\ADPCMDecoder.cs" />
+    <Compile Include="Decoders\BaseSampleDecoder.cs" />
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="Mixer.cs" />
     <Compile Include="MixerChannel.cs" />

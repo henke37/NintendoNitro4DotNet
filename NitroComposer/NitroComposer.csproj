@@ -116,6 +116,7 @@
     <Compile Include="STRM.cs" />
     <Compile Include="SWAR.cs" />
     <Compile Include="Wave.cs" />
+    <Compile Include="WaveEncoding.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">

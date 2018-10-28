@@ -3,7 +3,7 @@ using System;
 using System.IO;
 
 namespace Nitro.Composer {
-    public class Wave {
+	public class Wave {
 
         public WaveEncoding Encoding;
 
@@ -27,13 +27,6 @@ namespace Nitro.Composer {
                 NonLoopLength = r.ReadUInt32();
             }
             dataStream = new SubStream(stream, stream.Position);
-        }
-
-        public enum WaveEncoding : byte {
-            PCM8,
-            PCM16,
-            ADPCM,
-            GEN
         }
     }
 }
