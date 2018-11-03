@@ -1,4 +1,6 @@
-﻿namespace NitroComposerPlayer.Decoders {
+﻿using System.IO;
+
+namespace NitroComposerPlayer.Decoders {
 	internal class ADPCMDecoder : BaseSampleDecoder {
 
 		private int predictor;
@@ -8,9 +10,14 @@
 
 		}
 
-		public void init(int p = 0, int si = 0) {
+		public void Init(int p = 0, int si = 0) {
 			predictor = p;
 			stepIndex = si;
+		}
+
+		public override void Init(BinaryReader reader) {
+			predictor = reader.ReadUInt16();
+			stepIndex = reader.ReadUInt16();
 		}
 
 		private void parseNibble(int nibble) {
@@ -25,11 +32,11 @@
 			}
 
 			int diff = step >> 3;
-			if((nibble & 1)!=0) diff += step >> 2;
-			if((nibble & 2)!= 0) diff += step >> 1;
-			if((nibble & 4)!= 0) diff += step;
+			if((nibble & 1) != 0) diff += step >> 2;
+			if((nibble & 2) != 0) diff += step >> 1;
+			if((nibble & 4) != 0) diff += step;
 
-			if((nibble & 8)!= 0) {
+			if((nibble & 8) != 0) {
 				predictor -= diff;
 				if(predictor < -32767) {
 					predictor = -32767;
@@ -42,8 +49,7 @@
 			}
 		}
 
-
-		private static readonly int[] stepTable = new int[] { 
+		private static readonly int[] stepTable = new int[] {
 			7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
 			19, 21, 23, 25, 28, 31, 34, 37, 41, 45,
 			50, 55, 60, 66, 73, 80, 88, 97, 107, 118,
