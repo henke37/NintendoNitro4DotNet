@@ -12,26 +12,43 @@ namespace Nitro.Graphics.WinForms {
 			return bm;
 		}
 
-		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left=0, int top=0) {
+		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0) {
+			switch(bm.PixelFormat) {
+				case PixelFormat.Format8bppIndexed:
+					DrawTile8Bpp(tile, bm, left, top);
+					return;
+				case PixelFormat.Format4bppIndexed:
+					throw new NotImplementedException();
+				default:
+					throw new NotSupportedException();
+			}
+		}
+
+		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0) { 
 			Rectangle rect = new Rectangle {
 				X=left, Y=top,
 				Width = Tile.Width,
 				Height = Tile.Height
 			};
 
-			var bmd=bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Indexed);
+			var bmd=bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 			int byteCount = Math.Abs(bmd.Stride) * bm.Height;
 			byte[] pixelValues = new byte[byteCount];
 
+			System.Runtime.InteropServices.Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
+
 			for(int y=0;y<Tile.Height;++y) {
 				for(int x=0;x<Tile.Width;++x) {
-					pixelValues[x+y*bmd.Stride] = tile.TileData[x + y * Tile.Width];
+					byte pixel = tile.TileData[x + y * Tile.Width];
+					pixelValues[x+left+(y+top)*bmd.Stride] = pixel;
 				}
 			}
-			System.Runtime.InteropServices.Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
+			System.Runtime.InteropServices.Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
 
 			bm.UnlockBits(bmd);
 		}
+
+		
 
 		public static Color ToColor(this BGR555 clr) {
 			return Color.FromArgb(clr.NormalizedR, clr.NormalizedG, clr.NormalizedB);
