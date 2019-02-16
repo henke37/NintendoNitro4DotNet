@@ -37,7 +37,7 @@ namespace Nitro.Graphics.WinForms {
 			int byteCount = Math.Abs(bmd.Stride) * bm.Height;
 			byte[] pixelValues = new byte[byteCount];
 
-			Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
+			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
 
 			for(int y=0;y<Tile.Height;++y) {
 				for(int x=0;x<Tile.Width;++x) {
@@ -62,7 +62,7 @@ namespace Nitro.Graphics.WinForms {
 			int byteCount = Math.Abs(bmd.Stride) * bm.Height;
 			byte[] pixelValues = new byte[byteCount];
 
-			Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
+			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
 
 			for(int y = 0; y < Tile.Height; ++y) {
 				for(int x = 0; x < Tile.Width; x+=2) {
@@ -87,6 +87,29 @@ namespace Nitro.Graphics.WinForms {
 		public static void Apply(this Palette pal, ColorPalette cpal) {
 			for(int index = 0; index < cpal.Entries.Length; ++index) {
 				cpal.Entries[index] = pal.Colors[index].ToColor();
+			}
+		}
+
+		public static Bitmap ToBitmap(this Icon ico) {
+			var bm = new Bitmap(Tile.Width * 4, Tile.Height * 4, PixelFormat.Format4bppIndexed);
+
+			ico.Palette.Apply(bm);
+
+			for(int tileY=0;tileY<4;++tileY) {
+				for(int tileX=0;tileX<4;++tileX) {
+					var tile = ico.Tiles[tileX + tileY * 4];
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
+				}
+			}
+
+			return bm;
+		}
+
+		public static PixelFormat AsPixelFormat(this TextureFormat fmt) {
+			switch(fmt) {
+				case TextureFormat.PLTT16: return PixelFormat.Format4bppIndexed;
+				case TextureFormat.PLTT256: return PixelFormat.Format8bppIndexed;
+				default: throw new NotSupportedException();
 			}
 		}
 	}

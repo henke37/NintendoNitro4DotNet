@@ -19,7 +19,7 @@ namespace Nitro.Graphics {
 			return o;
 		}
 
-		public static void Icon(this Banner banner) {
+		public static Icon Icon(this Banner banner) {
 			Tile[] tiles = new Tile[4];
 			using(var r = new BinaryReader(new MemoryStream(banner.IconPixels))) {
 				for(int tileIndex = 0; tileIndex < 4; ++tileIndex) {
@@ -33,6 +33,7 @@ namespace Nitro.Graphics {
 					palette[colorIndex] = r.ReadBGR555();
 				}
 			}
+			return new Icon(tiles, new Palette(palette));
 		}
 	}
 }
