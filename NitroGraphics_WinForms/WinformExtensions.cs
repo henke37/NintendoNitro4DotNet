@@ -42,7 +42,7 @@ namespace Nitro.Graphics.WinForms {
 			for(int y=0;y<Tile.Height;++y) {
 				for(int x=0;x<Tile.Width;++x) {
 					byte pixel = tile.TileData[x + y * Tile.Width];
-					pixelValues[x+left+(y+top)*bmd.Stride] = pixel;
+					pixelValues[x+y*bmd.Stride] = pixel;
 				}
 			}
 			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
@@ -68,7 +68,8 @@ namespace Nitro.Graphics.WinForms {
 				for(int x = 0; x < Tile.Width; x+=2) {
 					byte pixel1 = tile.TileData[x + y * Tile.Width];
 					byte pixel2 = tile.TileData[x+1 + y * Tile.Width];
-					pixelValues[(x + left)/2 + (y + top) * bmd.Stride] = (byte)(pixel1 | (pixel2<<8));
+					int index = x / 2 + y * bmd.Stride;
+					pixelValues[index] = (byte)(pixel1 | (pixel2<<8));
 				}
 			}
 			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);

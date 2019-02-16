@@ -6,8 +6,8 @@ namespace Nitro.Graphics {
 		public Palette Palette;
 		public Tile[] Tiles;
 
-		public const int TilesX = 2;
-		public const int TilesY = 2;
+		public const int TilesX = 4;
+		public const int TilesY = 4;
 
 		public Icon(Tile[] tiles, Palette palette) {
 			Tiles = tiles;

@@ -22,7 +22,9 @@ namespace IconTest {
 
 			nds = new NDS(File.OpenRead(romName));
 
-			iconDisplay.Image = nds.Banner.Icon().ToBitmap();
+			Bitmap bm= nds.Banner.Icon().ToBitmap();
+
+			iconDisplay.Image = bm;
 		}
 	}
 }

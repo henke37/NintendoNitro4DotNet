@@ -20,9 +20,10 @@ namespace Nitro.Graphics {
 		}
 
 		public static Icon Icon(this Banner banner) {
-			Tile[] tiles = new Tile[4];
+			const int tileCount = Graphics.Icon.TilesX * Graphics.Icon.TilesY;
+			Tile[] tiles = new Tile[tileCount];
 			using(var r = new BinaryReader(new MemoryStream(banner.IconPixels))) {
-				for(int tileIndex = 0; tileIndex < 4; ++tileIndex) {
+				for(int tileIndex = 0; tileIndex < tileCount; ++tileIndex) {
 					tiles[tileIndex] = new Tile(r, TextureFormat.PLTT16);
 				}
 			}
