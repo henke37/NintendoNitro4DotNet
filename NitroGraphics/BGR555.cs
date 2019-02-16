@@ -3,6 +3,10 @@
 		public const uint DataSize=2;
 		public byte R, G, B;
 
+		public int NormalizedR { get => ScaleUp(R); }
+		public int NormalizedG { get => ScaleUp(G); }
+		public int NormalizedB { get => ScaleUp(B); }
+
 		public static explicit operator BGR555(ushort v) {
 			var c = new BGR555();
 			c.R = ScaleUp(v & 0x1F);
