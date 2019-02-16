@@ -23,8 +23,8 @@ namespace Nitro {
 				List<UInt16> checksums = r.ReadUInt16Array(4);
 				r.Skip(0x16);
 
-
-				r.Skip(0x200 + 0x20);//Icon
+				IconPixels=r.ReadBytes(0x200);
+				IconPalette = r.ReadBytes(0x20);
 
 				int titleCount = version >= 3 ? 8 : (version >= 2 ? 7 : 6);
 

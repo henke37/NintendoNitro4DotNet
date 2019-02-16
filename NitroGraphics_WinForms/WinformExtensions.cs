@@ -68,7 +68,7 @@ namespace Nitro.Graphics.WinForms {
 				for(int x = 0; x < Tile.Width; x+=2) {
 					byte pixel1 = tile.TileData[x + y * Tile.Width];
 					byte pixel2 = tile.TileData[x+1 + y * Tile.Width];
-					pixelValues[x + left + (y + top) * bmd.Stride] = (byte)(pixel1 | (pixel2<<8));
+					pixelValues[(x + left)/2 + (y + top) * bmd.Stride] = (byte)(pixel1 | (pixel2<<8));
 				}
 			}
 			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
@@ -91,13 +91,13 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		public static Bitmap ToBitmap(this Icon ico) {
-			var bm = new Bitmap(Tile.Width * 4, Tile.Height * 4, PixelFormat.Format4bppIndexed);
+			var bm = new Bitmap(Tile.Width * Icon.TilesX, Tile.Height * Icon.TilesY, PixelFormat.Format4bppIndexed);
 
 			ico.Palette.Apply(bm);
 
-			for(int tileY=0;tileY<4;++tileY) {
-				for(int tileX=0;tileX<4;++tileX) {
-					var tile = ico.Tiles[tileX + tileY * 4];
+			for(int tileY=0;tileY<Icon.TilesY;++tileY) {
+				for(int tileX=0;tileX<Icon.TilesX;++tileX) {
+					var tile = ico.Tiles[tileX + tileY * Icon.TilesX];
 					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
 				}
 			}
