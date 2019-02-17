@@ -83,7 +83,9 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		public static void Apply(this Palette pal, Bitmap bm) {
-			pal.Apply(bm.Palette);
+			var cpal = bm.Palette;
+			pal.Apply(cpal);
+			bm.Palette = cpal;
 		}
 		public static void Apply(this Palette pal, ColorPalette cpal) {
 			for(int index = 0; index < cpal.Entries.Length; ++index) {
