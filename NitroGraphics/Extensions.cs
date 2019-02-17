@@ -22,14 +22,14 @@ namespace Nitro.Graphics {
 		public static Icon Icon(this Banner banner) {
 			const int tileCount = Graphics.Icon.TilesX * Graphics.Icon.TilesY;
 			Tile[] tiles = new Tile[tileCount];
-			using(var r = new BinaryReader(new MemoryStream(banner.IconPixels))) {
+			using(var r = new BinaryReader(banner.IconPixels)) {
 				for(int tileIndex = 0; tileIndex < tileCount; ++tileIndex) {
 					tiles[tileIndex] = new Tile(r, TextureFormat.PLTT16);
 				}
 			}
 
 			BGR555[] palette=new BGR555[16];
-			using(var r=new BinaryReader(new MemoryStream(banner.IconPalette))) {
+			using(var r=new BinaryReader(banner.IconPalette)) {
 				for(int colorIndex=0;colorIndex<16;++colorIndex) {
 					palette[colorIndex] = r.ReadBGR555();
 				}

@@ -10,8 +10,8 @@ namespace Nitro {
 		public string[] Titles;
 		private const int titleLength = 0x80;
 
-		internal byte[] IconPixels;
-		internal byte[] IconPalette;
+		internal SubStream IconPixels;
+		internal SubStream IconPalette;
 
 		public Banner(Stream stream) {
 			Load(stream);
@@ -23,8 +23,8 @@ namespace Nitro {
 				List<UInt16> checksums = r.ReadUInt16Array(4);
 				r.Skip(0x16);
 
-				IconPixels=r.ReadBytes(0x200);
-				IconPalette = r.ReadBytes(0x20);
+				IconPixels=r.ReadSubStream(0x200);
+				IconPalette = r.ReadSubStream(0x20);
 
 				int titleCount = version >= 3 ? 8 : (version >= 2 ? 7 : 6);
 
