@@ -1,4 +1,6 @@
-﻿namespace Nitro.Graphics {
+﻿using System.Text;
+
+namespace Nitro.Graphics {
 	public class BGR555 {
 		public const uint DataSize=2;
 		public byte R, G, B;
@@ -17,6 +19,18 @@
 
 		private static byte ScaleUp(int v) {
 			return (byte)((v << 3) | (v >> 2));
+		}
+
+		public override string ToString() {
+			var sb = new StringBuilder();
+
+			sb.Append(NormalizedR);
+			sb.Append(", ");
+			sb.Append(NormalizedG);
+			sb.Append(", ");
+			sb.Append(NormalizedB);
+
+			return sb.ToString();
 		}
 	}
 }
