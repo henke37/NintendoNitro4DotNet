@@ -69,7 +69,7 @@ namespace Nitro.Graphics.WinForms {
 					byte pixel1 = tile.TileData[x + y * Tile.Width];
 					byte pixel2 = tile.TileData[x+1 + y * Tile.Width];
 					int index = x / 2 + y * bmd.Stride;
-					pixelValues[index] = (byte)(pixel1 | (pixel2<<8));
+					pixelValues[index] = (byte)(pixel1 | (pixel2<<4));
 				}
 			}
 			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
