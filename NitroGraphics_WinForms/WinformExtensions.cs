@@ -59,7 +59,7 @@ namespace Nitro.Graphics.WinForms {
 			};
 
 			var bmd = bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format4bppIndexed);
-			int byteCount = Math.Abs(bmd.Stride) * bm.Height;
+			int byteCount = Tile.Width/2;
 			byte[] pixelValues = new byte[byteCount];
 
 			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
@@ -68,11 +68,13 @@ namespace Nitro.Graphics.WinForms {
 				for(int x = 0; x < Tile.Width; x+=2) {
 					byte pixel1 = tile.TileData[x + y * Tile.Width];
 					byte pixel2 = tile.TileData[x+1 + y * Tile.Width];
-					int index = x / 2 + y * bmd.Stride;
-					pixelValues[index] = (byte)(pixel1 | (pixel2<<4));
+					int index = x / 2;
+					pixelValues[index] = (byte)(pixel2 | (pixel1<<4));
 				}
+			
+				IntPtr dst= bmd.Scan0 + bmd.Stride*y;
+				Marshal.Copy(pixelValues, 0, dst, byteCount);
 			}
-			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
 
 			bm.UnlockBits(bmd);
 		}
@@ -97,7 +99,7 @@ namespace Nitro.Graphics.WinForms {
 			var bm = new Bitmap(Tile.Width * Icon.TilesX, Tile.Height * Icon.TilesY, PixelFormat.Format4bppIndexed);
 
 			ico.Palette.Apply(bm);
-
+			
 			for(int tileY=0;tileY<Icon.TilesY;++tileY) {
 				for(int tileX=0;tileX<Icon.TilesX;++tileX) {
 					var tile = ico.Tiles[tileX + tileY * Icon.TilesX];
