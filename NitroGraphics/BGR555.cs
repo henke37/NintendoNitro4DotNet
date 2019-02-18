@@ -11,9 +11,9 @@ namespace Nitro.Graphics {
 
 		public static explicit operator BGR555(ushort v) {
 			var c = new BGR555();
-			c.R = ScaleUp(v & 0x1F);
-			c.G = ScaleUp((v>>5) & 0x1F);
-			c.B = ScaleUp((v>>10) & 0x1F);
+			c.R = (byte)(v & 0x1F);
+			c.G = (byte)((v>>5) & 0x1F);
+			c.B = (byte)((v>>10) & 0x1F);
 			return c;
 		}
 
