@@ -31,7 +31,8 @@
 			// 
 			this.iconDisplay.Location = new System.Drawing.Point(13, 13);
 			this.iconDisplay.Name = "iconDisplay";
-			this.iconDisplay.Size = new System.Drawing.Size(64, 64);
+			this.iconDisplay.Size = new System.Drawing.Size(128, 128);
+			this.iconDisplay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.iconDisplay.TabIndex = 0;
 			this.iconDisplay.TabStop = false;
 			// 
@@ -39,7 +40,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(192, 93);
+			this.ClientSize = new System.Drawing.Size(197, 198);
 			this.Controls.Add(this.iconDisplay);
 			this.Name = "IconTest";
 			this.Text = "IconTest";
