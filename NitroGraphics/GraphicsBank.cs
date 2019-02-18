@@ -14,6 +14,8 @@ namespace Nitro.Graphics {
 		public Tile[] Tiles;
 		public byte[] Pixels;
 
+		public bool CanBeDrawnStandalone { get => TilesX != 0xFFFF && TilesY != 0xFFFF; }
+
 		protected void ParseTiled(BinaryReader reader, int tileCount) {
 			Tiles = new Tile[tileCount];
 			for(int tileIndex=0;tileIndex<tileCount;++tileIndex) {

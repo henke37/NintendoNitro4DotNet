@@ -142,5 +142,32 @@ namespace Nitro.Graphics.WinForms {
 				}
 			}
 		}
+
+		public static Bitmap ToBitmap(this GraphicsBank tiles, Palette palette) {
+			int widthTiles = tiles.TilesX;
+			int heightTiles = tiles.TilesY;
+
+			var bm = new Bitmap(widthTiles * Tile.Width, heightTiles * Tile.Height, tiles.Format.AsPixelFormat());
+
+			palette.Apply(bm);
+
+			tiles.DrawInBitmap(bm);
+
+			return bm;
+		}
+
+		public static void DrawInBitmap(this GraphicsBank tiles, Bitmap bm) {
+			if(!tiles.CanBeDrawnStandalone) throw new NotSupportedException("Graphicsbank can't be drawn independently");
+
+			int widthTiles = tiles.TilesX;
+			int heightTiles = tiles.TilesY;
+
+			for(int tileY = 0; tileY < heightTiles; ++tileY) {
+				for(int tileX = 0; tileX < widthTiles; ++tileX) {
+					var tile = tiles.Tiles[tileY * tiles.TilesX + tileX];
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
+				}
+			}
+		}
 	}
 }
