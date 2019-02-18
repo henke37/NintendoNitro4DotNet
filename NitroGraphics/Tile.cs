@@ -45,5 +45,8 @@ namespace Nitro.Graphics {
 					throw new NotSupportedException();
 			}
 		}
+
+		public static int MirrorX(int x, bool flipX) { if(flipX) return Tile.Width - (x + 1); return x; }
+		public static int MirrorY(int y, bool flipY) { if(flipY) return Tile.Height - (y + 1); return y; }
 	}
 }

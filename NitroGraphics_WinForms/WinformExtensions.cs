@@ -13,20 +13,20 @@ namespace Nitro.Graphics.WinForms {
 			return bm;
 		}
 
-		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0) {
+		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
 			switch(bm.PixelFormat) {
 				case PixelFormat.Format8bppIndexed:
-					DrawTile8Bpp(tile, bm, left, top);
+					DrawTile8Bpp(tile, bm, left, top, flipX, flipY);
 					return;
 				case PixelFormat.Format4bppIndexed:
-					DrawTile4Bpp(tile, bm, left, top);
+					DrawTile4Bpp(tile, bm, left, top, flipX, flipY);
 					return;
 				default:
 					throw new NotSupportedException();
 			}
 		}
 
-		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0) { 
+		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) { 
 			Rectangle rect = new Rectangle {
 				X=left, Y=top,
 				Width = Tile.Width,
@@ -41,7 +41,7 @@ namespace Nitro.Graphics.WinForms {
 
 			for(int y=0;y<Tile.Height;++y) {
 				for(int x=0;x<Tile.Width;++x) {
-					byte pixel = tile.TileData[x + y * Tile.Width];
+					byte pixel = tile.TileData[Tile.MirrorX(x,flipX) + Tile.MirrorY(y,flipY) * Tile.Width];
 					pixelValues[x+y*bmd.Stride] = pixel;
 				}
 				IntPtr dst = bmd.Scan0 + bmd.Stride * y;
@@ -51,7 +51,7 @@ namespace Nitro.Graphics.WinForms {
 			bm.UnlockBits(bmd);
 		}
 
-		private static void DrawTile4Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0) {
+		private static void DrawTile4Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
 			Rectangle rect = new Rectangle {
 				X = left,
 				Y = top,
@@ -67,8 +67,8 @@ namespace Nitro.Graphics.WinForms {
 
 			for(int y = 0; y < Tile.Height; ++y) {
 				for(int x = 0; x < Tile.Width; x+=2) {
-					byte pixel1 = tile.TileData[x + y * Tile.Width];
-					byte pixel2 = tile.TileData[x+1 + y * Tile.Width];
+					byte pixel1 = tile.TileData[Tile.MirrorX(x, flipX) + Tile.MirrorY(y, flipY) * Tile.Width];
+					byte pixel2 = tile.TileData[Tile.MirrorX(x + 1, flipX) + Tile.MirrorY(y, flipY) * Tile.Width];
 					int index = x / 2;
 					pixelValues[index] = (byte)(pixel2 | (pixel1<<4));
 				}
@@ -138,7 +138,7 @@ namespace Nitro.Graphics.WinForms {
 					Tilemap.TilemapEntry tileEntry = tilemap.TileMap[tileY, tileX];
 					Tile tile = tileSet.Tiles[tileEntry.TileId];
 					//BUG: Mirroring and palette offset not handled
-					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height,tileEntry.XFlip,tileEntry.YFlip);
 				}
 			}
 		}
