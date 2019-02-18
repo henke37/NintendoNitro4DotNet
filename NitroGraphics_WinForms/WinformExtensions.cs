@@ -34,7 +34,7 @@ namespace Nitro.Graphics.WinForms {
 			};
 
 			var bmd=bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
-			int byteCount = Math.Abs(bmd.Stride) * bm.Height;
+			int byteCount = Tile.Width;
 			byte[] pixelValues = new byte[byteCount];
 
 			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
@@ -44,8 +44,9 @@ namespace Nitro.Graphics.WinForms {
 					byte pixel = tile.TileData[x + y * Tile.Width];
 					pixelValues[x+y*bmd.Stride] = pixel;
 				}
+				IntPtr dst = bmd.Scan0 + bmd.Stride * y;
+				Marshal.Copy(pixelValues, 0, dst, byteCount);
 			}
-			Marshal.Copy(pixelValues, 0, bmd.Scan0, byteCount);
 
 			bm.UnlockBits(bmd);
 		}
