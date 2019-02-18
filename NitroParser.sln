@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroGraphics_WinForms", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconTest", "IconTest\IconTest.csproj", "{37DFC642-1C67-4015-81C3-757A635F0F6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsTest", "GraphicsTest\GraphicsTest.csproj", "{650E0449-A0C3-483C-BF0F-54841FDFDE94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{8906B115-747C-4DE6-A8D7-92939F34755B} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{37DFC642-1C67-4015-81C3-757A635F0F6E} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
+		{650E0449-A0C3-483C-BF0F-54841FDFDE94} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8774CF6C-5C61-469D-A739-9FC042591AD9}
