@@ -6,6 +6,9 @@ namespace Nitro.Graphics {
 
 		public TilemapEntry[,] TileMap;
 
+		public int TilesX { get => TileMap.GetLength(1); }
+		public int TilesY { get => TileMap.GetLength(0); }
+
 		protected TileMapFormat Format;
 
 		protected enum TileMapFormat {

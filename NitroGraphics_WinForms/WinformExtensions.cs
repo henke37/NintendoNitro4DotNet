@@ -118,5 +118,29 @@ namespace Nitro.Graphics.WinForms {
 				default: throw new NotSupportedException();
 			}
 		}
+
+		public static Bitmap ToBitmap(this Tilemap tilemap, GraphicsBank tileSet, Palette palette) {
+			int widthTiles = tilemap.TilesX;
+			int heightTiles = tilemap.TilesY;
+
+			var bm = new Bitmap(widthTiles * Tile.Width, heightTiles * Tile.Height, tileSet.Format.AsPixelFormat());
+
+			palette.Apply(bm);
+
+			tilemap.DrawInBitmap(tileSet, bm);
+
+			return bm;
+		}
+
+		public static void DrawInBitmap(this Tilemap tilemap, GraphicsBank tileSet, Bitmap bm) {
+			for(int tileY=0;tileY<tilemap.TilesY;++tileY) {
+				for(int tileX=0;tileX<tilemap.TilesX;++tileX) {
+					Tilemap.TilemapEntry tileEntry = tilemap.TileMap[tileY, tileX];
+					Tile tile = tileSet.Tiles[tileEntry.TileId];
+					//BUG: Mirroring and palette offset not handled
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
+				}
+			}
+		}
 	}
 }
