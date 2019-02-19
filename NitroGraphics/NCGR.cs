@@ -35,12 +35,14 @@ namespace Nitro.Graphics {
 
 				stream.Position = dataOffset;
 
+				int tileCount = BytesToPixels(dataSize) / (Tile.Width * Tile.Height);
+
 				switch(Mapping) {
 					case MappingMode.Char_2D:
-						ParseTiled(r, BytesToPixels(dataSize));
+						ParseTiled(r, tileCount);
 						break;
 					default:
-						ParseScanned(r, BytesToPixels(dataSize));
+						ParseScanned(r, tileCount);
 						break;
 				}
 			}
