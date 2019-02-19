@@ -1,17 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Nitro;
+using Nitro.Graphics;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace GraphicsTest {
 	public partial class GraphicsTestForm : Form {
-		public GraphicsTestForm() {
+
+		NDS nds;
+
+		NCLR nclr;
+		NCGR ncgr;
+		NSCR nscr;
+
+		public GraphicsTestForm(string[] args) {
 			InitializeComponent();
+
+			nds = new NDS(File.OpenRead(args[0]));
+
+			nclr = new NCLR(nds.FileSystem.OpenFile(@"data/data0/BG1.NCLR"));
+			ncgr = new NCGR(nds.FileSystem.OpenFile(@"data/data0/BG1.NCGR"));
+			nscr = new NSCR(nds.FileSystem.OpenFile(@"data/data0/BG1.NSCR"));
+
+			Bitmap bitmap;
+
+			//ImgDisp.Image=bitmap;
 		}
 	}
 }
