@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Security.Permissions;
 
 namespace Nitro.Graphics.WinForms {
 	public static class WinformExtensions {
@@ -29,6 +30,7 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		[SecuritySafeCritical]
+		[SecurityPermission(SecurityAction.Assert, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) { 
 			Rectangle rect = new Rectangle {
 				X=left, Y=top,
@@ -55,6 +57,7 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		[SecuritySafeCritical]
+		[SecurityPermission(SecurityAction.Assert, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		private static void DrawTile4Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
 			Rectangle rect = new Rectangle {
 				X = left,
