@@ -1,5 +1,6 @@
 ﻿using Nitro;
 using Nitro.Graphics;
+using Nitro.Graphics.WinForms;
 using System;
 using System.Drawing;
 using System.IO;
@@ -23,9 +24,9 @@ namespace GraphicsTest {
 			ncgr = new NCGR(nds.FileSystem.OpenFile(@"data/data0/BG1.NCGR"));
 			nscr = new NSCR(nds.FileSystem.OpenFile(@"data/data0/BG1.NSCR"));
 
-			Bitmap bitmap;
+			Bitmap bitmap=nscr.ToBitmap(ncgr,nclr.Palette);
 
-			//ImgDisp.Image=bitmap;
+			ImgDisp.Image=bitmap;
 		}
 	}
 }

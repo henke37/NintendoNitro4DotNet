@@ -13,10 +13,10 @@ namespace Nitro.Graphics.WinForms {
 			return bm;
 		}
 
-		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
+		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) {
 			switch(bm.PixelFormat) {
 				case PixelFormat.Format8bppIndexed:
-					DrawTile8Bpp(tile, bm, left, top, flipX, flipY);
+					DrawTile8Bpp(tile, bm, left, top, flipX, flipY, paletteOffset);
 					return;
 				case PixelFormat.Format4bppIndexed:
 					DrawTile4Bpp(tile, bm, left, top, flipX, flipY);
@@ -26,7 +26,7 @@ namespace Nitro.Graphics.WinForms {
 			}
 		}
 
-		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) { 
+		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) { 
 			Rectangle rect = new Rectangle {
 				X=left, Y=top,
 				Width = Tile.Width,
@@ -41,8 +41,8 @@ namespace Nitro.Graphics.WinForms {
 
 			for(int y=0;y<Tile.Height;++y) {
 				for(int x=0;x<Tile.Width;++x) {
-					byte pixel = tile.TileData[Tile.MirrorX(x,flipX) + Tile.MirrorY(y,flipY) * Tile.Width];
-					pixelValues[x+y*bmd.Stride] = pixel;
+					byte pixel = (byte)( tile.TileData[Tile.MirrorX(x,flipX) + Tile.MirrorY(y,flipY) * Tile.Width] + paletteOffset );
+					pixelValues[x] = pixel;
 				}
 				IntPtr dst = bmd.Scan0 + bmd.Stride * y;
 				Marshal.Copy(pixelValues, 0, dst, byteCount);
@@ -123,7 +123,7 @@ namespace Nitro.Graphics.WinForms {
 			int widthTiles = tilemap.TilesX;
 			int heightTiles = tilemap.TilesY;
 
-			var bm = new Bitmap(widthTiles * Tile.Width, heightTiles * Tile.Height, tileSet.Format.AsPixelFormat());
+			var bm = new Bitmap(widthTiles * Tile.Width, heightTiles * Tile.Height, PixelFormat.Format8bppIndexed);
 
 			palette.Apply(bm);
 
@@ -138,7 +138,7 @@ namespace Nitro.Graphics.WinForms {
 					Tilemap.TilemapEntry tileEntry = tilemap.TileMap[tileY, tileX];
 					Tile tile = tileSet.Tiles[tileEntry.TileId];
 					//BUG: Mirroring and palette offset not handled
-					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height,tileEntry.XFlip,tileEntry.YFlip);
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height,tileEntry.XFlip,tileEntry.YFlip,tileEntry.Palette*16);
 				}
 			}
 		}

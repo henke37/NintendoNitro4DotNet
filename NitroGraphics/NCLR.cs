@@ -4,14 +4,14 @@ using System.IO;
 
 namespace Nitro.Graphics {
 	public class NCLR {
-		public List<BGR555> Palette;
+		public Palette Palette;
 
-		public NCLR() {
-			Palette = new List<BGR555>(16);
+		public NCLR(int palSize) {
+			Palette = new Palette(new List<BGR555>(palSize));
 		}
 
 		public NCLR(List<BGR555> pal) {
-			Palette = pal;
+			Palette = new Palette(pal);
 		}
 
 		public NCLR(Stream stream) {
@@ -36,7 +36,7 @@ namespace Nitro.Graphics {
 				for(int colorIndex=0;colorIndex<paletteLength;++colorIndex) {
 					pal.Add(r.ReadBGR555());
 				}
-				Palette = pal;
+				Palette = new Palette(pal);
 			}
 		}
 	}
