@@ -19,10 +19,11 @@ namespace Nitro.Graphics.WinForms {
 					DrawTile8Bpp(tile, bm, left, top, flipX, flipY, paletteOffset);
 					return;
 				case PixelFormat.Format4bppIndexed:
+					if(paletteOffset != 0) throw new ArgumentException("4bpp bitmaps do not support palette offsets",nameof(paletteOffset));
 					DrawTile4Bpp(tile, bm, left, top, flipX, flipY);
 					return;
 				default:
-					throw new NotSupportedException();
+					throw new ArgumentException("Unsupported bitmap format",nameof(bm));
 			}
 		}
 
@@ -115,7 +116,7 @@ namespace Nitro.Graphics.WinForms {
 			switch(fmt) {
 				case TextureFormat.PLTT16: return PixelFormat.Format4bppIndexed;
 				case TextureFormat.PLTT256: return PixelFormat.Format8bppIndexed;
-				default: throw new NotSupportedException();
+				default: throw new ArgumentException("Format not supported",nameof(fmt));
 			}
 		}
 
