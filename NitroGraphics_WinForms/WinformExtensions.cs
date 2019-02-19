@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace Nitro.Graphics.WinForms {
 	public static class WinformExtensions {
@@ -27,6 +28,7 @@ namespace Nitro.Graphics.WinForms {
 			}
 		}
 
+		[SecuritySafeCritical]
 		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) { 
 			Rectangle rect = new Rectangle {
 				X=left, Y=top,
@@ -52,6 +54,7 @@ namespace Nitro.Graphics.WinForms {
 			bm.UnlockBits(bmd);
 		}
 
+		[SecuritySafeCritical]
 		private static void DrawTile4Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
 			Rectangle rect = new Rectangle {
 				X = left,
@@ -138,7 +141,6 @@ namespace Nitro.Graphics.WinForms {
 				for(int tileX=0;tileX<tilemap.TilesX;++tileX) {
 					Tilemap.TilemapEntry tileEntry = tilemap.TileMap[tileY, tileX];
 					Tile tile = tileSet.Tiles[tileEntry.TileId];
-					//BUG: Mirroring and palette offset not handled
 					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height,tileEntry.XFlip,tileEntry.YFlip,tileEntry.Palette*16);
 				}
 			}
