@@ -27,8 +27,6 @@ namespace Nitro.Graphics {
 				TileMap = new TilemapEntry[HeightTiles, WidthTiles];
 
 				var dataSize = r.ReadUInt32();
-				var dataPos = r.ReadUInt32();
-				r.BaseStream.Position = dataPos;
 				LoadMap(r);
 			}
 		}
