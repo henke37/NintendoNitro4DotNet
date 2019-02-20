@@ -22,6 +22,7 @@ namespace AceAttorney.GK2 {
 		}
 
 		private void ReadTable(BinaryReader r) {
+			entries = new List<FileEntry>();
 			for(; ; ) {
 				var entry = FileEntry.Load(r);
 				if(entry.size == 0) break;
