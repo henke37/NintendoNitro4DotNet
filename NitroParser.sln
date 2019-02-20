@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconTest", "IconTest\IconTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsTest", "GraphicsTest\GraphicsTest.csproj", "{650E0449-A0C3-483C-BF0F-54841FDFDE94}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameLibs", "GameLibs", "{86CD1BAF-D4A8-415A-8885-6575F9569C0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AceAttorney", "AceAttorney\AceAttorney.csproj", "{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,10 @@ Global
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +102,7 @@ Global
 		{8906B115-747C-4DE6-A8D7-92939F34755B} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{37DFC642-1C67-4015-81C3-757A635F0F6E} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94} = {7CBC6B38-5699-489D-B84B-BC3BD222F390}
+		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C} = {86CD1BAF-D4A8-415A-8885-6575F9569C0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8774CF6C-5C61-469D-A739-9FC042591AD9}

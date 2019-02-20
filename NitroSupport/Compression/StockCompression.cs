@@ -4,7 +4,7 @@ using System.Text;
 using HenkesUtils;
 
 namespace Nitro.Compression {
-	static class StockCompression {
+	public static class StockCompression {
 
 		public static byte[] DecompressArray(byte[] inArr) {
 			var decStream = OpenCompressedStream(new MemoryStream(inArr, false));

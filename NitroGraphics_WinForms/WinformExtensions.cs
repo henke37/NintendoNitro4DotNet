@@ -76,8 +76,9 @@ namespace Nitro.Graphics.WinForms {
 
 			for(int y = 0; y < Tile.Height; ++y) {
 				for(int x = 0; x < Tile.Width; x+=2) {
-					byte pixel1 = tile.TileData[Tile.MirrorX(x, flipX) + Tile.MirrorY(y, flipY) * Tile.Width];
-					byte pixel2 = tile.TileData[Tile.MirrorX(x + 1, flipX) + Tile.MirrorY(y, flipY) * Tile.Width];
+					int yOff = Tile.MirrorY(y, flipY) * Tile.Width;
+					byte pixel1 = tile.TileData[Tile.MirrorX(x, flipX) + yOff];
+					byte pixel2 = tile.TileData[Tile.MirrorX(x + 1, flipX) + yOff];
 					int index = x / 2;
 					pixelValues[index] = (byte)(pixel2 | (pixel1<<4));
 				}
