@@ -59,6 +59,10 @@ namespace AceAttorney.GK2 {
 				size &= 0x00FFFFFF;
 				return new FileEntry(offset, size, compressed);
 			}
+
+			public override string ToString() {
+				return String.Format("0x{0:X6} 0x{1:X6} {2}", offset, size, compressed);
+			}
 		}
 	}
 }
