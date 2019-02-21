@@ -14,8 +14,8 @@ namespace GK2Test {
 			nds = new NDS(File.OpenRead(args[0]));
 			MainArchive mainArchive=new MainArchive(nds.FileSystem.OpenFile(args[1]));
 
-			NCLR nclr=new NCLR(mainArchive.OpenFile(5));
-			SubArchive subArchive = new SubArchive(mainArchive.OpenFile(4));
+			NCLR nclr=new NCLR(mainArchive.OpenFile(int.Parse(args[2])));
+			SubArchive subArchive = new SubArchive(mainArchive.OpenFile(int.Parse(args[3])));
 			NCGR ncgr = new NCGR(subArchive.OpenFile(2));
 			NANR nanr = new NANR(subArchive.OpenFile(1));
 			NCER ncer = new NCER(subArchive.OpenFile(0));
