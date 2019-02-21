@@ -32,7 +32,7 @@ namespace AceAttorney.GK2 {
 
 		public Stream OpenFile(int fileId) {
 			var entry = entries[fileId];
-			Stream stream= new SubStream(mainStream, dataOffset + entry.offset, entry.size);
+			Stream stream= new SubStream(mainStream, entry.offset, entry.size);
 
 			if(entry.compressed) {
 				stream = StockCompression.OpenCompressedStream(stream);

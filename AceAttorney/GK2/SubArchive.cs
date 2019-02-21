@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace AceAttorney.GK2 {
 	public class SubArchive {
@@ -13,10 +14,10 @@ namespace AceAttorney.GK2 {
 		public SubArchive(Stream stream) {
 			mainStream = stream;
 
-			using(var r = new BinaryReader(stream)) {
+			using(var r = new BinaryReader(stream,Encoding.Default,true)) {
 				offsets = new List<long>();
 
-				long firstFile = stream.Position;
+				long firstFile = r.ReadUInt32();
 				offsets.Add(firstFile);
 				while(stream.Position < firstFile) {
 					var offset = r.ReadUInt32();

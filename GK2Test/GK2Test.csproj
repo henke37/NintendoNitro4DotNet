@@ -81,6 +81,10 @@
       <Project>{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}</Project>
       <Name>AceAttorney</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NitroGraphics\NitroGraphics.csproj">
+      <Project>{220D9355-245D-4D7D-8DBE-36F46BB14627}</Project>
+      <Name>NitroGraphics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroSupport\NitroCore.csproj">
       <Project>{A008CD3F-A712-43BE-BB8A-54C53B05C351}</Project>
       <Name>NitroCore</Name>
