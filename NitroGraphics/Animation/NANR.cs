@@ -9,6 +9,9 @@ using static Nitro.Graphics.Animation.NANR.Animation;
 
 namespace Nitro.Graphics.Animation {
 	public class NANR {
+
+		public List<Animation> animations;
+
 		public NANR(Stream stream) {
 			Load(stream);
 		}
@@ -28,6 +31,8 @@ namespace Nitro.Graphics.Animation {
 			var frameBaseOffset = r.ReadUInt32();
 			var positionBaseOffset = r.ReadUInt32();
 
+			animations = new List<Animation>(animCount);
+
 			var positionReader = new PositionReader(new SubStream(r.BaseStream, positionBaseOffset));
 			using(var animationReader = new BinaryReader(new SubStream(r.BaseStream, animOffset))) {
 				for(var animIndex = 0; animIndex < animCount; ++animIndex) {
@@ -41,6 +46,8 @@ namespace Nitro.Graphics.Animation {
 					using(var frameReader = new BinaryReader(new SubStream(r.BaseStream, frameBaseOffset + frameOffset))) {
 						anim.Frames = ReadFrames(animationFrames, positionType, frameReader, positionReader);
 					}
+
+					animations.Add(anim);
 				}
 			}
 		}
@@ -85,6 +92,8 @@ namespace Nitro.Graphics.Animation {
 			for(int frameIndex = 0; frameIndex < totalFrames; ++frameIndex) {
 				var frame = new AnimationFrame();
 				int positionOffset = frameReader.ReadInt32();
+				frame.FrameTime = frameReader.ReadUInt16();
+				frameReader.Skip(2);
 				frame.Position = positionReader.ReadPosition(positionOffset, positionType);
 
 				Frames.Add(frame);

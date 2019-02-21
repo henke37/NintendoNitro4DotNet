@@ -17,6 +17,7 @@ namespace GK2Test {
 			NCLR nclr=new NCLR(mainArchive.OpenFile(5));
 			SubArchive subArchive = new SubArchive(mainArchive.OpenFile(4));
 			NCGR ncgr = new NCGR(subArchive.OpenFile(2));
+			NANR nanr = new NANR(subArchive.OpenFile(1));
 			NCER ncer = new NCER(subArchive.OpenFile(0));
 		}
 	}
