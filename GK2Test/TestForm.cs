@@ -1,6 +1,7 @@
 ﻿using AceAttorney.GK2;
 using Nitro;
 using Nitro.Graphics;
+using Nitro.Graphics.Animation;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace GK2Test {
 			NCLR nclr=new NCLR(mainArchive.OpenFile(5));
 			SubArchive subArchive = new SubArchive(mainArchive.OpenFile(4));
 			NCGR ncgr = new NCGR(subArchive.OpenFile(2));
+			NCER ncer = new NCER(subArchive.OpenFile(0));
 		}
 	}
 }

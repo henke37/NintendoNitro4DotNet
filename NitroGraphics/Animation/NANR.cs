@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Nitro.Graphics.NANR.Animation;
+using static Nitro.Graphics.Animation.NANR.Animation;
 
-namespace Nitro.Graphics {
+namespace Nitro.Graphics.Animation {
 	public class NANR {
 		public NANR(Stream stream) {
 			Load(stream);
