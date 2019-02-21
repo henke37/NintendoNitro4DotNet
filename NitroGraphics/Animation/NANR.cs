@@ -109,6 +109,10 @@ namespace Nitro.Graphics.Animation {
 			public class AnimationFrame {
 				public FramePosition Position;
 				public int FrameTime;
+
+				public override string ToString() {
+					return string.Format("{0} {1}",Position.CellIndex,FrameTime);
+				}
 			}
 
 			public class FramePosition {
