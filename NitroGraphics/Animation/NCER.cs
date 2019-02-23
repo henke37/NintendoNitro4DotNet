@@ -42,19 +42,25 @@ namespace Nitro.Graphics.Animation {
 					r.Skip(2);//attributes
 					long oamOffset = r.ReadUInt32();
 
-					long curPos = stream.Position;
+					{
+						long curPos = stream.Position;
 
-					stream.Position = oamStart + oamOffset;
-					var oams = new List<OAMEntry>(numOAMS);
-					for(int oamIndex=0;oamIndex<numOAMS;++oamIndex) {
-						var oam = new OAMEntry();
-						oam.Load(r, ((int)Mapping) & 3, 0);
-						oams.Add(oam);
+						stream.Position = oamStart + oamOffset;
+						var oams = new List<OAMEntry>(numOAMS);
+						for(int oamIndex = 0; oamIndex < numOAMS; ++oamIndex) {
+							var oam = new OAMEntry();
+							oam.Load(r, ((int)Mapping) & 3, 0);
+							oams.Add(oam);
+						}
+						cell.oams = oams;
+						Cells.Add(cell);
+
+						stream.Position = curPos;
 					}
-					cell.oams = oams;
-					Cells.Add(cell);
 
-					stream.Position = curPos;
+					if(attributes==1) {
+						r.Skip(8);
+					}
 				}
 			}
 		}
