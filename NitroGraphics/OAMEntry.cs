@@ -71,5 +71,17 @@ namespace Nitro.Graphics {
 			Affine = 1,
 			AffineExtraRegion = 3
 		}
+
+		public override string ToString() {
+			return string.Format("{0} {1}x{2} ({3},{4}) {5}{6} P{7} PL{8}",
+				TileIndex,
+				Width, Height,
+				X, Y,
+				XFlip ? "~X" : "",
+				YFlip ? "~Y" : "",
+				Priority,
+				PaletteIndex
+			);
+		}
 	}
 }
