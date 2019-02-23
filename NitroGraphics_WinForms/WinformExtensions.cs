@@ -61,6 +61,7 @@ namespace Nitro.Graphics.WinForms {
 		[SecurityPermission(SecurityAction.Assert, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		[SuppressUnmanagedCodeSecurity]
 		private static void DrawTile4Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false) {
+			if(left % 2 == 1) throw new ArgumentException("Left has to be even!", nameof(left));
 			Rectangle rect = new Rectangle {
 				X = left,
 				Y = top,

@@ -27,7 +27,7 @@ namespace Nitro.Graphics.Animation {
 
 				uint cellOffset = r.ReadUInt32();
 				Mapping = (MappingFormat)r.ReadUInt32();
-
+				//3 junk pointers that aren't used
 				stream.Position = cellOffset;
 			}
 		}
