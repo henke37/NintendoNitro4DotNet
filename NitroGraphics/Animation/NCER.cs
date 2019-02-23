@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HenkesUtils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,18 +30,45 @@ namespace Nitro.Graphics.Animation {
 				Mapping = (MappingFormat)r.ReadUInt32();
 				//3 junk pointers that aren't used
 				stream.Position = cellOffset;
+
+				long cellDataSize = (attributes == 1) ? 16 : 8;
+
+				long oamStart = cellOffset + cellDataSize * cellCount;
+
+				for(int cellIndex=0;cellIndex<cellCount;++cellIndex) {
+					var cell = new AnimationCell();
+
+					int numOAMS = r.ReadUInt16();
+					r.Skip(2);//attributes
+					long oamOffset = r.ReadUInt32();
+
+					long curPos = stream.Position;
+
+					stream.Position = oamStart + oamOffset;
+					var oams = new List<OAMEntry>(numOAMS);
+					for(int oamIndex=0;oamIndex<numOAMS;++oamIndex) {
+						var oam = new OAMEntry();
+						oam.Load(r, ((int)Mapping) & 3, 0);
+						oams.Add(oam);
+					}
+					cell.oams = oams;
+					Cells.Add(cell);
+
+					stream.Position = curPos;
+				}
 			}
 		}
 
 		enum MappingFormat {
-			CM_1D_32,
-			CM_1D_64,
-			CM_1D_128,
-			CM_1D_256,
-			CM_2D
+			CM_1D_32=0,
+			CM_1D_64=1,
+			CM_1D_128=2,
+			CM_1D_256=3,
+			CM_2D=4
 		}
 
-		public partial class AnimationCell {
+		public class AnimationCell {
+			public List<OAMEntry> oams;
 		}
 	}
 }
