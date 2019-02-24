@@ -65,7 +65,7 @@ namespace Nitro.Graphics.Animation {
 			}
 		}
 
-		enum MappingFormat {
+		public enum MappingFormat {
 			CM_1D_32=0,
 			CM_1D_64=1,
 			CM_1D_128=2,

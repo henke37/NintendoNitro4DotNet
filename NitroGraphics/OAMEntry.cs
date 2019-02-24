@@ -4,8 +4,12 @@ namespace Nitro.Graphics {
 	public class OAMEntry {
 		public uint PaletteIndex;
 		public uint TileIndex;
-		public uint Width;
-		public uint Height;
+
+		public uint TilesX;
+		public uint TilesY;
+
+		public uint Width { get => TilesX * Tile.Width; }
+		public uint Height { get => TilesY * Tile.Height; }
 
 		public int X;
 		public int Y;
@@ -33,7 +37,7 @@ namespace Nitro.Graphics {
 				YFlip = (atts1 & 0x2000) != 0;
 			}
 
-			var objSize = atts1 >> 14;
+			uint objSize = (uint)(atts1 >> 14);
 
 			var atts2 = reader.ReadUInt16();
 
@@ -46,24 +50,24 @@ namespace Nitro.Graphics {
 			setSize(objSize, shape);
 		}
 
-		private void setSize(int objSize, int shape) {
+		private void setSize(uint objSize, int shape) {
 			switch(shape) {
 				case 0:
-					Width = Height = (uint)(8 << objSize);
+					TilesX = TilesY = objSize;
 					break;
 				case 1:
-					Width = WHFast[objSize];
-					Height = WHSlow[objSize];
+					TilesX = WHFast[objSize];
+					TilesY = WHSlow[objSize];
 					break;
 				case 2:
-					Width = WHSlow[objSize];
-					Height = WHFast[objSize];
+					TilesX = WHSlow[objSize];
+					TilesY = WHFast[objSize];
 					break;
 			}
 		}
 
-		private static readonly uint[] WHFast = new uint[] { 16, 32, 32, 64 };
-		private static readonly uint[] WHSlow = new uint[] { 8, 8, 16, 32 };
+		private static readonly uint[] WHFast = new uint[] { 2, 4, 4, 8 };
+		private static readonly uint[] WHSlow = new uint[] { 1, 1, 2, 4 };
 
 		public enum ObjectDisplayMode {
 			Hidden = 2,

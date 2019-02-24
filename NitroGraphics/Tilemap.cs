@@ -38,7 +38,7 @@ namespace Nitro.Graphics {
 					tile.TileId = v & 0x3FF;
 					tile.XFlip = (v & 0x400)!=0;
 					tile.YFlip = (v & 0x800)!=0;
-					tile.Palette = v >> 12;
+					tile.Palette = (uint)(v >> 12);
 					TileMap[y, x] = tile;
 				}
 			}
@@ -59,7 +59,7 @@ namespace Nitro.Graphics {
 			public int TileId;
 			public bool XFlip;
 			public bool YFlip;
-			public int Palette;
+			public uint Palette;
 		}
 	}
 }

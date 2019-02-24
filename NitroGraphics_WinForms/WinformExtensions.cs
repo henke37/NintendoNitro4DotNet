@@ -15,39 +15,40 @@ namespace Nitro.Graphics.WinForms {
 			return bm;
 		}
 
-		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) {
+		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, uint paletteOffset = 0) {
 			switch(bm.PixelFormat) {
 				case PixelFormat.Format8bppIndexed:
 					DrawTile8Bpp(tile, bm, left, top, flipX, flipY, paletteOffset);
 					return;
 				case PixelFormat.Format4bppIndexed:
-					if(paletteOffset != 0) throw new ArgumentException("4bpp bitmaps do not support palette offsets",nameof(paletteOffset));
+					if(paletteOffset != 0) throw new ArgumentException("4bpp bitmaps do not support palette offsets", nameof(paletteOffset));
 					DrawTile4Bpp(tile, bm, left, top, flipX, flipY);
 					return;
 				default:
-					throw new ArgumentException("Unsupported bitmap format",nameof(bm));
+					throw new ArgumentException("Unsupported bitmap format", nameof(bm));
 			}
 		}
 
 		[SecuritySafeCritical]
 		[SecurityPermission(SecurityAction.Assert, Flags = SecurityPermissionFlag.UnmanagedCode)]
 		[SuppressUnmanagedCodeSecurity]
-		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, int paletteOffset = 0) { 
+		private static void DrawTile8Bpp(Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, uint paletteOffset = 0) {
 			Rectangle rect = new Rectangle {
-				X=left, Y=top,
+				X = left,
+				Y = top,
 				Width = Tile.Width,
 				Height = Tile.Height
 			};
 
-			var bmd=bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+			var bmd = bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 			int byteCount = Tile.Width;
 			byte[] pixelValues = new byte[byteCount];
 
 			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
 
-			for(int y=0;y<Tile.Height;++y) {
-				for(int x=0;x<Tile.Width;++x) {
-					byte pixel = (byte)( tile.TileData[Tile.MirrorX(x,flipX) + Tile.MirrorY(y,flipY) * Tile.Width] + paletteOffset );
+			for(int y = 0; y < Tile.Height; ++y) {
+				for(int x = 0; x < Tile.Width; ++x) {
+					byte pixel = (byte)(tile.TileData[Tile.MirrorX(x, flipX) + Tile.MirrorY(y, flipY) * Tile.Width] + paletteOffset);
 					pixelValues[x] = pixel;
 				}
 				IntPtr dst = bmd.Scan0 + bmd.Stride * y;
@@ -70,21 +71,21 @@ namespace Nitro.Graphics.WinForms {
 			};
 
 			var bmd = bm.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format4bppIndexed);
-			int byteCount = Tile.Width/2;
+			int byteCount = Tile.Width / 2;
 			byte[] pixelValues = new byte[byteCount];
 
 			//Marshal.Copy(bmd.Scan0, pixelValues, 0, byteCount);
 
 			for(int y = 0; y < Tile.Height; ++y) {
-				for(int x = 0; x < Tile.Width; x+=2) {
+				for(int x = 0; x < Tile.Width; x += 2) {
 					int yOff = Tile.MirrorY(y, flipY) * Tile.Width;
 					byte pixel1 = tile.TileData[Tile.MirrorX(x, flipX) + yOff];
 					byte pixel2 = tile.TileData[Tile.MirrorX(x + 1, flipX) + yOff];
 					int index = x / 2;
-					pixelValues[index] = (byte)(pixel2 | (pixel1<<4));
+					pixelValues[index] = (byte)(pixel2 | (pixel1 << 4));
 				}
-			
-				IntPtr dst= bmd.Scan0 + bmd.Stride*y;
+
+				IntPtr dst = bmd.Scan0 + bmd.Stride * y;
 				Marshal.Copy(pixelValues, 0, dst, byteCount);
 			}
 
@@ -111,9 +112,9 @@ namespace Nitro.Graphics.WinForms {
 			var bm = new Bitmap(Tile.Width * Icon.TilesX, Tile.Height * Icon.TilesY, PixelFormat.Format4bppIndexed);
 
 			ico.Palette.Apply(bm);
-			
-			for(int tileY=0;tileY<Icon.TilesY;++tileY) {
-				for(int tileX=0;tileX<Icon.TilesX;++tileX) {
+
+			for(int tileY = 0; tileY < Icon.TilesY; ++tileY) {
+				for(int tileX = 0; tileX < Icon.TilesX; ++tileX) {
 					var tile = ico.Tiles[tileX + tileY * Icon.TilesX];
 					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
 				}
@@ -126,7 +127,7 @@ namespace Nitro.Graphics.WinForms {
 			switch(fmt) {
 				case TextureFormat.PLTT16: return PixelFormat.Format4bppIndexed;
 				case TextureFormat.PLTT256: return PixelFormat.Format8bppIndexed;
-				default: throw new ArgumentException("Format not supported",nameof(fmt));
+				default: throw new ArgumentException("Format not supported", nameof(fmt));
 			}
 		}
 
@@ -144,11 +145,11 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		public static void DrawInBitmap(this Tilemap tilemap, GraphicsBank tileSet, Bitmap bm) {
-			for(int tileY=0;tileY<tilemap.TilesY;++tileY) {
-				for(int tileX=0;tileX<tilemap.TilesX;++tileX) {
+			for(int tileY = 0; tileY < tilemap.TilesY; ++tileY) {
+				for(int tileX = 0; tileX < tilemap.TilesX; ++tileX) {
 					Tilemap.TilemapEntry tileEntry = tilemap.TileMap[tileY, tileX];
 					Tile tile = tileSet.Tiles[tileEntry.TileId];
-					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height,tileEntry.XFlip,tileEntry.YFlip,tileEntry.Palette*16);
+					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height, tileEntry.XFlip, tileEntry.YFlip, tileEntry.Palette * 16);
 				}
 			}
 		}
@@ -178,6 +179,59 @@ namespace Nitro.Graphics.WinForms {
 					tile.DrawInBitmap(bm, tileX * Tile.Width, tileY * Tile.Height);
 				}
 			}
+		}
+
+		public static void DrawInBitmap(this OAMEntry oam, Bitmap bm, Animation.NCER.MappingFormat mapping, GraphicsBank graphics, int xOffset, int yOffset) {
+			if(mapping == Animation.NCER.MappingFormat.CM_2D) {
+				oam.DrawInBitmap2DMapping(bm, graphics, xOffset, yOffset);
+			} else {
+				oam.DrawInBitmap1DMapping(bm, graphics, xOffset, yOffset);
+			}
+		}
+
+		private static void DrawInBitmap1DMapping(this OAMEntry oam, Bitmap bm, GraphicsBank graphics, int xOffset, int yOffset) {
+			for(uint tileY = 0; tileY < oam.TilesY; ++tileY) {
+				for(uint tileX = 0; tileX < oam.TilesX; ++tileX) {
+					uint tileIndex = oam.TileIndex;
+					tileIndex += tileX + oam.TilesX * tileY;
+
+					var tile = graphics.Tiles[tileIndex];
+					oam.DrawInBitmap(bm, tile, tileX, tileY, xOffset, yOffset);
+				}
+			}
+		}
+
+		public static void DrawInBitmap2DMapping(this OAMEntry oam, Bitmap bm, GraphicsBank graphics, int xOffset, int yOffset) {
+			uint baseX = oam.TileIndex % graphics.TilesX;
+			uint baseY = oam.TileIndex / graphics.TilesX;
+			uint subTileWidth = (graphics.TilesX == 0xFFFF) ? oam.TilesX : graphics.TilesX;
+
+			for(uint tileY = 0; tileY < oam.TilesY; ++tileY) {
+				for(uint tileX = 0; tileX < oam.TilesX; ++tileX) {
+					uint subTileYIndex = baseY + tileY;
+					uint subTileXIndex = baseX + tileX;
+					uint tileIndex = subTileXIndex + subTileYIndex * subTileWidth;
+
+					var tile = graphics.Tiles[tileIndex];
+					oam.DrawInBitmap(bm, tile, tileX, tileY, xOffset, yOffset);
+				}
+			}
+		}
+
+		private static void DrawInBitmap(this OAMEntry oam, Bitmap bm, Tile tile, uint tileX, uint tileY, int xOffset, int yOffset) {
+			int x;
+			if(oam.XFlip) {
+				x = xOffset + (int)(oam.Width - (Tile.Width * tileX));
+			} else {
+				x = xOffset + (int)(Tile.Width * tileX);
+			}
+			int y;
+			if(oam.XFlip) {
+				y = yOffset + (int)(oam.Height - (Tile.Height * tileY));
+			} else {
+				y = yOffset + (int)(Tile.Height * tileY);
+			}
+			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex);
 		}
 	}
 }
