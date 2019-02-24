@@ -225,13 +225,13 @@ namespace Nitro.Graphics.WinForms {
 		private static void DrawInBitmap(this OAMEntry oam, Bitmap bm, Tile tile, uint tileX, uint tileY, int xOffset, int yOffset) {
 			int x=oam.X;
 			if(oam.XFlip) {
-				x += xOffset + (int)(oam.Width - (Tile.Width * tileX));
+				x += xOffset + Tile.Width * (int)(oam.TilesX - (tileX + 1));
 			} else {
 				x += xOffset + (int)(Tile.Width * tileX);
 			}
 			int y=oam.Y;
 			if(oam.YFlip) {
-				y += yOffset + (int)(oam.Height - (Tile.Height * tileY));
+				y += yOffset + Tile.Height * (int)(oam.TilesY - (tileY + 1));
 			} else {
 				y += yOffset + (int)(Tile.Height * tileY);
 			}
