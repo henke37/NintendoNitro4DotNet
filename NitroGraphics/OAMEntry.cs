@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Nitro.Graphics {
 	public class OAMEntry {
@@ -53,7 +54,7 @@ namespace Nitro.Graphics {
 		private void setSize(uint objSize, int shape) {
 			switch(shape) {
 				case 0:
-					TilesX = TilesY = objSize;
+					TilesX = TilesY = (uint)1<<((int)objSize);
 					break;
 				case 1:
 					TilesX = WHFast[objSize];
@@ -63,6 +64,8 @@ namespace Nitro.Graphics {
 					TilesX = WHSlow[objSize];
 					TilesY = WHFast[objSize];
 					break;
+				default:
+					throw new Exception();
 			}
 		}
 
