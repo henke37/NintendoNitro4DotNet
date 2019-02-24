@@ -21,7 +21,7 @@ namespace Nitro.Graphics {
 		private int Priority;
 
 		public void Load(BinaryReader reader, int tileIndexShift, uint tileIndexNudge) {
-			Y = reader.ReadByte();
+			Y = reader.ReadSByte();
 			var atts0 = reader.ReadByte();
 			Mode = (ObjectDisplayMode)(atts0 & 3);
 

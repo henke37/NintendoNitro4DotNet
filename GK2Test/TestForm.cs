@@ -29,7 +29,7 @@ namespace GK2Test {
 			Rectangle bbox=cell.BoundingBox();
 
 
-			Bitmap bm = new Bitmap(bbox.Width, bbox.Height);
+			Bitmap bm = new Bitmap(bbox.Width+1, bbox.Height+1);
 			var g = Graphics.FromImage(bm);
 			var pen = new Pen(Color.Red);
 			foreach(var oam in cell.oams) {
