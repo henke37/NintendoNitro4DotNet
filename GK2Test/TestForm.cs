@@ -28,9 +28,12 @@ namespace GK2Test {
 			NCER.AnimationCell cell = ncer.Cells[0];
 			Rectangle bbox=cell.BoundingBox();
 
-			imgDisp.Image = cell.DrawOamBoxes(Color.Red);
+			//imgDisp.Image = cell.DrawOamBoxes(Color.Red);
 
-			//cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -rect.X, -rect.Y);
+			var bm = new Bitmap(bbox.Width, bbox.Height, PixelFormat.Format8bppIndexed);
+			nclr.Palette.Apply(bm);
+			cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -bbox.X, -bbox.Y);
+			imgDisp.Image = bm;
 		}
 	}
 }
