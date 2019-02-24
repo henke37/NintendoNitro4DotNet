@@ -280,5 +280,17 @@ namespace Nitro.Graphics.WinForms {
 
 			return rect;
 		}
+
+		public static Bitmap DrawOamBoxes(this NCER.AnimationCell cell, Color lineColor) {
+			Rectangle bbox = cell.BoundingBox();
+			Bitmap bm = new Bitmap(bbox.Width + 1, bbox.Height + 1);
+			var g = System.Drawing.Graphics.FromImage(bm);
+			var pen = new Pen(lineColor);
+			foreach(var oam in cell.oams) {
+				g.DrawRectangle(pen, oam.X - bbox.X, oam.Y - bbox.Y, (int)oam.Width, (int)oam.Height);
+			}
+
+			return bm;
+		}
 	}
 }

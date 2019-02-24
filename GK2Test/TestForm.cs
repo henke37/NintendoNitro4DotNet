@@ -28,15 +28,7 @@ namespace GK2Test {
 			NCER.AnimationCell cell = ncer.Cells[0];
 			Rectangle bbox=cell.BoundingBox();
 
-
-			Bitmap bm = new Bitmap(bbox.Width+1, bbox.Height+1);
-			var g = Graphics.FromImage(bm);
-			var pen = new Pen(Color.Red);
-			foreach(var oam in cell.oams) {
-				g.DrawRectangle(pen, oam.X-bbox.X, oam.Y-bbox.Y, (int)oam.Width, (int)oam.Height);
-			}
-
-			imgDisp.Image = bm;
+			imgDisp.Image = cell.DrawOamBoxes(Color.Red);
 
 			//cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -rect.X, -rect.Y);
 		}
