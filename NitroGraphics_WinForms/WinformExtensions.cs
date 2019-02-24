@@ -230,7 +230,7 @@ namespace Nitro.Graphics.WinForms {
 				x += xOffset + (int)(Tile.Width * tileX);
 			}
 			int y=oam.Y;
-			if(oam.XFlip) {
+			if(oam.YFlip) {
 				y += yOffset + (int)(oam.Height - (Tile.Height * tileY));
 			} else {
 				y += yOffset + (int)(Tile.Height * tileY);
