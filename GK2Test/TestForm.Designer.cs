@@ -23,13 +23,34 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.components = new System.ComponentModel.Container();
+			this.imgDisp = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this.imgDisp)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// imgDisp
+			// 
+			this.imgDisp.Location = new System.Drawing.Point(12, 12);
+			this.imgDisp.Name = "imgDisp";
+			this.imgDisp.Size = new System.Drawing.Size(339, 325);
+			this.imgDisp.TabIndex = 0;
+			this.imgDisp.TabStop = false;
+			// 
+			// TestForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.imgDisp);
+			this.Name = "TestForm";
 			this.Text = "Form1";
+			((System.ComponentModel.ISupportInitialize)(this.imgDisp)).EndInit();
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion
+
+		private System.Windows.Forms.PictureBox imgDisp;
 	}
 }
 

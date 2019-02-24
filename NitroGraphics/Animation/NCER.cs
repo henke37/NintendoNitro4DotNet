@@ -11,7 +11,7 @@ namespace Nitro.Graphics.Animation {
 		public List<AnimationCell> Cells;
 
 		public List<string> Labels;
-		private MappingFormat Mapping;
+		public MappingFormat Mapping;
 
 		public NCER(Stream stream) {
 			var sections = new SectionedFile(stream);

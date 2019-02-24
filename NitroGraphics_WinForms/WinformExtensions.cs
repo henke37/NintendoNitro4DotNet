@@ -17,6 +17,9 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		public static void DrawInBitmap(this Tile tile, Bitmap bm, int left = 0, int top = 0, bool flipX = false, bool flipY = false, uint paletteOffset = 0) {
+			if(left < 0) throw new ArgumentOutOfRangeException("Left can't be negative!", nameof(left));
+			if(top < 0) throw new ArgumentOutOfRangeException("Top can't be negative!", nameof(top));
+
 			switch(bm.PixelFormat) {
 				case PixelFormat.Format8bppIndexed:
 					DrawTile8Bpp(tile, bm, left, top, flipX, flipY, paletteOffset);
@@ -233,6 +236,12 @@ namespace Nitro.Graphics.WinForms {
 				y = yOffset + (int)(Tile.Height * tileY);
 			}
 			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex);
+		}
+
+		public static void DrawInBitmap(this NCER.AnimationCell cell, Bitmap bm, NCER.MappingFormat mapping, GraphicsBank graphics, int xOffset=0, int yOffset=0) {
+			foreach(var oam in cell.oams) {
+				oam.DrawInBitmap(bm, mapping, graphics, xOffset, yOffset);
+			}
 		}
 
 		public static Rectangle BoundingBox(this NCER.AnimationCell cell) {
