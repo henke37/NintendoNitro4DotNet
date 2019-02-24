@@ -196,7 +196,7 @@ namespace Nitro.Graphics.WinForms {
 		private static void DrawInBitmap1DMapping(this OAMEntry oam, Bitmap bm, GraphicsBank graphics, int xOffset, int yOffset) {
 			for(uint tileY = 0; tileY < oam.TilesY; ++tileY) {
 				for(uint tileX = 0; tileX < oam.TilesX; ++tileX) {
-					uint tileIndex = oam.TileIndex/2;
+					uint tileIndex = oam.TileIndex;
 					tileIndex += tileX + oam.TilesX * tileY;
 
 					var tile = graphics.Tiles[tileIndex];

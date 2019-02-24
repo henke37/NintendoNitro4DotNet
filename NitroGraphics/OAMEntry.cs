@@ -43,7 +43,7 @@ namespace Nitro.Graphics {
 			var atts2 = reader.ReadUInt16();
 
 			TileIndex = (uint)(atts2 & 0x3FF);
-			TileIndex <<= tileIndexShift;
+			TileIndex <<= (tileIndexShift-colordepth);
 			TileIndex += tileIndexNudge;
 
 			Priority = (atts1 >> 10) & 0x3;
