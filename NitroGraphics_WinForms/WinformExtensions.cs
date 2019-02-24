@@ -196,7 +196,7 @@ namespace Nitro.Graphics.WinForms {
 		private static void DrawInBitmap1DMapping(this OAMEntry oam, Bitmap bm, GraphicsBank graphics, int xOffset, int yOffset) {
 			for(uint tileY = 0; tileY < oam.TilesY; ++tileY) {
 				for(uint tileX = 0; tileX < oam.TilesX; ++tileX) {
-					uint tileIndex = oam.TileIndex;
+					uint tileIndex = oam.TileIndex/2;
 					tileIndex += tileX + oam.TilesX * tileY;
 
 					var tile = graphics.Tiles[tileIndex];
@@ -223,17 +223,17 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		private static void DrawInBitmap(this OAMEntry oam, Bitmap bm, Tile tile, uint tileX, uint tileY, int xOffset, int yOffset) {
-			int x;
+			int x=oam.X;
 			if(oam.XFlip) {
-				x = xOffset + (int)(oam.Width - (Tile.Width * tileX));
+				x += xOffset + (int)(oam.Width - (Tile.Width * tileX));
 			} else {
-				x = xOffset + (int)(Tile.Width * tileX);
+				x += xOffset + (int)(Tile.Width * tileX);
 			}
-			int y;
+			int y=oam.Y;
 			if(oam.XFlip) {
-				y = yOffset + (int)(oam.Height - (Tile.Height * tileY));
+				y += yOffset + (int)(oam.Height - (Tile.Height * tileY));
 			} else {
-				y = yOffset + (int)(Tile.Height * tileY);
+				y += yOffset + (int)(Tile.Height * tileY);
 			}
 			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex);
 		}

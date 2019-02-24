@@ -29,11 +29,12 @@ namespace GK2Test {
 			Rectangle bbox=cell.BoundingBox();
 
 			//imgDisp.Image = cell.DrawOamBoxes(Color.Red);
-
+			
 			var bm = new Bitmap(bbox.Width, bbox.Height, PixelFormat.Format8bppIndexed);
 			nclr.Palette.Apply(bm);
 			cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -bbox.X, -bbox.Y);
 			imgDisp.Image = bm;
+
 		}
 	}
 }

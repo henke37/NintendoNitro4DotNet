@@ -31,7 +31,7 @@
 			// 
 			this.imgDisp.Location = new System.Drawing.Point(12, 12);
 			this.imgDisp.Name = "imgDisp";
-			this.imgDisp.Size = new System.Drawing.Size(339, 325);
+			this.imgDisp.Size = new System.Drawing.Size(776, 426);
 			this.imgDisp.TabIndex = 0;
 			this.imgDisp.TabStop = false;
 			// 

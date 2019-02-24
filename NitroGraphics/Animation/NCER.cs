@@ -28,8 +28,11 @@ namespace Nitro.Graphics.Animation {
 
 				uint cellOffset = r.ReadUInt32();
 				Mapping = (MappingFormat)r.ReadUInt32();
-				//3 junk pointers that aren't used
+				var sectionPtr = r.ReadUInt32();
+				//2 junk pointers that aren't used
 				stream.Position = cellOffset;
+
+				int tileIndexShift = ((int)Mapping) & 3;
 
 				long cellDataSize = (attributes == 1) ? 16 : 8;
 
@@ -49,7 +52,7 @@ namespace Nitro.Graphics.Animation {
 						var oams = new List<OAMEntry>(numOAMS);
 						for(int oamIndex = 0; oamIndex < numOAMS; ++oamIndex) {
 							var oam = new OAMEntry();
-							oam.Load(r, ((int)Mapping) & 3, 0);
+							oam.Load(r, tileIndexShift, 0);
 							oams.Add(oam);
 						}
 						cell.oams = oams;
