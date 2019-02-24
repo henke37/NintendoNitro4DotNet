@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nitro.Graphics.Animation;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -232,6 +233,43 @@ namespace Nitro.Graphics.WinForms {
 				y = yOffset + (int)(Tile.Height * tileY);
 			}
 			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex);
+		}
+
+		public static Rectangle BoundingBox(this NCER.AnimationCell cell) {
+			var rect = new Rectangle();
+			{
+				var oam = cell.oams[0];
+				rect.X = oam.X;
+				rect.Y = oam.Y;
+				rect.Width = (int)oam.Width;
+				rect.Height = (int)oam.Height;
+			}
+			for(int oamIndex=1;oamIndex<cell.oams.Count;++oamIndex) {
+				var oam = cell.oams[oamIndex];
+				{
+					if(rect.X > oam.X) {
+						rect.Width += rect.X - oam.X;
+						rect.X = oam.X;
+					}
+					int right = (int)(oam.X + oam.Width);
+					if(rect.Right < right) {
+						rect.Width += right - rect.Right;
+					}
+				}
+
+				{
+					if(rect.Y > oam.Y) {
+						rect.Height += rect.Y - oam.Y;
+						rect.Y = oam.Y;
+					}
+					int bottom = (int)(oam.Y + oam.Height);
+					if(rect.Bottom < bottom) {
+						rect.Height += bottom - rect.Bottom;
+					}
+				}
+			}
+
+			return rect;
 		}
 	}
 }
