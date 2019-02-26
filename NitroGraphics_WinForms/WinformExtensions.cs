@@ -245,40 +245,13 @@ namespace Nitro.Graphics.WinForms {
 		}
 
 		public static Rectangle BoundingBox(this NCER.AnimationCell cell) {
-			var rect = new Rectangle();
-			{
-				var oam = cell.oams[0];
-				rect.X = oam.X;
-				rect.Y = oam.Y;
-				rect.Width = (int)oam.Width;
-				rect.Height = (int)oam.Height;
-			}
+			Rectangle totalBbox = cell.oams[0].BoundingBox();
 			for(int oamIndex=1;oamIndex<cell.oams.Count;++oamIndex) {
 				var oam = cell.oams[oamIndex];
-				{
-					if(rect.X > oam.X) {
-						rect.Width += rect.X - oam.X;
-						rect.X = oam.X;
-					}
-					int right = (int)(oam.X + oam.Width);
-					if(rect.Right < right) {
-						rect.Width += right - rect.Right;
-					}
-				}
-
-				{
-					if(rect.Y > oam.Y) {
-						rect.Height += rect.Y - oam.Y;
-						rect.Y = oam.Y;
-					}
-					int bottom = (int)(oam.Y + oam.Height);
-					if(rect.Bottom < bottom) {
-						rect.Height += bottom - rect.Bottom;
-					}
-				}
+				totalBbox.ExpandAABB(oam.BoundingBox());
 			}
 
-			return rect;
+			return totalBbox;
 		}
 
 		public static Bitmap DrawOamBoxes(this NCER.AnimationCell cell, Color lineColor) {
@@ -291,6 +264,52 @@ namespace Nitro.Graphics.WinForms {
 			}
 
 			return bm;
+		}
+
+		public static void ExpandAABB(this ref Rectangle rect1, Rectangle rect2) {
+			{
+				if(rect1.X > rect2.X) {
+					rect1.Width += rect1.X - rect2.X;
+					rect1.X = rect2.X;
+				}
+				int right = rect2.X + rect2.Width;
+				if(rect1.Right < right) {
+					rect1.Width += right - rect1.Right;
+				}
+			}
+
+			{
+				if(rect1.Y > rect2.Y) {
+					rect1.Height += rect1.Y - rect2.Y;
+					rect1.Y = rect2.Y;
+				}
+				int bottom = rect2.Y + rect2.Height;
+				if(rect1.Bottom < bottom) {
+					rect1.Height += bottom - rect1.Bottom;
+				}
+			}
+
+		}
+
+		public static Rectangle BoundingBox(this NCER ncer) {
+			Rectangle totalBbox;
+
+			totalBbox = ncer.Cells[0].BoundingBox();
+			for(int cellIndex = 1; cellIndex < ncer.Cells.Count; ++cellIndex) {
+				var cell = ncer.Cells[cellIndex];
+				Rectangle cellBbox = cell.BoundingBox();
+				totalBbox.ExpandAABB(cellBbox);
+			}
+			return totalBbox;
+		}
+
+		public static Rectangle BoundingBox(this OAMEntry oam) {
+			return new Rectangle(
+				oam.X,
+				oam.Y,
+				(int)oam.Width,
+				(int)oam.Height
+			);
 		}
 	}
 }
