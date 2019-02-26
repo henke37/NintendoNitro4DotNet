@@ -3,15 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace Nitro.Graphics.WinForms {
-	class AnimationPlayer_WinForms : AnimationRunner {
+	public class AnimationPlayer_WinForms : AnimationRunner {
 
 		private List<Bitmap> bitmaps;
 
-		public AnimationPlayer_WinForms(NANR.Animation animation, NCGR ncgr, NCLR nclr, NCER ncer) : base(animation, ncgr, nclr, ncer) {
+		public PictureBox PictureBox;
+		public Timer Timer;
 
+		public event Action AnimationComplete;
+
+		public AnimationPlayer_WinForms(NANR.Animation animation, NCGR ncgr, NCLR nclr, NCER ncer) : this(animation, ncgr, nclr, ncer, new PictureBox()) { }
+
+		public AnimationPlayer_WinForms(NANR.Animation animation, NCGR ncgr, NCLR nclr, NCER ncer, PictureBox pb) : base(animation, ncgr, nclr, ncer) {
+			PictureBox = pb;
 			generateBitmaps();
+
+			Timer = new Timer();
+			Timer.Interval = 1000 / 60;
+			Timer.Tick += Timer_Tick;
+		}
+
+		private void Timer_Tick(object sender, EventArgs e) {
+			tick();
 		}
 
 		private void generateBitmaps() {
@@ -23,14 +39,25 @@ namespace Nitro.Graphics.WinForms {
 				cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -bbox.X, -bbox.Y);
 				bitmaps.Add(bm);
 			}
+
+			PictureBox.Width = bbox.Width;
+			PictureBox.Height = bbox.Height;
+		}
+
+		public void Start() {
+			currentAnimationFrameIndex = 0;
+			Timer.Start();
 		}
 
 		protected override void drawNewFrame() {
-			var bm = bitmaps[currentAnimationFrameIndex];
+			var animFrame = currentAnimationFrame;
+			var bm = bitmaps[animFrame.Position.CellIndex];
+			PictureBox.Image = bm;
 		}
 
 		protected override void OnAnimationComplete() {
-			throw new NotImplementedException();
+			Timer.Stop();
+			AnimationComplete?.Invoke();
 		}
 	}
 }

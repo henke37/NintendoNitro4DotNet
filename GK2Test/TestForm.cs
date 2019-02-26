@@ -13,6 +13,8 @@ namespace GK2Test {
 
 		private NDS nds;
 
+		private AnimationPlayer_WinForms player;
+
 		public TestForm(string[] args) {
 			InitializeComponent();
 
@@ -25,16 +27,12 @@ namespace GK2Test {
 			NANR nanr = new NANR(subArchive.OpenFile(1));
 			NCER ncer = new NCER(subArchive.OpenFile(0));
 
-			NCER.AnimationCell cell = ncer.Cells[0];
-			Rectangle bbox=cell.BoundingBox();
+			NANR.Animation anim = nanr.animations[int.Parse(args[4])];
 
 			//imgDisp.Image = cell.DrawOamBoxes(Color.Red);
 
-			var bm = new Bitmap(bbox.Width, bbox.Height, PixelFormat.Format8bppIndexed);
-			nclr.Palette.Apply(bm);
-			cell.DrawInBitmap(bm, ncer.Mapping, ncgr, -bbox.X, -bbox.Y);
-			imgDisp.Image = bm;
-
+			player = new AnimationPlayer_WinForms(anim, ncgr, nclr, ncer, imgDisp);
+			player.Start();
 		}
 	}
 }
