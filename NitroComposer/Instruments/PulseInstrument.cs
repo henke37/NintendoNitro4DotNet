@@ -12,5 +12,14 @@ namespace Nitro.Composer.Instruments {
             r.Skip(2);
             parseFields(r);
         }
-    }
+
+		public override string ToString() {
+			return string.Format("{1} {0}",dutyMap[Duty],base.ToString());
+		}
+
+		private static string[] dutyMap = new string[] {
+			"12.5%", "25.0%", "37.5%", "50.0%",
+			"62.5%", "75.0%", "87.5%", "0.0%"
+		};
+	}
 }

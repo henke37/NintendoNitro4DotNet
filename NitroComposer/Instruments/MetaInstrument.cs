@@ -35,6 +35,10 @@ namespace Nitro.Composer.Instruments {
             public bool MatchesNote(byte note) {
                 return note >= lowEnd && note <= highEnd;
             }
-        }
+
+			public override string ToString() {
+				return string.Format("[{0},{1}] {2}",lowEnd,highEnd,subInstrument.ToString());
+			}
+		}
     }
 }

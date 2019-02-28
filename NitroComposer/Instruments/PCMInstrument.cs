@@ -12,6 +12,10 @@ namespace Nitro.Composer.Instruments {
             swav = r.ReadUInt16();
             parseFields(r);
         }
-        
-    }
+
+		public override string ToString() {
+			return string.Format("{2} {0} {1}", swar, swav,base.ToString());
+		}
+
+	}
 }

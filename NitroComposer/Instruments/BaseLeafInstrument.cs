@@ -23,5 +23,9 @@ namespace Nitro.Composer.Instruments {
         public override BaseLeafInstrument leafInstrumentForNote(byte note) {
             return this;
         }
-    }
+
+		public override string ToString() {
+			return string.Format("{0} {1:X} {2:X} {3:X} {4:X}",BaseNote,Attack,Decay,Sustain,Release);
+		}
+	}
 }
