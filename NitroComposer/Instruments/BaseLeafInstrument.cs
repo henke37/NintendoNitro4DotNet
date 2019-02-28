@@ -25,7 +25,7 @@ namespace Nitro.Composer.Instruments {
         }
 
 		public override string ToString() {
-			return string.Format("{0} {1:X} {2:X} {3:X} {4:X}",BaseNote,Attack,Decay,Sustain,Release);
+			return string.Format("{0} {1:X2} {2:X2} {3:X2} {4:X2}",BaseNote,Attack,Decay,Sustain,Release);
 		}
 	}
 }
