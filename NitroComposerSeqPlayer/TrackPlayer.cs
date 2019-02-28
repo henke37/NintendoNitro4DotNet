@@ -56,6 +56,8 @@ namespace NitroComposerPlayer {
 
 		internal int Pan;
 
+		public int TrackNo { get => Array.IndexOf(sequencePlayer.tracks, this); }
+
 		public TrackPlayer(SequencePlayer sequencePlayer, uint nextInstructionId = 0) {
 			this.sequencePlayer = sequencePlayer;
 			this.nextInstructionId = nextInstructionId;
