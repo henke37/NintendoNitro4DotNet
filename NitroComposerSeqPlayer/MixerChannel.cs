@@ -33,7 +33,7 @@ namespace NitroComposerPlayer {
 			Noise
 		}
 
-		public int GenerateSample() {
+		public int GenerateBaseSample() {
 			switch(Mode) {
 				case MixerChannelMode.Off:
 					return 0;
@@ -46,6 +46,13 @@ namespace NitroComposerPlayer {
 				default:
 					throw new InvalidOperationException();
 			}
+		}
+
+		public void GenerateSample(out int leftChan, out int rightChan) {
+			int sample = GenerateBaseSample();
+			sample = Remap.MulDiv7(sample, VolMul) >> VolShift;
+			leftChan = Remap.MulDiv7(sample, 127 - Pan);
+			rightChan = Remap.MulDiv7(sample, Pan);
 		}
 
 		private int GeneratePCM() {

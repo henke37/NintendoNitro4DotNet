@@ -20,10 +20,9 @@ namespace NitroComposerPlayer {
 			int rightChan = 0;
 
 			foreach(var chan in channels) {
-				int sample=chan.GenerateSample();
-				sample = Remap.MulDiv7(sample, chan.VolMul) >> chan.VolShift;
-				leftChan += Remap.MulDiv7(sample, 127 - chan.Pan);
-				rightChan += Remap.MulDiv7(sample, chan.Pan);
+				chan.GenerateSample(out int left, out int right);
+				leftChan += left;
+				rightChan += right;
 			}
 
 			leftChan = Remap.Clamp(leftChan, -0x80000, 0x7FFF);
