@@ -342,6 +342,7 @@ namespace Nitro.Composer {
             internal static BankInfoRecord Read(BinaryReader r) {
                 var record = new BankInfoRecord();
                 record.fatId = r.ReadUInt16();
+				r.Skip(2);//presumably padding
                 record.swars = r.ReadInt16Array(4);
                 return record;
             }
