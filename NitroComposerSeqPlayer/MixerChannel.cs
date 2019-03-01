@@ -29,21 +29,25 @@ namespace NitroComposerPlayer {
 			Noise
 		}
 
-		public void GenerateSamples(int sampleCount) {
+		public void GenerateAndAddSamples(int[] outBuf) {
+			int bufLen = outBuf.Length;
 			switch(Mode) {
 				case MixerChannelMode.Off:
 					return;
-				case MixerChannelMode.Pcm:
-					GeneratePCM();
-					return;
-
 				case MixerChannelMode.Pulse:
-					GeneratePulse();
+					for(int i = 0; i < bufLen;++i) {
+						outBuf[i] += GeneratePulse();
+					}
 					return;
-
 				case MixerChannelMode.Noise:
-					GenerateNoise();
+					for(int i = 0; i < bufLen; ++i) {
+						outBuf[i] += GenerateNoise();
+					}
 					return;
+				case MixerChannelMode.Pcm:
+					throw new NotImplementedException();
+				default:
+					throw new InvalidOperationException();
 			}
 		}
 
