@@ -50,6 +50,16 @@ namespace NitroComposerPlayer {
 			return volMulTbl[totalVol];
 		}
 
+		public static int Clamp(int x, int bottom, int top) {
+			if(x > top) return top;
+			if(x < bottom) return bottom;
+			return x;
+		}
+
+		public static int MulDiv7(int val, int mul) {
+			return mul == 127 ? val : ((val * mul) >> 7);
+		}
+
 		private static readonly byte[] attackLut = new byte[] {
 			0x00, 0x01, 0x05, 0x0E, 0x1A, 0x26, 0x33, 0x3F, 0x49, 0x54,
 			0x5C, 0x64, 0x6D, 0x74, 0x7B, 0x7F, 0x84, 0x89, 0x8F
