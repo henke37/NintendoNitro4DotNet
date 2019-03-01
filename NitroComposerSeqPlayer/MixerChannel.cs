@@ -24,7 +24,7 @@ namespace NitroComposerPlayer {
 
 		internal int Pan;
 		internal int VolMul;
-		internal int VolDiv;
+		internal int VolShift;
 
 		public enum MixerChannelMode {
 			Off,

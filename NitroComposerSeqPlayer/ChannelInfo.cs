@@ -232,13 +232,13 @@ namespace NitroComposerPlayer {
 
 					mixerChannel.VolMul = Remap.VolMul(totalVol);
 					if(totalVol < AMPL_K - 240) {
-						mixerChannel.VolDiv = 3;
+						mixerChannel.VolShift = 4;
 					} else if(totalVol < AMPL_K - 120) {
-						mixerChannel.VolDiv = 2;
+						mixerChannel.VolShift = 2;
 					} else if(totalVol < AMPL_K - 60) {
-						mixerChannel.VolDiv = 1;
+						mixerChannel.VolShift = 1;
 					} else {
-						mixerChannel.VolDiv = 0;
+						mixerChannel.VolShift = 0;
 					}
 				}
 
