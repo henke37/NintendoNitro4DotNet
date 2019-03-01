@@ -22,6 +22,10 @@ namespace NitroComposerPlayer {
 		private int[] currentPulseWidthTable;
 		private int pulseCounter;
 
+		internal int Pan;
+		internal int VolMul;
+		internal int VolDiv;
+
 		public enum MixerChannelMode {
 			Off,
 			Pcm,
@@ -29,21 +33,14 @@ namespace NitroComposerPlayer {
 			Noise
 		}
 
-		public void GenerateAndAddSamples(int[] outBuf) {
-			int bufLen = outBuf.Length;
+		public int GenerateSample() {
 			switch(Mode) {
 				case MixerChannelMode.Off:
-					return;
+					return 0;
 				case MixerChannelMode.Pulse:
-					for(int i = 0; i < bufLen;++i) {
-						outBuf[i] += GeneratePulse();
-					}
-					return;
+					return GeneratePulse();
 				case MixerChannelMode.Noise:
-					for(int i = 0; i < bufLen; ++i) {
-						outBuf[i] += GenerateNoise();
-					}
-					return;
+					return GenerateNoise();
 				case MixerChannelMode.Pcm:
 					throw new NotImplementedException();
 				default:

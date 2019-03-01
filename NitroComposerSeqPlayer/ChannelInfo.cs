@@ -125,7 +125,9 @@ namespace NitroComposerPlayer {
 				SweepLength = (uint)(Math.Abs(SweepPitch) * squaredTime);
 			}
 		}
-		
+
+		private const int AMPL_K = 723;
+
 		internal void Update() {
 
 			bool bNotInSustain = state != ChannelState.Sustain;
@@ -213,16 +215,30 @@ namespace NitroComposerPlayer {
 
 			}
 
-			if(bVolNeedUpdate ||bPanNeedUpdate) {
+			if(bVolNeedUpdate || bPanNeedUpdate) {
 				if(bVolNeedUpdate) {
 					int totalVol = this.EnvelopeLevel >> 7;
-					totalVol += Track.sequencePlayer.MasterVolume;
-					totalVol += Track.sequencePlayer.seqInfo.vol;
-					totalVol += Remap.Level(Track.Volume);
-					totalVol += Remap.Level(Track.Expression);
+					totalVol += ExtAmp();
 					totalVol += (int)Velocity;
 					if(bModulation && Track.ModulationType==TrackPlayer.ModulationTypeEnum.Volume) {
 						totalVol += modParam;
+					}
+					totalVol += AMPL_K;
+					if(totalVol<0) {
+						totalVol = 0;
+					} else if(totalVol>AMPL_K) {
+						totalVol = AMPL_K;
+					}
+
+					mixerChannel.VolMul = Remap.VolMul(totalVol);
+					if(totalVol < AMPL_K - 240) {
+						mixerChannel.VolDiv = 3;
+					} else if(totalVol < AMPL_K - 120) {
+						mixerChannel.VolDiv = 2;
+					} else if(totalVol < AMPL_K - 60) {
+						mixerChannel.VolDiv = 1;
+					} else {
+						mixerChannel.VolDiv = 0;
 					}
 				}
 
@@ -233,10 +249,19 @@ namespace NitroComposerPlayer {
 						realPan += modParam;
 					}
 					realPan += 64;
+					mixerChannel.Pan = realPan;
 				}
 			}
 		}
 
+		private int ExtAmp() {
+			int totalVol = Track.sequencePlayer.MasterVolume;
+			totalVol += Track.sequencePlayer.seqInfo.vol;
+			totalVol += Remap.Level(Track.Volume);
+			totalVol += Remap.Level(Track.Expression);
+
+			return totalVol < -AMPL_K ? -AMPL_K : totalVol;
+		}
 
 		private void SetupMixerChannelForNote() {
 			var pcmInstrument = instrument as PCMInstrument;

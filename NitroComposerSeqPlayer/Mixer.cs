@@ -14,16 +14,20 @@ namespace NitroComposerPlayer {
 			}
 		}
 
-		public int[] GenerateSamples(int sampleCount) {
-			int[] outBuff = new int[sampleCount];
-			GenerateAndAddSamples(outBuff);
-			return outBuff;
+		private void GeneratSamplePair() {
+
+			int leftChan = 0;
+			int rightChan = 0;
+
+			foreach(var chan in channels) {
+				int sample=chan.GenerateSample();
+
+
+			}
 		}
 
-		private void GenerateAndAddSamples(int[] outBuff) {
-			foreach(var chan in channels) {
-				chan.GenerateAndAddSamples(outBuff);
-			}
+		private static int muldiv7(int val, int mul) {
+			return mul == 127 ? val : ((val * mul) >> 7);
 		}
 	}
 }
