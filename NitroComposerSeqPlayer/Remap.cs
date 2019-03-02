@@ -50,6 +50,40 @@ namespace NitroComposerPlayer {
 			return volMulTbl[totalVol];
 		}
 
+		public static ushort Timer_Adjust(ushort baseTimer, int pitch) {
+			int shift = 0;
+
+			pitch = -pitch;
+
+			while(pitch < 0) {
+				--shift;
+				pitch += 0x300;
+			}
+
+			while(pitch >= 0x300) {
+				++shift;
+				pitch -= 0x300;
+			}
+
+			var tmr = baseTimer * (pitchTbl[pitch] + 0x10000);
+			shift -= 16;
+			if(shift <= 0) {
+				tmr >>= -shift;
+			} else if(shift < 32) {
+				int v = tmr & ((~0) << (32 - shift));
+				if(v!=0) {
+					return 0xFFFF;
+				}
+				tmr <<= shift;
+			} else {
+				return 0xFFFF;
+			}
+
+			if(tmr < 0x10) return 0x10;
+			if(tmr > 0xFFFF) return 0xFFFF;
+			return (ushort)tmr;
+		}
+
 		public static int Clamp(int x, int bottom, int top) {
 			if(x > top) return top;
 			if(x < bottom) return bottom;

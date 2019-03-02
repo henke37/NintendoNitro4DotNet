@@ -198,21 +198,21 @@ namespace NitroComposerPlayer {
 			}
 
 			if(bTmrNeedUpdate) {
-				int totaAdj = this.Note - Instrument.BaseNote * 64;
-				totaAdj += Track.PitchBend * Track.PitchBendRange >> 1;
+				int totalAdj = this.Note - Instrument.BaseNote * 64;
+				totalAdj += Track.PitchBend * Track.PitchBendRange >> 1;
 
 				if(bModulation && Track.ModulationType== TrackPlayer.ModulationTypeEnum.Pitch) {
-					totaAdj += modParam;
+					totalAdj += modParam;
 				}
 
 				if(bPitchSweep) {
-					totaAdj += (int)(SweepPitch * (double)(SweepLength - SweepCounter) / SweepLength);
+					totalAdj += (int)(SweepPitch * (double)(SweepLength - SweepCounter) / SweepLength);
 					if(!ManualSweep) {
 						SweepCounter++;
 					}
 				}
 
-
+				mixerChannel.Timer = Remap.Timer_Adjust(mixerChannel.Timer, totalAdj);
 			}
 
 			if(bVolNeedUpdate || bPanNeedUpdate) {

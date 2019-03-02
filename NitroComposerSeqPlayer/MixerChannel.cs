@@ -19,6 +19,23 @@ namespace NitroComposerPlayer {
 			}
 		}
 
+		private ushort _timer;
+		private int sampleIncrease;
+
+		public ushort Timer {
+			get =>_timer;
+			set {
+				_timer = value;
+
+				sampleIncrease= (ARM7_CLOCK /( sampleRate * 2)) / (0x10000 - value);
+			}
+		}
+
+		private int samplePosition;
+		private int totalLength;
+		private int length;
+		private bool repeat;
+
 		private int[] currentPulseWidthTable;
 		private int pulseCounter;
 
@@ -42,7 +59,7 @@ namespace NitroComposerPlayer {
 				case MixerChannelMode.Noise:
 					return GenerateNoise();
 				case MixerChannelMode.Pcm:
-					throw new NotImplementedException();
+					return GeneratePCM();
 				default:
 					throw new InvalidOperationException();
 			}
@@ -73,6 +90,20 @@ namespace NitroComposerPlayer {
 			}
 		}
 
+		private void IncrementSample() {
+			samplePosition += sampleIncrease;
+			if(Mode==MixerChannelMode.Pcm && samplePosition >= totalLength) {
+				if(repeat) {
+					while(samplePosition >= totalLength) {
+						samplePosition -= length;
+					}
+				} else {
+					Mode = MixerChannelMode.Off;
+
+				}
+			}
+		}
+
 		private static readonly int[][] pulseWidthLUT = new int[][] {
 			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF},
 			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF},
@@ -83,5 +114,7 @@ namespace NitroComposerPlayer {
 			new int[] {-0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
 			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF}
 		};
+		private readonly int sampleRate;
+		private const int ARM7_CLOCK=33513982;
 	}
 }
