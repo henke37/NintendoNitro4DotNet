@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Nitro.Composer;
 
 namespace NitroComposerPlayer {
 	internal class MixerChannel {
@@ -20,21 +22,21 @@ namespace NitroComposerPlayer {
 		}
 
 		private ushort _timer;
-		private int sampleIncrease;
+		private uint sampleIncrease;
 
 		public ushort Timer {
-			get =>_timer;
+			get => _timer;
 			set {
 				_timer = value;
 
-				sampleIncrease= (ARM7_CLOCK /( sampleRate * 2)) / (0x10000 - value);
+				sampleIncrease = (uint)(ARM7_CLOCK / (sampleRate * 2) / (0x10000 - value));
 			}
 		}
 
-		private int samplePosition;
-		private int totalLength;
-		private int length;
-		private bool repeat;
+		private uint samplePosition;
+		internal uint TotalLength;
+		internal uint LoopLength;
+		internal bool Loops;
 
 		private int[] currentPulseWidthTable;
 		private int pulseCounter;
@@ -92,16 +94,20 @@ namespace NitroComposerPlayer {
 
 		private void IncrementSample() {
 			samplePosition += sampleIncrease;
-			if(Mode==MixerChannelMode.Pcm && samplePosition >= totalLength) {
-				if(repeat) {
-					while(samplePosition >= totalLength) {
-						samplePosition -= length;
+			if(Mode == MixerChannelMode.Pcm && samplePosition >= TotalLength) {
+				if(Loops) {
+					while(samplePosition >= TotalLength) {
+						samplePosition -= LoopLength;
 					}
 				} else {
 					Mode = MixerChannelMode.Off;
 
 				}
 			}
+		}
+
+		internal void SetSampleData(Stream dataStream, WaveEncoding encoding) {
+			throw new NotImplementedException();
 		}
 
 		private static readonly int[][] pulseWidthLUT = new int[][] {
@@ -115,6 +121,7 @@ namespace NitroComposerPlayer {
 			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF}
 		};
 		private readonly int sampleRate;
-		private const int ARM7_CLOCK=33513982;
+		private const int ARM7_CLOCK = 33513982;
+
 	}
 }

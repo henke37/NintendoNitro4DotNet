@@ -9,7 +9,7 @@ namespace Nitro.Composer {
 
         public bool Loops;
         public UInt16 LoopStart;
-        public uint NonLoopLength;
+        public uint LoopLength;
 
         public UInt16 SampleRate;
         public UInt16 TimerLen;
@@ -24,7 +24,7 @@ namespace Nitro.Composer {
                 SampleRate = r.ReadUInt16();
                 TimerLen = r.ReadUInt16();
                 LoopStart = r.ReadUInt16();
-                NonLoopLength = r.ReadUInt32();
+                LoopLength = r.ReadUInt32();
             }
             dataStream = new SubStream(stream, stream.Position);
         }

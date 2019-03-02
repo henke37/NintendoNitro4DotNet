@@ -35,6 +35,7 @@ namespace NitroComposerPlayer {
 
 		private ChannelUpdateFlags updateFlags;
 		private BaseLeafInstrument instrument;
+		private ushort BaseTimer;
 
 		internal BaseLeafInstrument Instrument {
 			get => instrument; set {
@@ -212,7 +213,7 @@ namespace NitroComposerPlayer {
 					}
 				}
 
-				mixerChannel.Timer = Remap.Timer_Adjust(mixerChannel.Timer, totalAdj);
+				mixerChannel.Timer = Remap.Timer_Adjust(BaseTimer, totalAdj);
 			}
 
 			if(bVolNeedUpdate || bPanNeedUpdate) {
@@ -269,6 +270,13 @@ namespace NitroComposerPlayer {
 				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;
 				var swar = Track.sequencePlayer.swars[pcmInstrument.swar];
 				var swav = swar.waves[pcmInstrument.swav];
+				
+				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;
+				mixerChannel.SetSampleData(swav.dataStream,swav.Encoding);
+				mixerChannel.Loops = swav.Loops;
+				mixerChannel.LoopLength = swav.LoopLength;
+				mixerChannel.TotalLength = swav.LoopStart + swav.LoopLength;
+				BaseTimer = swav.TimerLen;
 				return;
 			}
 			var pulseInstrument = instrument as PulseInstrument;
