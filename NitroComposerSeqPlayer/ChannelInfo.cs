@@ -47,6 +47,7 @@ namespace NitroComposerPlayer {
 
 		internal ChannelInfo(MixerChannel mixerChannel) {
 			this.mixerChannel = mixerChannel;
+			mixerChannel.OnSoundComplete += MixerChannel_OnSoundComplete;
 		}
 
 		internal enum ChannelState {
@@ -69,6 +70,10 @@ namespace NitroComposerPlayer {
 			Prio = 0;
 			Vol = 0;
 			Duration = 0;
+		}
+
+		private void MixerChannel_OnSoundComplete() {
+			Kill();
 		}
 
 		internal void UpdateTrackData() {

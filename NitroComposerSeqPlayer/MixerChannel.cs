@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Nitro.Composer;
+using NitroComposerPlayer.Decoders;
 
 namespace NitroComposerPlayer {
 	internal class MixerChannel {
@@ -44,6 +45,9 @@ namespace NitroComposerPlayer {
 		internal int Pan;
 		internal int VolMul;
 		internal int VolShift;
+
+		private BaseSampleDecoder Decoder;
+		public event Action OnSoundComplete;
 
 		public enum MixerChannelMode {
 			Off,
@@ -101,12 +105,15 @@ namespace NitroComposerPlayer {
 					}
 				} else {
 					Mode = MixerChannelMode.Off;
-
+					OnSoundComplete?.Invoke();
 				}
 			}
 		}
 
 		internal void SetSampleData(Stream dataStream, WaveEncoding encoding) {
+			Decoder = BaseSampleDecoder.CreateDecoder(encoding);
+			Decoder.Init(new BinaryReader(dataStream));
+
 			throw new NotImplementedException();
 		}
 

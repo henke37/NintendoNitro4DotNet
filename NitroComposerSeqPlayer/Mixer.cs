@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NitroComposerPlayer {
-	internal class Mixer {
+	public class Mixer {
 
 		internal MixerChannel[] channels;
 

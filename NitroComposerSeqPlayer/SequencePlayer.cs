@@ -28,7 +28,7 @@ namespace NitroComposerPlayer {
 
 		internal byte MasterVolume;
 
-		internal Mixer mixer = new Mixer();
+		public readonly Mixer mixer = new Mixer();
 
 		public short[] Variables = new short[16] {
 			-1, -1, -1, -1,
