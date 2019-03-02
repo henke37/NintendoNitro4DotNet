@@ -14,9 +14,8 @@ namespace NitroComposerPlayer {
 		private BaseSampleDecoder[] decoders;
 
 		public StreamPlayer(SDat sdat, string streamName) {
-			int streamIndex = sdat.streamSymbols.IndexOf(streamName);
-			if(streamIndex == -1) throw new FileNotFoundException();
-			Load(sdat, streamIndex);
+			var strm = sdat.OpenStream(streamName);
+			Load(strm);
 		}
 
 		public StreamPlayer(SDat sdat, int streamIndex) {

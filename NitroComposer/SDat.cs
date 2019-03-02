@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,22 +23,22 @@ namespace Nitro.Composer {
         private List<FATRecord> files;
         private Stream mainStream;
 
-        public List<SequenceInfoRecord> sequenceInfo;
-        public List<StreamInfoRecord> streamInfo;
+		public List<string> seqSymbols;
+		public List<string> bankSymbols;
+		public List<string> waveArchiveSymbols;
+		public List<string> playerSymbols;
+		public List<string> groupSymbols;
+		public List<string> streamPlayerSymbols;
+		public List<string> streamSymbols;
 
-        public List<string> seqSymbols;
-        public List<string> bankSymbols;
-        public List<string> waveArchiveSymbols;
-        public List<string> playerSymbols;
-        public List<string> groupSymbols;
-        public List<string> streamPlayerSymbols;
-        public List<string> streamSymbols;
         public List<BankInfoRecord> bankInfo;
 		public List<WaveArchiveInfoRecord> waveArchiveInfo;
         public List<PlayerInfoRecord> playerInfo;
         public List<GroupInfoRecord> groupInfo;
+		public List<SequenceInfoRecord> sequenceInfo;
+		public List<StreamInfoRecord> streamInfo;
 
-        public SDat() {
+		public SDat() {
 
         }
 
@@ -200,14 +201,22 @@ namespace Nitro.Composer {
 
                 }
 
-                seqSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                r.Skip(4);
-                bankSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                waveArchiveSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                playerSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                groupSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                streamPlayerSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
-                streamSymbols = parseSymbSubRec(new SubStream(symbStream, r.ReadUInt32()));
+				var seqSymbPtr = r.ReadUInt32();
+				r.Skip(4);
+				var bankSymbPtr = r.ReadUInt32();
+				var waveArchSymbPtr = r.ReadUInt32();
+				var playerSymbPtr = r.ReadUInt32();
+				var groupSymbPtr = r.ReadUInt32();
+				var streamPlayerSymbPtr = r.ReadUInt32();
+				var streamSymbPtr = r.ReadUInt32();
+
+				if(seqSymbPtr != 0) seqSymbols = parseSymbSubRec(new SubStream(symbStream, seqSymbPtr));
+				if(bankSymbPtr != 0) bankSymbols = parseSymbSubRec(new SubStream(symbStream, bankSymbPtr));
+				if(waveArchSymbPtr != 0) waveArchiveSymbols = parseSymbSubRec(new SubStream(symbStream, waveArchSymbPtr));
+				if(playerSymbPtr != 0) playerSymbols = parseSymbSubRec(new SubStream(symbStream, playerSymbPtr));
+				if(groupSymbPtr != 0) groupSymbols = parseSymbSubRec(new SubStream(symbStream, groupSymbPtr));
+				if(streamPlayerSymbPtr != 0) streamPlayerSymbols = parseSymbSubRec(new SubStream(symbStream, streamPlayerSymbPtr));
+				if(streamSymbPtr != 0) streamSymbols = parseSymbSubRec(new SubStream(symbStream, streamSymbPtr));
             }
         }
 
@@ -237,7 +246,7 @@ namespace Nitro.Composer {
         }
 
         public STRM OpenStream(string name) {
-            int streamIndex = streamSymbols.IndexOf(name);
+            int streamIndex = ResolveStreamName(name);
             if(streamIndex == -1) throw new FileNotFoundException();
             return OpenStream(streamIndex);
         }
@@ -248,8 +257,7 @@ namespace Nitro.Composer {
         }
 
         public SSEQ OpenSequence(string name) {
-
-            int sequenceIndex = seqSymbols.IndexOf(name);
+            int sequenceIndex = ResolveSeqName(name);
             if(sequenceIndex == -1) throw new FileNotFoundException();
             return OpenSequence(sequenceIndex);
         }
@@ -260,7 +268,7 @@ namespace Nitro.Composer {
         }
 
         public SBNK OpenBank(string name) {
-            int bankIndex = bankSymbols.IndexOf(name);
+            int bankIndex = ResolveBankName(name);
             if(bankIndex == -1) throw new FileNotFoundException();
             return OpenBank(bankIndex);
         }
@@ -271,7 +279,7 @@ namespace Nitro.Composer {
         }
 
         public SWAR OpenWaveArchive(string name) {
-            int waveArchiveIndex = waveArchiveSymbols.IndexOf(name);
+            int waveArchiveIndex = ResolveWaveArchiveName(name);
             if(waveArchiveIndex == -1) throw new FileNotFoundException();
             return OpenWaveArchive(waveArchiveIndex);
         }
@@ -281,9 +289,27 @@ namespace Nitro.Composer {
             return new SWAR(OpenSubFile(infoRecord.fatId));
         }
 
+		public int ResolveStreamName(string name) {
+			if(streamSymbols is null) throw new NoSymbolsException("No sequence symbols");
+			return streamSymbols.IndexOf(name);
+		}
 
+		public int ResolveSeqName(string name) {
+			if(seqSymbols is null) throw new NoSymbolsException("No sequence symbols");
+			return seqSymbols.IndexOf(name);
+		}
 
-        private class FATRecord {
+		public int ResolveBankName(string name) {
+			if(bankSymbols is null) throw new NoSymbolsException("No bank symbols");
+			return bankSymbols.IndexOf(name);
+		}
+
+		public int ResolveWaveArchiveName(string name) {
+			if(waveArchiveSymbols is null) throw new NoSymbolsException("No wave archive symbols");
+			return waveArchiveSymbols.IndexOf(name);
+		}
+
+		private class FATRecord {
             internal UInt32 size;
             internal UInt32 position;
 
@@ -403,5 +429,14 @@ namespace Nitro.Composer {
                 }
             }
         }
-    }
+
+		[Serializable]
+		public class NoSymbolsException : InvalidOperationException {
+			public NoSymbolsException(string message) : base(message) {
+			}
+
+			protected NoSymbolsException(SerializationInfo info, StreamingContext context) : base(info, context) {
+			}
+		}
+	}
 }

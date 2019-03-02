@@ -40,7 +40,7 @@ namespace NitroComposerPlayer {
 		internal ChannelInfo[] channels;
 
 		public SequencePlayer(SDat sdat, string sequenceName) {
-			int seqIndex = sdat.seqSymbols.IndexOf(sequenceName);
+			int seqIndex = sdat.ResolveSeqName(sequenceName);
 			if(seqIndex == -1) throw new FileNotFoundException();
 			Load(sdat,seqIndex);
 		}

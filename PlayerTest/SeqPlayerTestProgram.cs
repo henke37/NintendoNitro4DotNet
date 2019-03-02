@@ -14,6 +14,7 @@ namespace PlayerTest {
 		const int ERR_NDS_FNF = 1;
 		const int ERR_NO_SDAT = 3;
 		const int ERR_SEQ_NOT_FOUND = 5;
+		const int ERR_NO_SYMBOLS = 6;
 		const int ERR_IS_STREAM = 20;
 		const int ERR_ARGUMENTS = 90;
 		const int ERR_USAGE = 99;
@@ -57,6 +58,10 @@ namespace PlayerTest {
 
 				int res = Play(sdat, name);
 				if(res == ERR_SEQ_NOT_FOUND) continue;
+				if(res == ERR_NO_SYMBOLS) {
+					Console.Error.WriteLine("No sequence symbols");
+					return res;
+				}
 				return res;
 			}
 
@@ -78,6 +83,8 @@ namespace PlayerTest {
 				return Play(player);
 			} catch(FileNotFoundException) {
 				//just swallow this one
+			} catch(SDat.NoSymbolsException) {
+				return ERR_NO_SYMBOLS;
 			}
 
 			try {
