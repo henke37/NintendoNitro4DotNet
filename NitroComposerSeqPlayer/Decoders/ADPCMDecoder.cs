@@ -27,6 +27,7 @@ namespace NitroComposerPlayer.Decoders {
 
 		private void Reset() {
 			reader.Seek(0);
+			currentPos = 0;
 			predictor = reader.ReadUInt16();
 			stepIndex = reader.ReadUInt16();
 		}
