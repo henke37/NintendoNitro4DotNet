@@ -270,6 +270,7 @@ namespace NitroComposerPlayer {
 		}
 
 		private void SetupMixerChannelForNote() {
+			mixerChannel.Reset();
 			var pcmInstrument = instrument as PCMInstrument;
 			if(pcmInstrument!=null) {
 				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;

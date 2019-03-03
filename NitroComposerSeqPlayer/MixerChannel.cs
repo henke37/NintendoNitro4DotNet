@@ -47,7 +47,7 @@ namespace NitroComposerPlayer {
 
 		private int[] currentPulseWidthTable;
 
-		private uint lastPRNGClock;
+		private uint LastPRNGClock;
 
 		internal int Pan;
 		internal int VolMul;
@@ -61,6 +61,14 @@ namespace NitroComposerPlayer {
 			Pcm,
 			Pulse,
 			Noise
+		}
+
+		public void Reset() {
+			Mode = MixerChannelMode.Off;
+			Decoder = null;
+			LastPRNGClock = 0;
+			noiseState = 0;
+			currentPulseWidthTable = null;
 		}
 
 		public int GenerateBaseSample() {
@@ -97,8 +105,8 @@ namespace NitroComposerPlayer {
 			int sample;
 			do {
 				sample = ClockNoise();
-				++lastPRNGClock;
-			} while(lastPRNGClock < samplePosition);
+				++LastPRNGClock;
+			} while(LastPRNGClock < samplePosition);
 			return sample;
 		}
 
