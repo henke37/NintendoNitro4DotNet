@@ -71,16 +71,12 @@ namespace NitroComposerPlayer {
 		}
 
 		internal void SetSampleData(Wave wave) {
-			SetSampleData(wave.dataStream, wave.Encoding, wave.Loops, wave.LoopLength, wave.LoopStart + wave.LoopLength);
-		}
-
-		private void SetSampleData(Stream dataStream, WaveEncoding encoding, bool loops, uint loopLength, uint totalLength) {
 			Mode = MixerChannelMode.Pcm;
-			BaseSampleDecoder decoder = BaseSampleDecoder.CreateDecoder(encoding);
-			decoder.Init(new BinaryReader(dataStream));
-			decoder.Loops = Loops;
-			decoder.LoopLength = loopLength;
-			decoder.TotalLength = totalLength;
+			BaseSampleDecoder decoder = BaseSampleDecoder.CreateDecoder(wave.Encoding);
+			decoder.Init(new BinaryReader(wave.dataStream));
+			decoder.Loops = wave.Loops;
+			decoder.LoopLength = wave.LoopLength;
+			decoder.TotalLength = wave.LoopStart + wave.LoopLength;
 			Generator = decoder;
 		}
 
