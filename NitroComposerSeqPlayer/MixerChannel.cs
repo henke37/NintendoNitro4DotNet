@@ -58,13 +58,15 @@ namespace NitroComposerPlayer {
 			Generator = null;
 		}
 
-		public int GenerateBaseSample() {
-			if(Mode == MixerChannelMode.Off) return 0;
-			return Generator.GetSample();
-		}
-
 		public void GenerateSample(out int leftChan, out int rightChan) {
-			int sample = GenerateBaseSample();
+			if(Mode == MixerChannelMode.Off) {
+				leftChan = 0;
+				rightChan = 0;
+				return;
+			}
+
+			int sample = Generator.GetSample();
+			Generator.IncrementSample();
 			sample = Remap.MulDiv7(sample, VolMul) >> VolShift;
 			leftChan = Remap.MulDiv7(sample, 127 - Pan);
 			rightChan = Remap.MulDiv7(sample, Pan);

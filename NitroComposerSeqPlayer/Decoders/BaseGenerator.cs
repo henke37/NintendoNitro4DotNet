@@ -11,7 +11,7 @@ namespace NitroComposerPlayer.Decoders {
 
 		public event Action SoundComplete;
 
-		protected virtual void IncrementSample() {
+		public virtual void IncrementSample() {
 			samplePosition += sampleIncrease;
 		}
 

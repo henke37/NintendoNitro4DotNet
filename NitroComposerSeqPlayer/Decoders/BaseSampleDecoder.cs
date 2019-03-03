@@ -28,7 +28,7 @@ namespace NitroComposerPlayer.Decoders {
 			}
 		}
 
-		protected override void IncrementSample() {
+		public override void IncrementSample() {
 			if(samplePosition >= TotalLength) {
 				if(Loops) {
 					while(samplePosition >= TotalLength) {
