@@ -21,5 +21,7 @@ namespace NitroComposerPlayer.Decoders {
 					throw new NotImplementedException();
 			}
 		}
+
+		internal abstract int GetSample(uint samplePosition);
 	}
 }

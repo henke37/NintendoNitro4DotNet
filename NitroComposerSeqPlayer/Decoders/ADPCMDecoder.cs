@@ -20,6 +20,10 @@ namespace NitroComposerPlayer.Decoders {
 			stepIndex = reader.ReadUInt16();
 		}
 
+		internal override int GetSample(uint samplePosition) {
+			throw new System.NotImplementedException();
+		}
+
 		private void parseNibble(int nibble) {
 			int step = stepTable[stepIndex];
 

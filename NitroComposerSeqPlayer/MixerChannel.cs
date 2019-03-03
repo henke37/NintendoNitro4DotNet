@@ -94,7 +94,7 @@ namespace NitroComposerPlayer {
 		}
 
 		private int GeneratePCM() {
-			throw new NotImplementedException();
+			return Decoder.GetSample(samplePosition);
 		}
 
 		private int GeneratePulse() {
