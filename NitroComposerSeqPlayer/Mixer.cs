@@ -14,10 +14,9 @@ namespace NitroComposerPlayer {
 			}
 		}
 
-		private void GenerateSamplePair() {
-
-			int leftChan = 0;
-			int rightChan = 0;
+		private void GenerateSamplePair(out int leftChan, out int rightChan) {
+			leftChan = 0;
+			rightChan = 0;
 
 			foreach(var chan in channels) {
 				chan.GenerateSample(out int left, out int right);
@@ -27,8 +26,6 @@ namespace NitroComposerPlayer {
 
 			leftChan = Remap.Clamp(leftChan, -0x80000, 0x7FFF);
 			rightChan = Remap.Clamp(rightChan, -0x80000, 0x7FFF);
-
-
 		}
 
 
