@@ -54,6 +54,10 @@
     <Compile Include="TrackPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
+      <Project>{95829EB3-7D03-4D94-A1DD-1F12313E374D}</Project>
+      <Name>HenkesUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NitroComposer\NitroComposer.csproj">
       <Project>{DA199528-344E-4EAB-9479-2BF823DFC7A2}</Project>
       <Name>NitroComposer</Name>

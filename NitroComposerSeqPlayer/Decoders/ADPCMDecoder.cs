@@ -16,6 +16,7 @@ namespace NitroComposerPlayer.Decoders {
 		}
 
 		public override void Init(BinaryReader reader) {
+			this.reader = reader;
 			predictor = reader.ReadUInt16();
 			stepIndex = reader.ReadUInt16();
 		}

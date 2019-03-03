@@ -137,8 +137,6 @@ namespace NitroComposerPlayer {
 		internal void SetSampleData(Stream dataStream, WaveEncoding encoding) {
 			Decoder = BaseSampleDecoder.CreateDecoder(encoding);
 			Decoder.Init(new BinaryReader(dataStream));
-
-			throw new NotImplementedException();
 		}
 
 		private static readonly int[][] pulseWidthLUT = new int[][] {

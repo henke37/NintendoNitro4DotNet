@@ -5,6 +5,8 @@ using System.IO;
 namespace NitroComposerPlayer.Decoders {
 	internal abstract class BaseSampleDecoder {
 
+		protected BinaryReader reader;
+
 		public abstract void Init(BinaryReader reader);
 
 		public static BaseSampleDecoder CreateDecoder(WaveEncoding encoding) {
