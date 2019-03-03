@@ -1,10 +1,15 @@
-﻿using System.IO;
+﻿using HenkesUtils;
+using System;
+using System.IO;
 
 namespace NitroComposerPlayer.Decoders {
 	internal class ADPCMDecoder : BaseSampleDecoder {
 
 		private int predictor;
 		private int stepIndex;
+
+		private uint currentPos;
+		private int storedNibble;
 
 		public ADPCMDecoder() {
 
@@ -17,12 +22,46 @@ namespace NitroComposerPlayer.Decoders {
 
 		public override void Init(BinaryReader reader) {
 			this.reader = reader;
+			Reset();
+		}
+
+		private void Reset() {
+			reader.Seek(0);
 			predictor = reader.ReadUInt16();
 			stepIndex = reader.ReadUInt16();
 		}
 
 		internal override int GetSample(uint samplePosition) {
-			throw new System.NotImplementedException();
+			if(currentPos == samplePosition) {
+				return predictor;
+			}
+
+			if(currentPos>samplePosition) {
+				Reset();
+			}
+
+			if((currentPos % 2) == 1) {
+				parseNibble(storedNibble);
+			}
+
+			for(; currentPos+2<=samplePosition;) {
+				var nibble = reader.ReadByte();
+				parseNibble(nibble | 0xF);
+				parseNibble(nibble >> 8);
+			}
+
+			if(currentPos == samplePosition) {
+				return predictor;
+			}
+
+			if((currentPos % 2)==0) {
+				var nibble = reader.ReadByte();
+				parseNibble(nibble | 0xF);
+				storedNibble = nibble >> 8;
+			} else {
+				parseNibble(storedNibble);
+			}
+			return predictor;
 		}
 
 		private void parseNibble(int nibble) {
@@ -52,6 +91,7 @@ namespace NitroComposerPlayer.Decoders {
 					predictor = 32767;
 				}
 			}
+			currentPos++;
 		}
 
 		private static readonly int[] stepTable = new int[] {
