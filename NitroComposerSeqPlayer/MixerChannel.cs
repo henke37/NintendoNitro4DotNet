@@ -12,6 +12,10 @@ namespace NitroComposerPlayer {
 
 		internal int pulseWidth {
 			set {
+				if(value == -1) {
+					currentPulseWidthTable = null;
+					return;
+				}
 				currentPulseWidthTable = pulseWidthLUT[value];
 			}
 			get {
@@ -39,14 +43,17 @@ namespace NitroComposerPlayer {
 		internal uint LoopLength;
 		internal bool Loops;
 
+		private BaseSampleDecoder Decoder;
+
 		private int[] currentPulseWidthTable;
-		private int pulseCounter;
+
+		private uint lastPRNGClock;
 
 		internal int Pan;
 		internal int VolMul;
 		internal int VolShift;
 
-		private BaseSampleDecoder Decoder;
+
 		public event Action OnSoundComplete;
 
 		public enum MixerChannelMode {
@@ -83,10 +90,19 @@ namespace NitroComposerPlayer {
 		}
 
 		private int GeneratePulse() {
-			return currentPulseWidthTable[pulseCounter++ % 8];
+			return currentPulseWidthTable[samplePosition % 8];
 		}
 
 		private int GenerateNoise() {
+			int sample;
+			do {
+				sample = ClockNoise();
+				++lastPRNGClock;
+			} while(lastPRNGClock < samplePosition);
+			return sample;
+		}
+
+		private int ClockNoise() {
 			if((noiseState & 1) == 1) {
 				noiseState = (ushort)((noiseState >> 1) ^ 0x6000);
 				return -0x7FFF;
