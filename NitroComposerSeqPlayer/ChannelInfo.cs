@@ -276,10 +276,7 @@ namespace NitroComposerPlayer {
 				var swar = Track.sequencePlayer.swars[pcmInstrument.swar];
 				var swav = swar.waves[pcmInstrument.swav];
 				
-				mixerChannel.SetSampleData(swav.dataStream,swav.Encoding);
-				mixerChannel.Loops = swav.Loops;
-				mixerChannel.LoopLength = swav.LoopLength;
-				mixerChannel.TotalLength = swav.LoopStart + swav.LoopLength;
+				mixerChannel.SetSampleData(swav);
 				BaseTimer = swav.TimerLen;
 				return;
 			}
