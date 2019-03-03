@@ -7,7 +7,7 @@ namespace NitroComposerPlayer.Decoders {
 			this.reader = reader;
 		}
 
-		internal override int GetSample(uint samplePosition) {
+		internal override int GetSample() {
 			reader.Seek((int)samplePosition * 2);
 			return reader.ReadInt16();
 		}

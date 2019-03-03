@@ -5,54 +5,44 @@ using NitroComposerPlayer.Decoders;
 
 namespace NitroComposerPlayer {
 	internal class MixerChannel {
-
-		internal MixerChannelMode Mode = MixerChannelMode.Off;
-
-		private ushort noiseState;
-
-		internal int pulseWidth {
-			set {
-				if(value == -1) {
-					currentPulseWidthTable = null;
-					return;
-				}
-				currentPulseWidthTable = pulseWidthLUT[value];
-			}
-			get {
-				for(int i = 0; i < 8; ++i) {
-					if(currentPulseWidthTable == pulseWidthLUT[i]) return i;
-				}
-				return -1;
-			}
-		}
-
 		private ushort _timer;
-		private uint sampleIncrease;
 
 		public ushort Timer {
 			get => _timer;
 			set {
 				_timer = value;
 
-				sampleIncrease = (uint)(ARM7_CLOCK / (sampleRate * 2) / (0x10000 - value));
+				Generator.sampleIncrease = (uint)(ARM7_CLOCK / (sampleRate * 2) / (0x10000 - value));
 			}
 		}
 
-		private uint samplePosition;
-		internal uint TotalLength;
-		internal uint LoopLength;
-		internal bool Loops;
+		private BaseGenerator Generator {
+			get => _generator;
+			set {
+				if(_generator == value) return;
+				if(_generator != null) _generator.SoundComplete -= Generator_OnSoundComplete;
+				_generator = value;
+				if(value != null) value.SoundComplete += Generator_OnSoundComplete;
+			}
+		}
 
-		private BaseSampleDecoder Decoder;
+		private BaseSampleDecoder Decoder { get => (BaseSampleDecoder)_generator; }
 
-		private int[] currentPulseWidthTable;
+		internal uint TotalLength { set => Decoder.TotalLength = value; get => Decoder.TotalLength; }
+		internal uint LoopLength { set => Decoder.LoopLength = value; get => Decoder.LoopLength; }
+		internal bool Loops { set => Decoder.Loops = value; get => Decoder.Loops; }
 
-		private uint LastPRNGClock;
+		internal MixerChannelMode Mode { get; private set; } = MixerChannelMode.Off;
+
+		private void Generator_OnSoundComplete() {
+			OnSoundComplete?.Invoke();
+		}
+
+		private BaseGenerator _generator;
 
 		internal int Pan;
 		internal int VolMul;
 		internal int VolShift;
-
 
 		public event Action OnSoundComplete;
 
@@ -65,25 +55,12 @@ namespace NitroComposerPlayer {
 
 		public void Reset() {
 			Mode = MixerChannelMode.Off;
-			Decoder = null;
-			LastPRNGClock = 0;
-			noiseState = 0;
-			currentPulseWidthTable = null;
+			Generator = null;
 		}
 
 		public int GenerateBaseSample() {
-			switch(Mode) {
-				case MixerChannelMode.Off:
-					return 0;
-				case MixerChannelMode.Pulse:
-					return GeneratePulse();
-				case MixerChannelMode.Noise:
-					return GenerateNoise();
-				case MixerChannelMode.Pcm:
-					return GeneratePCM();
-				default:
-					throw new InvalidOperationException();
-			}
+			if(Mode == MixerChannelMode.Off) return 0;
+			return Generator.GetSample();
 		}
 
 		public void GenerateSample(out int leftChan, out int rightChan) {
@@ -93,64 +70,26 @@ namespace NitroComposerPlayer {
 			rightChan = Remap.MulDiv7(sample, Pan);
 		}
 
-		private int GeneratePCM() {
-			return Decoder.GetSample(samplePosition);
-		}
-
-		private int GeneratePulse() {
-			return currentPulseWidthTable[samplePosition % 8];
-		}
-
-		private int GenerateNoise() {
-			int sample;
-			do {
-				sample = ClockNoise();
-				++LastPRNGClock;
-			} while(LastPRNGClock < samplePosition);
-			return sample;
-		}
-
-		private int ClockNoise() {
-			if((noiseState & 1) == 1) {
-				noiseState = (ushort)((noiseState >> 1) ^ 0x6000);
-				return -0x7FFF;
-			} else {
-				noiseState >>= 1;
-				return 0x7FFF;
-			}
-		}
-
-		private void IncrementSample() {
-			samplePosition += sampleIncrease;
-			if(Mode == MixerChannelMode.Pcm && samplePosition >= TotalLength) {
-				if(Loops) {
-					while(samplePosition >= TotalLength) {
-						samplePosition -= LoopLength;
-					}
-				} else {
-					Mode = MixerChannelMode.Off;
-					OnSoundComplete?.Invoke();
-				}
-			}
-		}
-
 		internal void SetSampleData(Stream dataStream, WaveEncoding encoding) {
-			Decoder = BaseSampleDecoder.CreateDecoder(encoding);
-			Decoder.Init(new BinaryReader(dataStream));
+			Mode = MixerChannel.MixerChannelMode.Pcm;
+			BaseSampleDecoder decoder = BaseSampleDecoder.CreateDecoder(encoding);
+			decoder.Init(new BinaryReader(dataStream));
+			Generator = decoder;
 		}
 
-		private static readonly int[][] pulseWidthLUT = new int[][] {
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF,  0x7FFF},
-			new int[] {-0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF, -0x7FFF}
-		};
+		internal void SetPulse(ushort duty) {
+			Mode = MixerChannelMode.Pulse;
+			Generator = new PulseGenerator(duty);
+		}
+
+		internal void SetNoise() {
+			Mode = MixerChannelMode.Noise;
+			Generator = new NoiseGenerator();
+		}
+
 		private readonly int sampleRate;
 		private const int ARM7_CLOCK = 33513982;
 
+		
 	}
 }

@@ -273,11 +273,9 @@ namespace NitroComposerPlayer {
 			mixerChannel.Reset();
 			var pcmInstrument = instrument as PCMInstrument;
 			if(pcmInstrument!=null) {
-				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;
 				var swar = Track.sequencePlayer.swars[pcmInstrument.swar];
 				var swav = swar.waves[pcmInstrument.swav];
 				
-				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pcm;
 				mixerChannel.SetSampleData(swav.dataStream,swav.Encoding);
 				mixerChannel.Loops = swav.Loops;
 				mixerChannel.LoopLength = swav.LoopLength;
@@ -287,13 +285,12 @@ namespace NitroComposerPlayer {
 			}
 			var pulseInstrument = instrument as PulseInstrument;
 			if(pulseInstrument!=null) {
-				mixerChannel.Mode = MixerChannel.MixerChannelMode.Pulse;
-				mixerChannel.pulseWidth = pulseInstrument.Duty;
+				mixerChannel.SetPulse(pulseInstrument.Duty);
 				return;
 			}
 			var noiseInstrument = instrument as NoiseInstrument;
 			if(noiseInstrument!=null) {
-				mixerChannel.Mode = MixerChannel.MixerChannelMode.Noise;
+				mixerChannel.SetNoise();
 				return;
 			}
 			if(instrument == null) return;

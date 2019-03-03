@@ -43,8 +43,11 @@
     <Compile Include="Decoders\ADPCMDecoder.cs" />
     <Compile Include="Decoders\BaseSampleDecoder.cs" />
     <Compile Include="ChannelInfo.cs" />
+    <Compile Include="Decoders\BaseGenerator.cs" />
+    <Compile Include="Decoders\NoiseGenerator.cs" />
     <Compile Include="Decoders\PCM16Decoder.cs" />
     <Compile Include="Decoders\PCM8Decoder.cs" />
+    <Compile Include="Decoders\PulseGenerator.cs" />
     <Compile Include="Mixer.cs" />
     <Compile Include="MixerChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

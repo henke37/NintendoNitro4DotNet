@@ -3,7 +3,11 @@ using System;
 using System.IO;
 
 namespace NitroComposerPlayer.Decoders {
-	internal abstract class BaseSampleDecoder {
+	internal abstract class BaseSampleDecoder : BaseGenerator {
+
+		internal uint TotalLength;
+		internal uint LoopLength;
+		internal bool Loops;
 
 		protected BinaryReader reader;
 
@@ -24,6 +28,17 @@ namespace NitroComposerPlayer.Decoders {
 			}
 		}
 
-		internal abstract int GetSample(uint samplePosition);
+		protected override void IncrementSample() {
+			if(samplePosition >= TotalLength) {
+				if(Loops) {
+					while(samplePosition >= TotalLength) {
+						samplePosition -= LoopLength;
+					}
+				} else {
+					OnSoundComplete();
+				}
+			}
+		}
+
 	}
 }

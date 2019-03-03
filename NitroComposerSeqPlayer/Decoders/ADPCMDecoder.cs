@@ -27,7 +27,7 @@ namespace NitroComposerPlayer.Decoders {
 			stepIndex = reader.ReadUInt16();
 		}
 
-		internal override int GetSample(uint samplePosition) {
+		internal override int GetSample() {
 			if(currentPos == samplePosition) {
 				return predictor;
 			}
