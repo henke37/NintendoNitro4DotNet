@@ -85,10 +85,12 @@ namespace NitroComposerPlayer {
 
 			if(trackFlags.HasFlag(TrackPlayer.TrackUpdateFlags.Length)) {
 				if(state > ChannelState.Start) {
-					if(state < ChannelState.Release && this.Duration > 0) {
+					if(state < ChannelState.Release && --this.Duration > 0) {
 						Release();
 					}
-					//TODO: sweep thing
+					if(ManualSweep && SweepCounter < SweepLength) {
+						++SweepCounter;
+					}
 				}
 			}
 
@@ -133,6 +135,7 @@ namespace NitroComposerPlayer {
 		}
 
 		private const int AMPL_K = 723;
+		private const int AMPL_THRESHOLD = AMPL_K << 7;
 
 		internal void Update() {
 
@@ -154,12 +157,29 @@ namespace NitroComposerPlayer {
 					state = ChannelState.Attack;
 					goto case ChannelState.Attack;
 				case ChannelState.Attack:
+					int newLevel = EnvelopeLevel;
+					int oldLevel = EnvelopeLevel >> 7;
+					do {
+						newLevel = newLevel * AttackLevel / 256;
+					} while((newLevel >> 7) == oldLevel);
+					EnvelopeLevel = newLevel;
+					if(newLevel==0) {
+						state = ChannelState.Decay;
+					}
 					break;
 				case ChannelState.Decay:
 					EnvelopeLevel -= DecayRate;
+					int susLevel = Remap.Level(SustainLevel) << 7;
+					if(EnvelopeLevel<=susLevel) {
+						EnvelopeLevel = susLevel;
+						state = ChannelState.Sustain;
+					}
 					break;
 				case ChannelState.Release:
 					EnvelopeLevel -= ReleaseRate;
+					if(EnvelopeLevel<= AMPL_THRESHOLD) {
+						Kill();
+					}
 					break;
 			}
 
