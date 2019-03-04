@@ -42,7 +42,7 @@ namespace NitroComposerPlayer.Decoders {
 
 			for(; currentPos+2<=samplePosition;) {
 				var nibble = reader.ReadByte();
-				parseNibble(nibble | 0xF);
+				parseNibble(nibble & 0x0F);
 				parseNibble(nibble >> 8);
 			}
 
@@ -52,7 +52,7 @@ namespace NitroComposerPlayer.Decoders {
 
 			if((currentPos % 2)!=0) {//not the same as ==1, have to handle start up position of -1
 				var nibble = reader.ReadByte();
-				parseNibble(nibble | 0xF);
+				parseNibble(nibble & 0x0F);
 				storedNibble = nibble >> 8;
 			} else {
 				parseNibble(storedNibble);
