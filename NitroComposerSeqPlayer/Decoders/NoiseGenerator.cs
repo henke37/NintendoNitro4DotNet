@@ -8,6 +8,10 @@ namespace NitroComposerPlayer.Decoders {
 
 		private ushort noiseState;
 
+		public NoiseGenerator() {
+			noiseState = 0x7FFF;
+		}
+
 		internal override int GetSample() {
 			int sample;
 			do {
