@@ -14,7 +14,7 @@ namespace NitroComposerPlayer {
 			}
 		}
 
-		private void GenerateSamplePair(out int leftChan, out int rightChan) {
+		public void GenerateSamplePair(out int leftChan, out int rightChan) {
 			leftChan = 0;
 			rightChan = 0;
 

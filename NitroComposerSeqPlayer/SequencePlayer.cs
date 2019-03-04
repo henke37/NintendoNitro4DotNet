@@ -143,12 +143,16 @@ namespace NitroComposerPlayer {
 		}
 
 
-		public void GenerateSamples() {
-			secondsIntoPlayback += secondsPerSample;
+		public void GenerateSamples(int[] samples) {
+			for(int sampleIndex=0;sampleIndex<samples.Length;sampleIndex+=2) {
+				mixer.GenerateSamplePair(out samples[sampleIndex], out samples[sampleIndex + 1]);
 
-			if(secondsIntoPlayback > secondsUntilNextClock) {
-				Update();
-				secondsUntilNextClock += SecondsPerClockCycle;
+				secondsIntoPlayback += secondsPerSample;
+
+				if(secondsIntoPlayback > secondsUntilNextClock) {
+					Update();
+					secondsUntilNextClock += SecondsPerClockCycle;
+				}
 			}
 		}
 
