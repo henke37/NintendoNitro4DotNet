@@ -8,7 +8,7 @@ namespace NitroComposerPlayer.Decoders {
 		private int predictor;
 		private int stepIndex;
 
-		private uint currentPos;
+		private int currentPos;
 		private int storedNibble;
 
 		public ADPCMDecoder() {
@@ -22,7 +22,7 @@ namespace NitroComposerPlayer.Decoders {
 
 		private void Reset() {
 			reader.Seek(0);
-			currentPos = 0;
+			currentPos = -1;//Startup HACK: we are just before the first sample
 			predictor = reader.ReadUInt16();
 			stepIndex = reader.ReadUInt16();
 		}
@@ -36,7 +36,7 @@ namespace NitroComposerPlayer.Decoders {
 				Reset();
 			}
 
-			if((currentPos % 2) == 1) {
+			if((currentPos % 2) == 1) {//not the same as !=0, should not handle start up position of -1
 				parseNibble(storedNibble);
 			}
 
@@ -50,7 +50,7 @@ namespace NitroComposerPlayer.Decoders {
 				return predictor;
 			}
 
-			if((currentPos % 2)==0) {
+			if((currentPos % 2)!=0) {//not the same as ==1, have to handle start up position of -1
 				var nibble = reader.ReadByte();
 				parseNibble(nibble | 0xF);
 				storedNibble = nibble >> 8;
