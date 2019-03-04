@@ -70,7 +70,9 @@ namespace PlayerTest {
 		}
 
 		private static int Play(SequencePlayer player) {
-			player.Update();
+			player.SampleRate = 44100;
+			int[] sampleBuff = new int[5000];
+			player.GenerateSamples(sampleBuff);
 			return ERR_OK;
 		}
 

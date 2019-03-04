@@ -85,7 +85,7 @@ namespace NitroComposerPlayer {
 			}
 		}
 
-		public void Update() {
+		private void Update() {
 			foreach(var chan in channels) {
 				chan.UpdateTrackData();
 			}
