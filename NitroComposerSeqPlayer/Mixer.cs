@@ -29,7 +29,13 @@ namespace NitroComposerPlayer {
 		}
 
 
-
+		public int SampleRate {
+			set {
+				foreach(var chan in channels) {
+					chan.SampleRate = value;
+				}
+			}
+		}
 
 	}
 }

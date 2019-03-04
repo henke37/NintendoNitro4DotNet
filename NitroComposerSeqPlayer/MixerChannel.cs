@@ -12,7 +12,7 @@ namespace NitroComposerPlayer {
 			set {
 				_timer = value;
 
-				Generator.sampleIncrease = (uint)(ARM7_CLOCK / (sampleRate * 2) / (0x10000 - value));
+				Generator.sampleIncrease = (uint)(SequencePlayer.ARM7_CLOCK / (SampleRate * 2) / (0x10000 - value));
 			}
 		}
 
@@ -92,9 +92,6 @@ namespace NitroComposerPlayer {
 			Generator = new NoiseGenerator();
 		}
 
-		private readonly int sampleRate;
-		private const int ARM7_CLOCK = 33513982;
-
-		
+		internal int SampleRate;
 	}
 }

@@ -30,6 +30,15 @@ namespace NitroComposerPlayer {
 
 		public readonly Mixer mixer = new Mixer();
 
+		public int SampleRate {
+			get => _sampleRate;
+			set {
+				mixer.SampleRate = value;
+				_sampleRate = value;
+			}
+		}
+		private int _sampleRate;
+
 		public short[] Variables = new short[16] {
 			-1, -1, -1, -1,
 			-1, -1, -1, -1,
@@ -38,6 +47,8 @@ namespace NitroComposerPlayer {
 		};
 
 		internal ChannelInfo[] channels;
+		private float secondsIntoPlayback=0;
+		private float secondsUntilNextClock=0;
 
 		public SequencePlayer(SDat sdat, string sequenceName) {
 			int seqIndex = sdat.ResolveSeqName(sequenceName);
@@ -98,6 +109,7 @@ namespace NitroComposerPlayer {
 		private readonly int[] PCMChannelSearchList = new int[] { 4, 5, 6, 7, 2, 0, 3, 1, 8, 9, 10, 11, 14, 12, 15, 13 };
 		private readonly int[] PulseChannelSearchList = new int[] { 8, 9, 10, 11, 12, 13 };
 		private readonly int[] NoiseChannelSearchList = new int[] { 14, 15 };
+		private float secondsPerSample { get => 1 / ((float)SampleRate); }
 
 		internal ChannelInfo FindChannelForInstrument(Instrument instrument) {
 			int[] channelSearchList;
@@ -129,5 +141,18 @@ namespace NitroComposerPlayer {
 
 			return bestChannel;
 		}
+
+
+		public void GenerateSamples() {
+			secondsIntoPlayback += secondsPerSample;
+
+			if(secondsIntoPlayback > secondsUntilNextClock) {
+				Update();
+				secondsUntilNextClock += SecondsPerClockCycle;
+			}
+		}
+
+		internal const int ARM7_CLOCK = 33513982;
+		private const float SecondsPerClockCycle = 64 * 2728 / (float)ARM7_CLOCK;
 	}
 }
