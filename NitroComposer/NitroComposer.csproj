@@ -110,7 +110,7 @@
     <Compile Include="SequenceCommands\Var\VarVarCommand.cs" />
     <Compile Include="SequenceCommands\Var\VolumeVarCommand.cs" />
     <Compile Include="SequenceCommands\VolumeCommand.cs" />
-    <Compile Include="SequenceDisassembler.cs" />
+    <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceSerializer.cs" />
     <Compile Include="SSEQ.cs" />
     <Compile Include="STRM.cs" />

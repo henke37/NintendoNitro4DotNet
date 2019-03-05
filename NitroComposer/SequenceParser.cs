@@ -7,7 +7,7 @@ using System.IO;
 using Nitro.Composer.SequenceCommands.Rand;
 
 namespace Nitro.Composer {
-	class SequenceDisassembler {
+	class SequenceParser {
 		private Dictionary<uint, Flow> flows;
 		private Stack<Flow> unparsedFlows;
 		private uint commandIndex;
@@ -18,7 +18,7 @@ namespace Nitro.Composer {
 
 		private Dictionary<long, uint> instructionOffsets;
 
-		public SequenceDisassembler(BinaryReader reader) {
+		public SequenceParser(BinaryReader reader) {
 			this.reader = reader;
 			flows = new Dictionary<uint, Flow>();
 			unparsedFlows = new Stack<Flow>();
@@ -26,7 +26,7 @@ namespace Nitro.Composer {
 			instructionOffsets = new Dictionary<long, uint>();
 		}
 
-		public SequenceDisassembler(Stream stream) : this(new BinaryReader(stream)) { }
+		public SequenceParser(Stream stream) : this(new BinaryReader(stream)) { }
 
 		public Sequence Parse() {
 

@@ -23,7 +23,7 @@ namespace Nitro.Composer {
 
             var commandStream = new SubStream(sectionStream, offset);
 
-            var parser = new SequenceDisassembler(commandStream);
+            var parser = new SequenceParser(commandStream);
             sequence = parser.Parse();
         }
     }
