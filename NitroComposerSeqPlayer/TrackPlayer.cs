@@ -90,6 +90,7 @@ namespace NitroComposerPlayer {
 
 			channel.Note = (byte)(note + Transpose);
 			channel.Duration = duration;
+			channel.Velocity = velocity;
 
 			channel.AttackLevel = Remap.Attack(AttackOverride != 0xFF ? AttackOverride : leafInstrument.Attack);
 			channel.DecayRate = Remap.Rate(DecayOverride != 0xFF ? DecayOverride : leafInstrument.Decay);
