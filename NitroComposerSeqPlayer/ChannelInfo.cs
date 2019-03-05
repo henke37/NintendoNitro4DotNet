@@ -224,8 +224,8 @@ namespace NitroComposerPlayer {
 			}
 
 			if(bTmrNeedUpdate) {
-				int totalAdj = this.Note - Instrument.BaseNote * 64;
-				totalAdj += Track.PitchBend * Track.PitchBendRange >> 1;
+				int totalAdj = (this.Note - Instrument.BaseNote) * 64;
+				totalAdj += (Track.PitchBend * Track.PitchBendRange) >> 1;
 
 				if(bModulation && Track.ModulationType== TrackPlayer.ModulationTypeEnum.Pitch) {
 					totalAdj += modParam;

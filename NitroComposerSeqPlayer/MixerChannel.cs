@@ -11,8 +11,8 @@ namespace NitroComposerPlayer {
 			get => _timer;
 			set {
 				_timer = value;
-
-				Generator.sampleIncrease = (uint)(SequencePlayer.ARM7_CLOCK / (SampleRate * 2) / (0x10000 - value));
+				double timeConstant = SequencePlayer.ARM7_CLOCK / ((double)(SampleRate * 2));
+				Generator.sampleIncrease = (uint)(timeConstant / (0x10000 - value));
 			}
 		}
 
