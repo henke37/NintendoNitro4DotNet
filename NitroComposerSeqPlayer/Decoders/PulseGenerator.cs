@@ -10,7 +10,7 @@ namespace NitroComposerPlayer.Decoders {
 		}
 
 		internal override int GetSample() {
-			return currentPulseWidthTable[samplePosition % 8];
+			return currentPulseWidthTable[(int)samplePosition % 8];
 		}
 
 		private static readonly int[][] pulseWidthLUT = new int[][] {

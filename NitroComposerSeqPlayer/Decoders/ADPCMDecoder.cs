@@ -28,11 +28,12 @@ namespace NitroComposerPlayer.Decoders {
 		}
 
 		internal override int GetSample() {
-			if(currentPos == samplePosition) {
+			int intPos = (int)samplePosition;
+			if(currentPos == intPos) {
 				return predictor;
 			}
 
-			if(currentPos>samplePosition) {
+			if(currentPos> intPos) {
 				Reset();
 			}
 
@@ -40,13 +41,13 @@ namespace NitroComposerPlayer.Decoders {
 				parseNibble(storedNibble);
 			}
 
-			for(; currentPos+2<=samplePosition;) {
+			for(; currentPos+2<= intPos;) {
 				var nibble = reader.ReadByte();
 				parseNibble(nibble & 0x0F);
 				parseNibble(nibble >> 8);
 			}
 
-			if(currentPos == samplePosition) {
+			if(currentPos == intPos) {
 				return predictor;
 			}
 
