@@ -86,6 +86,13 @@ namespace NitroComposerPlayer {
 		}
 
 		private void Update() {
+			for(; tempoCounter >= 0; tempoCounter -= TempoBase) {
+				foreach(var track in tracks) {
+					if(track == null) continue;
+					while(track.ExecuteNextCommand()) ;
+				}
+			}
+			
 			foreach(var chan in channels) {
 				chan.UpdateTrackData();
 			}
@@ -96,13 +103,7 @@ namespace NitroComposerPlayer {
 			foreach(var chan in channels) {
 				chan.Update();
 			}
-
-			for(; tempoCounter>=0; tempoCounter -= TempoBase) {
-				foreach(var track in tracks) {
-					if(track == null) continue;
-					while(track.ExecuteNextCommand()) ;
-				}
-			}
+			
 			tempoCounter += (short)(Tempo * TempoRate >> 8);
 		}
 
