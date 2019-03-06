@@ -33,6 +33,7 @@ namespace NitroComposerPlayer {
 		internal bool Loops { set => Decoder.Loops = value; get => Decoder.Loops; }
 
 		internal MixerChannelMode Mode { get; private set; } = MixerChannelMode.Off;
+		public double Loudness { get => (VolMul/128.0) / (1<<VolShift) ; }
 
 		private void Generator_OnSoundComplete() {
 			OnSoundComplete?.Invoke();
@@ -93,5 +94,31 @@ namespace NitroComposerPlayer {
 		}
 
 		internal int SampleRate;
+
+		private string InstrumentString() {
+			switch(Generator) {
+				case ADPCMDecoder adpcm:
+					return "ADPCM";
+				case PCM8Decoder pcm8:
+					return "PCM8";
+				case PCM16Decoder pcm16:
+					return "PCM16";
+				case BaseSampleDecoder dec:
+					return "PCMlike";
+				case PulseGenerator pulse:
+					return "Pulse " + pulse.ToString();
+				case NoiseGenerator noise:
+					return "Noise";
+				case null:
+					return "Off";
+				default:
+					return base.ToString();
+			}
+		}
+
+		public override string ToString() {
+			if(Mode == MixerChannelMode.Off) return "Off";
+			return $"{InstrumentString()} {Loudness*100:f2}%";
+		}
 	}
 }

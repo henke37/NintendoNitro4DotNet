@@ -39,5 +39,14 @@ namespace NitroComposerPlayer.Decoders {
 				return -1;
 			}
 		}
+
+		private static string[] dutyMap = new string[] {
+			"12.5%", "25.0%", "37.5%", "50.0%",
+			"62.5%", "75.0%", "87.5%", "0.0%"
+		};
+
+		public override string ToString() {
+			return dutyMap[pulseWidth];
+		}
 	}
 }
