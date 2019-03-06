@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace PlayerTest {
 	class SeqPlayerTestProgram {
@@ -70,9 +71,14 @@ namespace PlayerTest {
 		}
 
 		private static int Play(SequencePlayer player) {
-			player.SampleRate = 44100;
-			int[] sampleBuff = new int[5000];
-			player.GenerateSamples(sampleBuff);
+			var a = new NAudio.Wave.DirectSoundOut();
+			var wp = new SequenceWaveProviderAdapter(player);
+			a.Init(wp);
+
+			a.Play();
+
+			Thread.Sleep(10 * 1000);
+
 			return ERR_OK;
 		}
 
