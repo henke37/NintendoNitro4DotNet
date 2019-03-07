@@ -282,7 +282,7 @@ namespace NitroComposerPlayer {
 
 		private int ExtAmp() {
 			int totalVol = Track.sequencePlayer.MasterVolume;
-			totalVol += Track.sequencePlayer.seqInfo.vol;
+			totalVol += Remap.Level(Track.sequencePlayer.seqInfo.vol);
 			totalVol += Remap.Level(Track.Volume);
 			totalVol += Remap.Level(Track.Expression);
 
