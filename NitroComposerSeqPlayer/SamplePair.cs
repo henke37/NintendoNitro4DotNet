@@ -64,5 +64,60 @@ namespace NitroComposerPlayer {
 			left.Right -= right.Right;
 			return left;
 		}
+		public static SamplePair operator +(SamplePair left, int right) {
+			left.Left += right;
+			left.Right += right;
+			return left;
+		}
+		public static SamplePair operator +(int left, SamplePair right) {
+			right.Left += left;
+			right.Right += left;
+			return right;
+		}
+		public static SamplePair operator -(SamplePair left, int right) {
+			left.Left -= right;
+			left.Right -= right;
+			return left;
+		}
+		public static SamplePair operator -(int left, SamplePair right) {
+			right.Left -= left;
+			right.Right -= left;
+			return right;
+		}
+
+		public static SamplePair operator *(SamplePair left, int right) {
+			left.Left *= right;
+			left.Right *= right;
+			return left;
+		}
+		public static SamplePair operator *(int left, SamplePair right) {
+			right.Left *= left;
+			right.Right *= left;
+			return right;
+		}
+
+		public static SamplePair operator /(SamplePair left, int right) {
+			left.Left /= right;
+			left.Right /= right;
+			return left;
+		}
+		public static SamplePair operator /(int left, SamplePair right) {
+			right.Left /= left;
+			right.Right /= left;
+			return right;
+		}
+
+		public static SamplePair operator ~(SamplePair val) {
+			val.Left = ~val.Left;
+			val.Right = ~val.Right;
+			return val;
+		}
+
+		public static explicit operator bool(SamplePair val) {
+			return val.Left != 0 && val.Right != 0;
+		}
+		public static explicit operator int(SamplePair val) {
+			return (val.Left + val.Right) / 2;
+		}
 	}
 }
