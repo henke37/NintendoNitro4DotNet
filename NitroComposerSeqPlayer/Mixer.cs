@@ -14,18 +14,17 @@ namespace NitroComposerPlayer {
 			}
 		}
 
-		public void GenerateSamplePair(out int leftChan, out int rightChan) {
-			leftChan = 0;
-			rightChan = 0;
+		public SamplePair GenerateSamplePair() {
+			SamplePair samplePair=new SamplePair();
 
 			foreach(var chan in channels) {
-				chan.GenerateSample(out int left, out int right);
-				leftChan += left;
-				rightChan += right;
+				samplePair+=chan.GenerateSample();
 			}
 
-			leftChan = Remap.Clamp(leftChan, -0x80000, 0x7FFF);
-			rightChan = Remap.Clamp(rightChan, -0x80000, 0x7FFF);
+			samplePair.Left = Remap.Clamp(samplePair.Left, -0x80000, 0x7FFF);
+			samplePair.Right = Remap.Clamp(samplePair.Right, -0x80000, 0x7FFF);
+
+			return samplePair;
 		}
 
 

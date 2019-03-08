@@ -144,9 +144,9 @@ namespace NitroComposerPlayer {
 		}
 
 
-		public void GenerateSamples(int[] samples) {
+		public void GenerateSamples(SamplePair[] samples) {
 			for(int sampleIndex=0;sampleIndex<samples.Length;sampleIndex+=2) {
-				mixer.GenerateSamplePair(out samples[sampleIndex], out samples[sampleIndex + 1]);
+				samples[sampleIndex]=mixer.GenerateSamplePair();
 
 				secondsIntoPlayback += secondsPerSample;
 

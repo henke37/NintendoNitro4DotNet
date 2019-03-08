@@ -89,9 +89,14 @@ namespace NitroComposerPlayer {
 			if(x < bottom) return bottom;
 			return x;
 		}
+		public static short Clamp(short x, short bottom, short top) {
+			if(x > top) return top;
+			if(x < bottom) return bottom;
+			return x;
+		}
 
 		public static int MulDiv7(int val, int mul) {
-			return mul == 127 ? val : ((val * mul) >> 7);
+			return mul == 127 ? val : (short)((val * mul) >> 7);
 		}
 
 		private static readonly byte[] attackLut = new byte[] {

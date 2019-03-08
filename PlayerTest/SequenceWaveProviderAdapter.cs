@@ -7,7 +7,7 @@ using System.IO;
 namespace PlayerTest {
 	class SequenceWaveProviderAdapter : IWaveProvider {
 		private SequencePlayer player;
-		private int[] sampleBuffer;
+		private SamplePair[] sampleBuffer;
 
 		private const int chanC = 2;
 
@@ -22,7 +22,7 @@ namespace PlayerTest {
 			int samplesInBuff = count/2;
 
 			if(sampleBuffer == null) {
-				sampleBuffer = new int[samplesInBuff * chanC];
+				sampleBuffer = new SamplePair[samplesInBuff];
 			} else if(sampleBuffer.Length != samplesInBuff * chanC) {
 				Array.Resize(ref sampleBuffer, samplesInBuff * chanC);
 			}
@@ -30,8 +30,9 @@ namespace PlayerTest {
 
 
 			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
-				for(int sampleIndex = 0; sampleIndex < samplesInBuff; ++sampleIndex) {
-					w.Write(sampleBuffer[sampleIndex]);
+				for(int sampleIndex = 0; sampleIndex < samplesInBuff; sampleIndex+=2) {
+					w.Write(sampleBuffer[sampleIndex].Left);
+					w.Write(sampleBuffer[sampleIndex].Right);
 				}
 			}
 

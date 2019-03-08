@@ -52,6 +52,7 @@
     <Compile Include="MixerChannel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Remap.cs" />
+    <Compile Include="SamplePair.cs" />
     <Compile Include="SequencePlayer.cs" />
     <Compile Include="StreamPlayer.cs" />
     <Compile Include="TrackPlayer.cs" />
