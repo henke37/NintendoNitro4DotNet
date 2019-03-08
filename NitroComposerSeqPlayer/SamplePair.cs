@@ -122,7 +122,7 @@ namespace NitroComposerPlayer {
 			return val.Mono;
 		}
 
-		public static explicit operator SamplePair(int val) {
+		public static implicit operator SamplePair(int val) {
 			return new SamplePair(val);
 		}
 	}
