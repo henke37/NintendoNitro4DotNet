@@ -31,8 +31,8 @@ namespace PlayerTest {
 
 			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
 				for(int sampleIndex = 0; sampleIndex < samplesInBuff; sampleIndex+=2) {
-					w.Write(sampleBuffer[sampleIndex].Left);
-					w.Write(sampleBuffer[sampleIndex].Right);
+					w.Write((short)sampleBuffer[sampleIndex].Left);
+					w.Write((short)sampleBuffer[sampleIndex].Right);
 				}
 			}
 
