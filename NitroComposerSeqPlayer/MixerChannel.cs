@@ -68,6 +68,7 @@ namespace NitroComposerPlayer {
 
 			int sample = Generator.GetSample();
 			Generator.IncrementSample();
+
 			sample = Remap.MulDiv7(sample, VolMul) >> VolShift;
 			leftChan = Remap.MulDiv7(sample, 127 - Pan);
 			rightChan = Remap.MulDiv7(sample, Pan);

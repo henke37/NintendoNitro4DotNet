@@ -19,7 +19,7 @@ namespace PlayerTest {
 		}
 
 		public int Read(byte[] buffer, int offset, int count) {
-			int samplesInBuff = count / (2 * chanC);
+			int samplesInBuff = count/2;
 
 			if(sampleBuffer == null) {
 				sampleBuffer = new int[samplesInBuff * chanC];
@@ -29,7 +29,7 @@ namespace PlayerTest {
 			player.GenerateSamples(sampleBuffer);
 
 
-			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count, true))) {
+			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
 				for(int sampleIndex = 0; sampleIndex < samplesInBuff; ++sampleIndex) {
 					w.Write(sampleBuffer[sampleIndex]);
 				}
