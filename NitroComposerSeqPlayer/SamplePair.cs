@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NitroComposerPlayer {
-	public struct SamplePair : IEquatable<SamplePair>, IEquatable<short> {
+	public struct SamplePair : IEquatable<SamplePair>, IEquatable<int> {
 		public int Left;
 		public int Right;
 
@@ -20,7 +20,7 @@ namespace NitroComposerPlayer {
 			return other.Left == Left && other.Right == Right;
 		}
 
-		public bool Equals(short other) {
+		public bool Equals(int other) {
 			if(Left != Right) return false;
 			return Left == other;
 		}
