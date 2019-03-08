@@ -16,6 +16,8 @@ namespace NitroComposerPlayer {
 			Right = right;
 		}
 
+		public int Mono { get => (Left + Right) / 2; }
+
 		public bool Equals(SamplePair other) {
 			return other.Left == Left && other.Right == Right;
 		}
@@ -117,7 +119,11 @@ namespace NitroComposerPlayer {
 			return val.Left != 0 && val.Right != 0;
 		}
 		public static explicit operator int(SamplePair val) {
-			return (val.Left + val.Right) / 2;
+			return val.Mono;
+		}
+
+		public static explicit operator SamplePair(int val) {
+			return new SamplePair(val);
 		}
 	}
 }
