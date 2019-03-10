@@ -48,7 +48,7 @@ namespace NitroComposerPlayer {
 			return $"{Left} {Right}";
 		}
 
-		public static bool operator==(SamplePair left, SamplePair right) {
+		public static bool operator ==(SamplePair left, SamplePair right) {
 			return left.Equals(right);
 		}
 
@@ -82,8 +82,8 @@ namespace NitroComposerPlayer {
 			return left;
 		}
 		public static SamplePair operator -(int left, SamplePair right) {
-			right.Left -= left;
-			right.Right -= left;
+			right.Left = left - right.Left;
+			right.Right = left - right.Right;
 			return right;
 		}
 
@@ -103,9 +103,41 @@ namespace NitroComposerPlayer {
 			left.Right /= right;
 			return left;
 		}
-		public static SamplePair operator /(int left, SamplePair right) {
-			right.Left /= left;
-			right.Right /= left;
+		public static SamplePair operator %(SamplePair left, int right) {
+			left.Left %= right;
+			left.Right %= right;
+			return left;
+		}
+
+		public static SamplePair operator <<(SamplePair left, int right) {
+			left.Left <<= right;
+			left.Right <<= right;
+			return left;
+		}
+		public static SamplePair operator >>(SamplePair left, int right) {
+			left.Left >>= right;
+			left.Right >>= right;
+			return left;
+		}
+
+		public static SamplePair operator &(SamplePair left, int right) {
+			left.Left &= right;
+			left.Right &= right;
+			return left;
+		}
+		public static SamplePair operator &(int left, SamplePair right) {
+			right.Left &= left;
+			right.Right &= left;
+			return right;
+		}
+		public static SamplePair operator |(SamplePair left, int right) {
+			left.Left |= right;
+			left.Right |= right;
+			return left;
+		}
+		public static SamplePair operator |(int left, SamplePair right) {
+			right.Left |= left;
+			right.Right |= left;
 			return right;
 		}
 
