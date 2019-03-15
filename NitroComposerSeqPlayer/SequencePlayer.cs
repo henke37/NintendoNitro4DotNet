@@ -28,7 +28,7 @@ namespace NitroComposerPlayer {
 
 		internal byte MasterVolume;
 
-		public readonly Mixer mixer = new Mixer();
+		private readonly Mixer mixer = new Mixer();
 
 		public int SampleRate {
 			get => _sampleRate;
