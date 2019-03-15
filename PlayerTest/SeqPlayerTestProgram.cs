@@ -77,7 +77,16 @@ namespace PlayerTest {
 
 			a.Play();
 
+			{
+				var aType = a.GetType();
+				var field=aType.GetField("notifyThread", BindingFlags.Instance | BindingFlags.NonPublic);
+				var thread=(Thread)field.GetValue(a);
+				thread.Name = "Audio playback Thread";
+				thread.Priority = ThreadPriority.Highest;
+			}
+
 			Thread.Sleep(10 * 1000);
+			a.Stop();
 
 			return ERR_OK;
 		}
