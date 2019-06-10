@@ -52,14 +52,11 @@ namespace AceAttorney.GK2 {
 
 			var sb = new StringBuilder();
 
-			var dec = Encoding.Unicode.GetDecoder();
 			var txtBuff = new List<byte>();
 
 			void addTxt() {
 				byte[] arrB = txtBuff.ToArray();
-				char[] arrC = new char[arrB.Length / 2];
-				dec.GetChars(arrB, 0, arrB.Length, arrC, 0);
-				sb.Append(arrC);
+				sb.Append(Encoding.Unicode.GetString(arrB));
 				txtBuff.Clear();
 			}
 
