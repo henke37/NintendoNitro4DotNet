@@ -13,6 +13,7 @@
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.1-alpha</Version>
 	</PropertyGroup>
 	
 	<ItemGroup>
