@@ -13,6 +13,8 @@
 		<Description>Core library for working with nintendo ds files.</Description>
 		<NeutralLanguage>en</NeutralLanguage>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 	
 	<ItemGroup>

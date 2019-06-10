@@ -7,6 +7,8 @@
 		<AssemblyName>Henke37.Nitro.Composer.Player</AssemblyName>
 		<TargetFrameworks>net452</TargetFrameworks>
 		<FileAlignment>512</FileAlignment>
+		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup>

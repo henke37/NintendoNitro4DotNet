@@ -9,6 +9,8 @@
 		<FileAlignment>512</FileAlignment>
 		<Deterministic>true</Deterministic>
 		<LangVersion>latest</LangVersion>
+		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NitroGraphics\NitroGraphics.csproj" />
