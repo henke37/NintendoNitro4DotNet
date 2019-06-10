@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands {
     public class VarCommand : BaseSequenceCommand {
         public Operator Op;
         public byte Variable;

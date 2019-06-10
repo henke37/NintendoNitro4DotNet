@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Nitro.Compression {
+namespace Henke37.Nitro.Compression {
 	public class RLEDecoderStream : Stream {
 
 		private Stream BaseStream;

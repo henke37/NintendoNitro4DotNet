@@ -1,63 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A008CD3F-A712-43BE-BB8A-54C53B05C351}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nitro</RootNamespace>
-    <AssemblyName>NitroCore</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Banner.cs" />
-    <Compile Include="Compression\DeltaCodedStream.cs" />
-    <Compile Include="Compression\HuffmanDecoderStream.cs" />
-    <Compile Include="Compression\LZ77Decoder.cs" />
-    <Compile Include="Compression\RLEDecoderStream.cs" />
-    <Compile Include="Compression\StockCompression.cs" />
-    <Compile Include="FileSystem.cs" />
-    <Compile Include="NDS.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SectionedFile.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
-      <Project>{95829eb3-7d03-4d94-a1dd-1f12313e374d}</Project>
-      <Name>HenkesUtils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<ProjectGuid>{A008CD3F-A712-43BE-BB8A-54C53B05C351}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Henke37.Nitro</RootNamespace>
+		<AssemblyName>NitroCore</AssemblyName>
+		<TargetFrameworks>net452;netstandard20</TargetFrameworks>
+		<FileAlignment>512</FileAlignment>
+	
+		<PackageId>Henke37.Nitro.Core</PackageId>
+		<Authors>Henke37</Authors>
+		<Description>Core library for working with nintendo ds files.</Description>
+		<NeutralLanguage>en</NeutralLanguage>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Henke37.IOUtils" Version="1.0.0" />
+	</ItemGroup>
 </Project>

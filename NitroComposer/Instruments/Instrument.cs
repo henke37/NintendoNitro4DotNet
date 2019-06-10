@@ -1,8 +1,8 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
 using System;
 using System.IO;
 
-namespace Nitro.Composer.Instruments {
+namespace Henke37.Nitro.Composer.Instruments {
     public abstract class Instrument {
         private const int RECORD_LENGTH=10;
 

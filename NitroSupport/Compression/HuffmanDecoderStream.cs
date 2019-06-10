@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using HenkesUtils;
+using Henke37.IOUtils;
 
-namespace Nitro.Compression {
+namespace Henke37.Nitro.Compression {
 	public class HuffmanDecoderStream : Stream {
 		private Stream baseStream;
 		private int DecompressedLength;

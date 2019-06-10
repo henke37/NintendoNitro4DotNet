@@ -1,4 +1,4 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
     public class SDat {
 
         public static SDat Open(string filename) {

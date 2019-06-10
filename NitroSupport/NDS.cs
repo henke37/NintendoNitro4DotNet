@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HenkesUtils;
+using Henke37.IOUtils;
 
 namespace Nitro {
 	public class NDS {

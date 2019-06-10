@@ -1,6 +1,6 @@
-﻿using Nitro.Composer.SequenceCommands;
+﻿using Henke37.Nitro.Composer.SequenceCommands;
 
-namespace Nitro.Composer.SequenceCommands.Var {
+namespace Henke37.Nitro.Composer.SequenceCommands.Var {
 	public class NoteVarCommand : BaseSequenceCommand {
 		public byte Note;
 		public uint Velocity;

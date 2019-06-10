@@ -1,7 +1,7 @@
-﻿using Nitro.Composer.Instruments;
-using Nitro.Composer.SequenceCommands;
-using Nitro.Composer.SequenceCommands.Rand;
-using Nitro.Composer.SequenceCommands.Var;
+﻿using Henke37.Nitro.Composer.Instruments;
+using Henke37.Nitro.Composer.SequenceCommands;
+using Henke37.Nitro.Composer.SequenceCommands.Rand;
+using Henke37.Nitro.Composer.SequenceCommands.Var;
 using System;
 using System.Collections.Generic;
 

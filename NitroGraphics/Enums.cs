@@ -1,5 +1,5 @@
 ﻿
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public enum TextureFormat {
 		None=0,
 		A3I5=1,

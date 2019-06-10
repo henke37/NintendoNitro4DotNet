@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using HenkesUtils;
+using Henke37.IOUtils;
 
 namespace Nitro {
 	public class Banner {

@@ -1,12 +1,12 @@
-﻿using HenkesUtils;
-using Nitro.Composer.SequenceCommands.Var;
-using Nitro.Composer.SequenceCommands;
+﻿using Henke37.IOUtils;
+using Henke37.Nitro.Composer.SequenceCommands.Var;
+using Henke37.Nitro.Composer.SequenceCommands;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Nitro.Composer.SequenceCommands.Rand;
+using Henke37.Nitro.Composer.SequenceCommands.Rand;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
 	class SequenceParser {
 		private Dictionary<uint, Flow> flows;
 		private Stack<Flow> unparsedFlows;

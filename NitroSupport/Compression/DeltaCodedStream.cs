@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Nitro.Compression {
+namespace Henke37.Nitro.Compression {
 	internal class DeltaCodedStream : Stream {
 		private Stream baseStream;
 

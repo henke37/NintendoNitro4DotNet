@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Rand {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Rand {
 	public class ModulationRandCommand : BaseSequenceCommand {
 		public short Min, Max;
 		public ModulationCommand.ModType Type;

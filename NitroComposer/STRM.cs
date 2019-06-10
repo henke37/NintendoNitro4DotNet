@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HenkesUtils;
+using Henke37.IOUtils;
+using Nitro;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
     public class STRM {
         public WaveEncoding encoding;
         public bool loop;

@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Rand {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Rand {
 	public class RestRandCommand : BaseSequenceCommand {
 		public short RestMin, RestMax;
 		public RestRandCommand(short min, short max) {

@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Rand {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Rand {
 	public class ADSRRandCommand : BaseSequenceCommand {
 		public short Min, Max;
 		public ADSRCommand.EnvPos envPos;

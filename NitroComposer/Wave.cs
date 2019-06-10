@@ -1,8 +1,8 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
 using System;
 using System.IO;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
 	public class Wave {
 
         public WaveEncoding Encoding;

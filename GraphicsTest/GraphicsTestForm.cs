@@ -1,6 +1,6 @@
 ﻿using Nitro;
-using Nitro.Graphics;
-using Nitro.Graphics.WinForms;
+using Henke37.Nitro.Graphics;
+using Henke37.Nitro.Graphics.WinForms;
 using System;
 using System.Drawing;
 using System.IO;

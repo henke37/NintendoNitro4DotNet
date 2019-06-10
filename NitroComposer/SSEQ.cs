@@ -1,7 +1,8 @@
 ﻿using System.IO;
-using HenkesUtils;
+using Henke37.IOUtils;
+using Nitro;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
 	public class SSEQ {
         public Sequence sequence;
 

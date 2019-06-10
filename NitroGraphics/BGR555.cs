@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class BGR555 {
 		public const uint DataSize=2;
 		public byte R, G, B;

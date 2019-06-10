@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nitro.Composer.Instruments {
+namespace Henke37.Nitro.Composer.Instruments {
     public abstract class MetaInstrument : Instrument {
 
         protected List<InstrumentRegion> regions;

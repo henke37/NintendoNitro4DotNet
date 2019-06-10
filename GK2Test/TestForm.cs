@@ -1,8 +1,8 @@
 ﻿using AceAttorney.GK2;
 using Nitro;
-using Nitro.Graphics;
-using Nitro.Graphics.Animation;
-using Nitro.Graphics.WinForms;
+using Henke37.Nitro.Graphics;
+using Henke37.Nitro.Graphics.Animation;
+using Henke37.Nitro.Graphics.WinForms;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;

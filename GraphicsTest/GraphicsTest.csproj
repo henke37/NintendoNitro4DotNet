@@ -80,10 +80,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
-      <Project>{95829eb3-7d03-4d94-a1dd-1f12313e374d}</Project>
-      <Name>HenkesUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NitroGraphics\NitroGraphics.csproj">
       <Project>{220d9355-245d-4d7d-8dbe-36f46bb14627}</Project>
       <Name>NitroGraphics</Name>

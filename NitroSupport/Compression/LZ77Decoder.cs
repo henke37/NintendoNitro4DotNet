@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Nitro.Compression {
+namespace Henke37.Nitro.Compression {
 	public class LZ77Decoder {
 		private Stream baseStream;
 		private BinaryReader Reader;

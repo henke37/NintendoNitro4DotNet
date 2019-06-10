@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands {
     public class NoteCommand : BaseSequenceCommand {
         public byte Note;
         public uint Velocity;

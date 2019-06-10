@@ -1,4 +1,5 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
+using Nitro;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nitro.Graphics.Animation {
+namespace Henke37.Nitro.Graphics.Animation {
 	public class NCER {
 		public List<AnimationCell> Cells;
 

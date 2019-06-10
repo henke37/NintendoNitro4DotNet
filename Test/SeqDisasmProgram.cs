@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Nitro;
-using Nitro.Composer;
+using Henke37.Nitro.Composer;
 
-namespace Nitro.Composer.SeqDisasm {
+namespace Henke37.Nitro.Composer.SeqDisasm {
 	class SeqDisasmProgram {
 
 		const int ERR_OK = 0;

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Nitro;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class NCGR : GraphicsBank {
 		private ushort GridX;
 		private ushort GridY;

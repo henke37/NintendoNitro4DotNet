@@ -49,10 +49,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
-      <Project>{95829eb3-7d03-4d94-a1dd-1f12313e374d}</Project>
-      <Name>HenkesUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NitroComposer\NitroComposer.csproj">
       <Project>{da199528-344e-4eab-9479-2bf823dfc7a2}</Project>
       <Name>NitroComposer</Name>

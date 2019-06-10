@@ -1,5 +1,5 @@
 ﻿using System;
-using Nitro.Composer.Instruments;
+using Henke37.Nitro.Composer.Instruments;
 
 namespace NitroComposerPlayer {
 	internal class ChannelInfo {

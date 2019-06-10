@@ -1,71 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NitroComposerPlayer</RootNamespace>
-    <AssemblyName>NitroComposerPlayer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Decoders\ADPCMDecoder.cs" />
-    <Compile Include="Decoders\BaseSampleDecoder.cs" />
-    <Compile Include="ChannelInfo.cs" />
-    <Compile Include="Decoders\BaseGenerator.cs" />
-    <Compile Include="Decoders\NoiseGenerator.cs" />
-    <Compile Include="Decoders\PCM16Decoder.cs" />
-    <Compile Include="Decoders\PCM8Decoder.cs" />
-    <Compile Include="Decoders\PulseGenerator.cs" />
-    <Compile Include="Mixer.cs" />
-    <Compile Include="MixerChannel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Remap.cs" />
-    <Compile Include="SamplePair.cs" />
-    <Compile Include="SequencePlayer.cs" />
-    <Compile Include="StreamPlayer.cs" />
-    <Compile Include="TrackPlayer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\HenkesUtils\HenkesUtils\HenkesUtils.csproj">
-      <Project>{95829EB3-7D03-4D94-A1DD-1F12313E374D}</Project>
-      <Name>HenkesUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NitroComposer\NitroComposer.csproj">
-      <Project>{DA199528-344E-4EAB-9479-2BF823DFC7A2}</Project>
-      <Name>NitroComposer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<ProjectGuid>{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Henke37.Nitro.Composer.Player</RootNamespace>
+		<AssemblyName>Henke37.Nitro.Composer.Player</AssemblyName>
+		<TargetFrameworks>net452</TargetFrameworks>
+		<FileAlignment>512</FileAlignment>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Henke37.IOUtils" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\NitroComposer\NitroComposer.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
-﻿using HenkesUtils;
-using Nitro.Compression;
+﻿using Henke37.IOUtils;
+using Henke37.Nitro.Compression;
 using System;
 using System.Collections.Generic;
 using System.IO;

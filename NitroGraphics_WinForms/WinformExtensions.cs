@@ -1,4 +1,4 @@
-﻿using Nitro.Graphics.Animation;
+﻿using Henke37.Nitro.Graphics.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 
-namespace Nitro.Graphics.WinForms {
+namespace Henke37.Nitro.Graphics.WinForms {
 	public static class WinformExtensions {
 		public static Bitmap ToBitmap(this Tile tile, Nitro.Graphics.Palette nitroPal) {
 			var bm = new Bitmap(Tile.Width, Tile.Height, PixelFormat.Format8bppIndexed);

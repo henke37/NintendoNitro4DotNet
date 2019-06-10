@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Var {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Var {
 	public class PitchBendVarCommand : BaseSequenceCommand {
 		public byte BendVar;
 		public bool IsRange;

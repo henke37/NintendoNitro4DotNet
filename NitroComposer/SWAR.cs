@@ -1,8 +1,9 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
+using Nitro;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
 	public class SWAR {
 
         public List<Wave> waves;

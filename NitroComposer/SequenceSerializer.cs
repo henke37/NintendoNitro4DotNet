@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HenkesUtils;
-using Nitro.Composer.SequenceCommands;
-using Nitro.Composer.SequenceCommands.Rand;
-using Nitro.Composer.SequenceCommands.Var;
+using Henke37.IOUtils;
+using Henke37.Nitro.Composer.SequenceCommands;
+using Henke37.Nitro.Composer.SequenceCommands.Rand;
+using Henke37.Nitro.Composer.SequenceCommands.Var;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
 	public class SequenceSerializer {
 
 		private StringBuilder sb;

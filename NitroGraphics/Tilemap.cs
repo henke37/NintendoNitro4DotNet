@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class Tilemap {
 
 		public TilemapEntry[,] TileMap;

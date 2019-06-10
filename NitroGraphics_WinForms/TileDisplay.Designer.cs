@@ -1,4 +1,4 @@
-﻿namespace Nitro.Graphics.WinForms {
+﻿namespace Henke37.Nitro.Graphics.WinForms {
 	partial class TileDisplay {
 		/// <summary>
 		/// Required designer variable.

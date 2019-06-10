@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class Palette {
 		public List<BGR555> Colors;
 

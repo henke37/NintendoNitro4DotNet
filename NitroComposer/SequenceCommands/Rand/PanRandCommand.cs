@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Rand {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Rand {
 	public class PanRandCommand : BaseSequenceCommand {
 		public short PanMin, PanMax;
 

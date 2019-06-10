@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands {
     public class ModulationCommand : BaseSequenceCommand {
         public byte Value;
         public ModType Type;

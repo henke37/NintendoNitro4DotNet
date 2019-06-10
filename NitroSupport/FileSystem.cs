@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using HenkesUtils;
+using Henke37.IOUtils;
+#if NETFRAMEWORK
 using Like = Microsoft.VisualBasic.CompilerServices.LikeOperator;
+#endif
 
 namespace Nitro {
 	public class FileSystem {
@@ -160,12 +162,8 @@ namespace Nitro {
 				throw new FileNotFoundException();
 			}
 
+#if NETFRAMEWORK
 			public List<File> FindMatchingFiles(string pattern) {
-				var l = new List<File>();
-				FindMatchingFiles(l, pattern);
-				return l;
-			}
-			public List<File> FindMatchingFiles(Regex pattern) {
 				var l = new List<File>();
 				FindMatchingFiles(l, pattern);
 				return l;
@@ -184,6 +182,13 @@ namespace Nitro {
 					if(!Like.LikeString(file.Name,pattern,Microsoft.VisualBasic.CompareMethod.Text)) continue;
 					l.Add(file);
 				}
+			}
+#endif
+
+			public List<File> FindMatchingFiles(Regex pattern) {
+				var l = new List<File>();
+				FindMatchingFiles(l, pattern);
+				return l;
 			}
 			private void FindMatchingFiles(List<File> l, Regex pattern) {
 				foreach(var absFile in Files) {

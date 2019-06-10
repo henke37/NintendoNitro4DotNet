@@ -1,4 +1,4 @@
-﻿namespace Nitro.Composer.SequenceCommands.Rand {
+﻿namespace Henke37.Nitro.Composer.SequenceCommands.Rand {
 	public class VolumeRandCommand : BaseSequenceCommand {
 		public bool Master;
 		public short VolumeMin, VolumeMax;

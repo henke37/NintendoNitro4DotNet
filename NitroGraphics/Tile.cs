@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class Tile {
 
 		public byte[] TileData;

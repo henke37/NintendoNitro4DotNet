@@ -1,8 +1,8 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
 using System;
 using System.IO;
 
-namespace Nitro.Composer.Instruments {
+namespace Henke37.Nitro.Composer.Instruments {
     public class SplitInstrument : MetaInstrument {
 
         public SplitInstrument(BinaryReader r) {

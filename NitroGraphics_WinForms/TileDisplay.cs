@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Nitro.Graphics.WinForms {
+namespace Henke37.Nitro.Graphics.WinForms {
 	public partial class TileDisplay : Control {
 
 		private Bitmap img;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class GraphicsBank {
 
 		public ushort TilesX;

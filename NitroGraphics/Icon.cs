@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class Icon {
 		public Palette Palette;
 		public Tile[] Tiles;

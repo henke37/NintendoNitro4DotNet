@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nitro.Composer.SequenceCommands.Var {
+namespace Henke37.Nitro.Composer.SequenceCommands.Var {
 	public class VolumeVarCommand : BaseSequenceCommand {
 		public bool Master;
 		public byte VolumeVar;

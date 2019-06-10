@@ -1,11 +1,11 @@
-﻿using Nitro.Graphics.Animation;
+﻿using Henke37.Nitro.Graphics.Animation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
-namespace Nitro.Graphics.WinForms {
+namespace Henke37.Nitro.Graphics.WinForms {
 	public class AnimationPlayer_WinForms : AnimationRunner {
 
 		private List<Bitmap> bitmaps;

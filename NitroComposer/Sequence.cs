@@ -1,7 +1,7 @@
-﻿using Nitro.Composer.SequenceCommands;
+﻿using Henke37.Nitro.Composer.SequenceCommands;
 using System.Collections.Generic;
 
-namespace Nitro.Composer {
+namespace Henke37.Nitro.Composer {
     public class Sequence {
         public List<BaseSequenceCommand> commands;
 

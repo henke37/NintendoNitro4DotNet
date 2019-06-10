@@ -1,13 +1,14 @@
-﻿using HenkesUtils;
+﻿using Henke37.IOUtils;
+using Nitro;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Nitro.Graphics.Animation.NANR.Animation;
+using static Henke37.Nitro.Graphics.Animation.NANR.Animation;
 
-namespace Nitro.Graphics.Animation {
+namespace Henke37.Nitro.Graphics.Animation {
 	public class NANR {
 
 		public List<Animation> animations;

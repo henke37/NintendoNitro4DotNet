@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Nitro;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nitro.Graphics {
+namespace Henke37.Nitro.Graphics {
 	public class NSCR : Tilemap {
 
 		public NSCR() { }

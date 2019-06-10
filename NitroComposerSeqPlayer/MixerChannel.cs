@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Nitro.Composer;
+using Henke37.Nitro.Composer;
 using NitroComposerPlayer.Decoders;
 
 namespace NitroComposerPlayer {

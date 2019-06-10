@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nitro.Graphics.Animation {
+namespace Henke37.Nitro.Graphics.Animation {
 	public abstract class AnimationRunner {
 		protected NANR.Animation animation;
 		protected NCGR ncgr;

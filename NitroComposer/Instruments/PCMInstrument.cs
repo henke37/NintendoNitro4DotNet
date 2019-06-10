@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nitro.Composer.Instruments {
+namespace Henke37.Nitro.Composer.Instruments {
     public class PCMInstrument : BaseLeafInstrument {
 
         public UInt16 swar;
