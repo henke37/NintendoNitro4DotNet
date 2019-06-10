@@ -9,6 +9,7 @@
 		<FileAlignment>512</FileAlignment>
 		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<Authors>Henke37</Authors>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -11,6 +11,7 @@
 		<LangVersion>latest</LangVersion>
 		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<Authors>Henke37</Authors>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NitroGraphics\NitroGraphics.csproj" />
