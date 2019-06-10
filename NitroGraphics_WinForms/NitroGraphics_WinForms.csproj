@@ -12,6 +12,10 @@
 		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<Authors>Henke37</Authors>
+		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
+		<Description>Library to render nintendo ds graphics files with WinForms.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NitroGraphics\NitroGraphics.csproj" />

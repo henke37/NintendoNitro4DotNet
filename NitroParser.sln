@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroComposer", "NitroComposer\NitroComposer.csproj", "{DA199528-344E-4EAB-9479-2BF823DFC7A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroComposer", "NitroComposer\NitroComposer.csproj", "{DA199528-344E-4EAB-9479-2BF823DFC7A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeqDisasm", "Test\SeqDisasm.csproj", "{8ED1ADE5-133D-4D33-B053-990FE13270C8}"
 EndProject
@@ -11,17 +11,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkTest", "BulkTest\BulkTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroCore", "NitroSupport\NitroCore.csproj", "{A008CD3F-A712-43BE-BB8A-54C53B05C351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroGraphics", "NitroGraphics\NitroGraphics.csproj", "{220D9355-245D-4D7D-8DBE-36F46BB14627}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroGraphics", "NitroGraphics\NitroGraphics.csproj", "{220D9355-245D-4D7D-8DBE-36F46BB14627}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arm7Hasher", "Arm7Hasher\Arm7Hasher.csproj", "{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Small Tests", "Small Tests", "{7CBC6B38-5699-489D-B84B-BC3BD222F390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroComposerPlayer", "NitroComposerSeqPlayer\NitroComposerPlayer.csproj", "{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroComposerPlayer", "NitroComposerSeqPlayer\NitroComposerPlayer.csproj", "{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerTest", "PlayerTest\PlayerTest.csproj", "{8906B115-747C-4DE6-A8D7-92939F34755B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NitroGraphics_WinForms", "NitroGraphics_WinForms\NitroGraphics_WinForms.csproj", "{7481C593-EDFF-4825-BAC1-E11D9FD26E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroGraphics_WinForms", "NitroGraphics_WinForms\NitroGraphics_WinForms.csproj", "{7481C593-EDFF-4825-BAC1-E11D9FD26E04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconTest", "IconTest\IconTest.csproj", "{37DFC642-1C67-4015-81C3-757A635F0F6E}"
 EndProject
@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphicsTest", "GraphicsTes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameLibs", "GameLibs", "{86CD1BAF-D4A8-415A-8885-6575F9569C0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AceAttorney", "AceAttorney\AceAttorney.csproj", "{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AceAttorney", "AceAttorney\AceAttorney.csproj", "{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GK2Test", "GK2Test\GK2Test.csproj", "{C1D945C7-531B-4EC5-8432-E302E422C6F6}"
 EndProject
@@ -47,10 +47,8 @@ Global
 		{DA199528-344E-4EAB-9479-2BF823DFC7A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A008CD3F-A712-43BE-BB8A-54C53B05C351}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,34 +59,28 @@ Global
 		{220D9355-245D-4D7D-8DBE-36F46BB14627}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E1D00BE-585D-4734-8F23-7DD8BEFBD919}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DF2B996-819B-4C36-AFF0-BCF3DE4FCB68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8906B115-747C-4DE6-A8D7-92939F34755B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8906B115-747C-4DE6-A8D7-92939F34755B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8906B115-747C-4DE6-A8D7-92939F34755B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7481C593-EDFF-4825-BAC1-E11D9FD26E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7481C593-EDFF-4825-BAC1-E11D9FD26E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7481C593-EDFF-4825-BAC1-E11D9FD26E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7481C593-EDFF-4825-BAC1-E11D9FD26E04}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37DFC642-1C67-4015-81C3-757A635F0F6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{650E0449-A0C3-483C-BF0F-54841FDFDE94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2F2EB7-2368-42F0-B024-D07ADE1A137C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1D945C7-531B-4EC5-8432-E302E422C6F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1D945C7-531B-4EC5-8432-E302E422C6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1D945C7-531B-4EC5-8432-E302E422C6F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9DB8BB1E-EEB7-490A-A38C-AEAFB22EB974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9DB8BB1E-EEB7-490A-A38C-AEAFB22EB974}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DB8BB1E-EEB7-490A-A38C-AEAFB22EB974}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
