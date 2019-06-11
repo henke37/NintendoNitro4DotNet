@@ -16,6 +16,7 @@
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
 		<Description>Base library for nintendo ds stock graphics formats.</Description>
+		<Version>1.0.1</Version>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\NitroSupport\NitroCore.csproj" />

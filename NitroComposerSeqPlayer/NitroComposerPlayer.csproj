@@ -12,7 +12,7 @@
 		<Authors>Henke37</Authors>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
-		<Version>0.0.0-alpha</Version>
+		<Version>0.0.1-alpha</Version>
 		<Description>Library for playing sequences in Nitro Composer files.</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
