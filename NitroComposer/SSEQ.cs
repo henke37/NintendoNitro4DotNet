@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Henke37.IOUtils;
-using Nitro;
+using Henke37.Nitro;
 
 namespace Henke37.Nitro.Composer {
 	public class SSEQ {

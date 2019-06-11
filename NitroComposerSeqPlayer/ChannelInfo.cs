@@ -1,7 +1,7 @@
 ﻿using System;
 using Henke37.Nitro.Composer.Instruments;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	internal class ChannelInfo {
 
 		internal TrackPlayer Track;

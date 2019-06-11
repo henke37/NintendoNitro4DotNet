@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using Henke37.Nitro.Composer;
-using NitroComposerPlayer.Decoders;
+using Henke37.Nitro.Composer.Player.Decoders;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	internal class MixerChannel {
 		private ushort _timer;
 

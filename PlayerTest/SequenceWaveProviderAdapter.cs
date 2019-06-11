@@ -1,5 +1,5 @@
 ﻿using NAudio.Wave;
-using NitroComposerPlayer;
+using Henke37.Nitro.Composer.Player;
 using System;
 using System.Collections.Generic;
 using System.IO;

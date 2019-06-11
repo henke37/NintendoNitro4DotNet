@@ -1,10 +1,10 @@
 ﻿using Henke37.Nitro.Composer;
-using NitroComposerPlayer.Decoders;
+using Henke37.Nitro.Composer.Player.Decoders;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	/* Stream player included in the same assembly for convenience.
 	 * You will most likely want support for both. */
 	public class StreamPlayer {

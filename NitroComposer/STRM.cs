@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Henke37.IOUtils;
-using Nitro;
+using Henke37.Nitro;
 
 namespace Henke37.Nitro.Composer {
     public class STRM {

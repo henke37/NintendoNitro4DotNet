@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	public struct SamplePair : IEquatable<SamplePair>, IEquatable<int> {
 		public int Left;
 		public int Right;

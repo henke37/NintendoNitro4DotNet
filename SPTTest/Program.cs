@@ -1,5 +1,5 @@
 ﻿using AceAttorney.GK2;
-using Nitro;
+using Henke37.Nitro;
 using System;
 using System.Collections.Generic;
 using System.IO;

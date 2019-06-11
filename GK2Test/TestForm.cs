@@ -1,5 +1,5 @@
 ﻿using AceAttorney.GK2;
-using Nitro;
+using Henke37.Nitro;
 using Henke37.Nitro.Graphics;
 using Henke37.Nitro.Graphics.Animation;
 using Henke37.Nitro.Graphics.WinForms;

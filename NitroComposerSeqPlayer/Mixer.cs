@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	public class Mixer {
 
 		internal MixerChannel[] channels;

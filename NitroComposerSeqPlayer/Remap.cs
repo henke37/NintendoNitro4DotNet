@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	internal class Remap {
 
 		public static int Attack(int attk) {

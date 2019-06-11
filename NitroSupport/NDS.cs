@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Henke37.IOUtils;
 
-namespace Nitro {
+namespace Henke37.Nitro {
 	public class NDS {
 		private Stream rootStream;
 

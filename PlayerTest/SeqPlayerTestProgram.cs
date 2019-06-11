@@ -1,6 +1,6 @@
-﻿using Nitro;
+﻿using Henke37.Nitro;
 using Henke37.Nitro.Composer;
-using NitroComposerPlayer;
+using Henke37.Nitro.Composer.Player;
 using System;
 using System.Collections.Generic;
 using System.IO;

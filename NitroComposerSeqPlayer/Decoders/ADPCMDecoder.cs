@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace NitroComposerPlayer.Decoders {
+namespace Henke37.Nitro.Composer.Player.Decoders {
 	internal class ADPCMDecoder : BaseSampleDecoder {
 
 		private int predictor;

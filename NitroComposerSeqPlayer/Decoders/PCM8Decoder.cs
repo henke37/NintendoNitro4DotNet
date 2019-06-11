@@ -1,7 +1,7 @@
 ﻿using Henke37.IOUtils;
 using System.IO;
 
-namespace NitroComposerPlayer.Decoders {
+namespace Henke37.Nitro.Composer.Player.Decoders {
 	internal class PCM8Decoder : BaseSampleDecoder {
 		public override void Init(BinaryReader reader) {
 			this.reader = reader;

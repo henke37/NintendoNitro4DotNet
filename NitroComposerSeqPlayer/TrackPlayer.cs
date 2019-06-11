@@ -5,7 +5,7 @@ using Henke37.Nitro.Composer.SequenceCommands.Var;
 using System;
 using System.Collections.Generic;
 
-namespace NitroComposerPlayer {
+namespace Henke37.Nitro.Composer.Player {
 	internal class TrackPlayer {
 		internal SequencePlayer sequencePlayer;
 

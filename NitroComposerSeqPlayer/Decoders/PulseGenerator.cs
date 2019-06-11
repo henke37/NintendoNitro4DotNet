@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NitroComposerPlayer.Decoders {
+namespace Henke37.Nitro.Composer.Player.Decoders {
 	class PulseGenerator : BaseGenerator {
 		private int[] currentPulseWidthTable;
 

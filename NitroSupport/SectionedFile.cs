@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Henke37.IOUtils;
 
-namespace Nitro {
+namespace Henke37.Nitro {
     public class SectionedFile {
         private Stream mainStream;
 

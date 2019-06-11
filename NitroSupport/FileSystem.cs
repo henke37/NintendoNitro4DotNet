@@ -7,7 +7,7 @@ using Henke37.IOUtils;
 using Like = Microsoft.VisualBasic.CompilerServices.LikeOperator;
 #endif
 
-namespace Nitro {
+namespace Henke37.Nitro {
 	public class FileSystem {
 
 		public Directory RootDir { get; private set;  }
