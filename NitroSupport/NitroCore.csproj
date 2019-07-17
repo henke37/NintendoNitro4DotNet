@@ -16,11 +16,11 @@
 		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
 		<Version>1.0.1</Version>
 	</PropertyGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="Henke37.IOUtils" Version="1.0.0" />
+		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
 	</ItemGroup>
 </Project>

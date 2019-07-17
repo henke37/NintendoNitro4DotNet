@@ -14,7 +14,6 @@
 		<RepositoryUrl>https://github.com/henke37/NintendoNitro4DotNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-		<PackageLicenseUrl>https://spdx.org/licenses/AGPL-3.0-or-later.html</PackageLicenseUrl>
 		<Description>Library for working with the file formats of the Nitro Composer middleware.</Description>
 		<Version>1.0.1</Version>
 	</PropertyGroup>
