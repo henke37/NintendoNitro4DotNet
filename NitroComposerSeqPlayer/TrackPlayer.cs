@@ -452,6 +452,7 @@ namespace Henke37.Nitro.Composer.Player {
 				loopStack.Pop();
 			} else {
 				entry.loopCounter--;
+				nextInstructionId = entry.loopStart;
 			}
 		}
 
