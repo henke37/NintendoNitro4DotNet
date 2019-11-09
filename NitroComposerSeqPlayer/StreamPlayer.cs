@@ -14,6 +14,10 @@ namespace Henke37.Nitro.Composer.Player {
 
 		private BaseSampleDecoder[] decoders;
 
+		private int loadedBlock;
+		private uint currentSamplePos;
+		private uint samplesLeftInBlock;
+
 		public StreamPlayer(SDat sdat, string streamName) {
 			var strm = sdat.OpenStream(streamName);
 			Load(strm);
@@ -35,10 +39,17 @@ namespace Henke37.Nitro.Composer.Player {
 		private void Load(STRM strm) {
 			this.strm = strm;
 
+			Reset();
+
 			decoders = new BaseSampleDecoder[strm.channels];
 			for(int channel=0;channel<strm.channels;++channel) {
 				decoders[channel] = BaseSampleDecoder.CreateDecoder(strm.encoding);
 			}
+		}
+
+		private void Reset() {
+			loadedBlock = -1;
+			currentSamplePos = 0;
 		}
 
 		public override int SampleRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -56,24 +67,50 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 		private void GenerateStereoSamples(SamplePair[] samples) {
-			//ensure that the correct block is loaded
-			//LoadBlock();
-			//fastforward the block if needed
-			//decode the samples
-			//resample the samples
-		}
+			int sampleIndex = 0;
 
-		private void LoadBlock(int chunkId) {
-			for(int channel=0;channel<strm.channels;++channel) {
-				var decoder = decoders[channel];
-				decoder.Init(new BinaryReader(GetBlockStream(chunkId, channel)));
+			while(sampleIndex < samples.Length) {
+				//ensure that the correct block is loaded
+				uint targetSamplePos = currentSamplePos;
+				int targetBlock = (int)(targetSamplePos / strm.blockSamples);
+				if(loadedBlock != targetBlock) {
+					LoadBlock(targetBlock);
+					currentSamplePos = targetSamplePos;
+				}
+				//fastforward the block if needed
+				while(currentSamplePos < targetSamplePos) {
+					foreach(var decoder in decoders) {
+						decoder.IncrementSample();
+					}
+					currentSamplePos++;
+				}
+				//decode the samples
+				for(; sampleIndex < samples.Length; ++sampleIndex) {
+					if(samplesLeftInBlock <= 0) break;
+					
+					samples[sampleIndex] = new SamplePair(
+						decoders[0].GetSample(), 
+						decoders[1].GetSample()
+					);
+				}
 			}
 		}
 
-		private Stream GetBlockStream(int chunkId, int channel) {
-			bool lastBlock = strm.nBlock < chunkId;
+		private void LoadBlock(int blockId) {
+			for(int channel=0;channel<strm.channels;++channel) {
+				var decoder = decoders[channel];
+				decoder.Init(new BinaryReader(GetBlockStream(blockId, channel)));
+			}
+			loadedBlock = blockId;
+
+			bool lastBlock = strm.nBlock < blockId;
+			samplesLeftInBlock = lastBlock?strm.lastBlockSamples:strm.blockSamples;
+		}
+
+		private Stream GetBlockStream(int blockId, int channel) {
+			bool lastBlock = strm.nBlock < blockId;
 			long blockLen = lastBlock ? strm.lastBlockLength : strm.blockLength;
-			long offset = strm.blockLength * strm.channels * chunkId + blockLen * channel;
+			long offset = strm.blockLength * strm.channels * blockId + blockLen * channel;
 
 			return new SubStream(strm.dataStream, offset, blockLen);
 		}
