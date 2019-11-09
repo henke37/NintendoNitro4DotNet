@@ -18,6 +18,23 @@ namespace Henke37.Nitro.Composer.Player {
 
 		public int Mono { get => (Left + Right) / 2; }
 
+		public int this[int i] {
+			get {
+				switch(i) {
+					case 0: return Left; ;
+					case 1: return Right;
+				}
+				throw new ArgumentOutOfRangeException("value");
+			}
+			set {
+				switch(i) {
+					case 0: Left = value; return;
+					case 1: Right = value; return;
+				}
+				throw new ArgumentOutOfRangeException("value");
+			}
+		}
+
 		public bool Equals(SamplePair other) {
 			return other.Left == Left && other.Right == Right;
 		}
