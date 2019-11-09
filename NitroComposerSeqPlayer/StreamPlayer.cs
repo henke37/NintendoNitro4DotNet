@@ -84,7 +84,6 @@ namespace Henke37.Nitro.Composer.Player {
 
 				if(loadedBlock != targetBlock) {
 					LoadBlock(targetBlock);
-					currentSamplePos = targetSamplePos;
 				}
 				//fastforward the block if needed
 				while(currentSamplePos < targetSamplePos) {
@@ -101,6 +100,7 @@ namespace Henke37.Nitro.Composer.Player {
 						decoders[0].GetSample(), 
 						decoders[1].GetSample()
 					);
+					currentSamplePos++;
 				}
 			}
 		}
@@ -114,6 +114,8 @@ namespace Henke37.Nitro.Composer.Player {
 
 			bool lastBlock = strm.nBlock < blockId;
 			samplesLeftInBlock = lastBlock?strm.lastBlockSamples:strm.blockSamples;
+
+			currentSamplePos = strm.blockSamples * (uint)blockId;
 		}
 
 		private Stream GetBlockStream(int blockId, int channel) {
