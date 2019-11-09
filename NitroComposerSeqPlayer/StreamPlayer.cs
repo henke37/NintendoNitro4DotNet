@@ -73,6 +73,15 @@ namespace Henke37.Nitro.Composer.Player {
 				//ensure that the correct block is loaded
 				uint targetSamplePos = currentSamplePos;
 				int targetBlock = (int)(targetSamplePos / strm.blockSamples);
+
+				if(samplesLeftInBlock <= 0 && loadedBlock == strm.nBlock-1) {
+					if(strm.loop) {
+						targetSamplePos = strm.loopPoint;
+					} else {
+						//signal stream end
+					}
+				}
+
 				if(loadedBlock != targetBlock) {
 					LoadBlock(targetBlock);
 					currentSamplePos = targetSamplePos;
