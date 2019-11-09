@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Henke37.Nitro.Composer.Player {
-	public class SequencePlayer {
+	public class SequencePlayer : BasePlayer {
 		private const int ChannelCount = 16;
 
 		internal SBNK bank;
@@ -30,7 +30,7 @@ namespace Henke37.Nitro.Composer.Player {
 
 		private readonly Mixer mixer = new Mixer();
 
-		public int SampleRate {
+		public override int SampleRate {
 			get => _sampleRate;
 			set {
 				mixer.SampleRate = value;
@@ -144,7 +144,7 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 
-		public void GenerateSamples(SamplePair[] samples) {
+		public override void GenerateSamples(SamplePair[] samples) {
 			for(int sampleIndex=0;sampleIndex<samples.Length;sampleIndex+=2) {
 				samples[sampleIndex]=mixer.GenerateSamplePair();
 

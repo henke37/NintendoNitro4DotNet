@@ -6,14 +6,14 @@ using System.IO;
 
 namespace PlayerTest {
 	class SequenceWaveProviderAdapter : IWaveProvider {
-		private SequencePlayer player;
+		private BasePlayer player;
 		private SamplePair[] sampleBuffer;
 
 		private const int chanC = 2;
 
 		public WaveFormat WaveFormat => new WaveFormat(player.SampleRate, 16, chanC);
 
-		public SequenceWaveProviderAdapter(SequencePlayer player, int sampleRate = 44100) {
+		public SequenceWaveProviderAdapter(BasePlayer player, int sampleRate = 44100) {
 			this.player = player;
 			player.SampleRate = sampleRate;
 		}

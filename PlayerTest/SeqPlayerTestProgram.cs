@@ -70,7 +70,7 @@ namespace PlayerTest {
 			return ERR_SEQ_NOT_FOUND;
 		}
 
-		private static int Play(SequencePlayer player) {
+		private static int Play(BasePlayer player) {
 			var a = new NAudio.Wave.DirectSoundOut();
 			var wp = new SequenceWaveProviderAdapter(player);
 			a.Init(wp);
