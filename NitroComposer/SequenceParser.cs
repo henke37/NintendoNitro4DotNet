@@ -43,11 +43,11 @@ namespace Henke37.Nitro.Composer {
 		}
 
 		private void ParseFlow(Flow flow) {
-			if(flow.parsed) throw new Exception("Already parsed this flow!");
-			flow.parsed = true;
-			flow.commandIndex = commandIndex;
+			if(flow.Parsed) throw new Exception("Already parsed this flow!");
+			flow.Parsed = true;
+			flow.StartCommandIndex = commandIndex;
 
-			reader.BaseStream.Position = flow.offset;
+			reader.BaseStream.Position = flow.StartOffset;
 
 			for(; ; ) {
 				instructionOffsets[reader.BaseStream.Position] = commandIndex;
@@ -58,6 +58,8 @@ namespace Henke37.Nitro.Composer {
 				if(cmd.EndsFlow) break;
 				if(flows.ContainsKey((uint)reader.BaseStream.Position)) break;
 			}
+
+			flow.EndOffset = reader.BaseStream.Position;
 		}
 
 		private BaseSequenceCommand readCommand() {
@@ -326,10 +328,31 @@ namespace Henke37.Nitro.Composer {
 			Flow flow;
 			if(flows.TryGetValue(offset, out flow)) return flow;
 
+			var splitFlow = TrySplitFlow(offset);
+			if(splitFlow!=null) return splitFlow;
+
 			flow = new Flow(offset);
 			flows.Add(offset, flow);
 			unparsedFlows.Push(flow);
 			return flow;
+		}
+
+		private Flow TrySplitFlow(uint offset) {
+			foreach(var kv in flows) {
+				Flow candidate = kv.Value;
+				if(!candidate.Parsed) continue;
+				if(!candidate.InRange(offset)) continue;
+
+				Flow newFlow = new Flow(offset);
+				newFlow.EndOffset = candidate.EndOffset;
+				newFlow.StartCommandIndex = instructionOffsets[offset];
+				newFlow.Parsed = true;
+
+				candidate.EndOffset = offset;
+
+				return newFlow;
+			}
+			return null;
 		}
 
 		private void PatchJumpTargets() {
@@ -341,12 +364,19 @@ namespace Henke37.Nitro.Composer {
 		}
 
 		private class Flow {
-			public bool parsed;
-			public uint offset;
-			public uint commandIndex;
+			public bool Parsed;
+			public uint StartOffset;
+			public long EndOffset;
+			public uint StartCommandIndex;
 
 			public Flow(uint offset) {
-				this.offset = offset;
+				this.StartOffset = offset;
+			}
+
+			internal bool InRange(uint offset) {
+				if(offset < StartOffset) return false;
+				if(offset >= EndOffset) return false;
+				return true;
 			}
 		}
 	}
