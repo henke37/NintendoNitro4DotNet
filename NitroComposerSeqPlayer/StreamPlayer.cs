@@ -1,4 +1,5 @@
-﻿using Henke37.Nitro.Composer;
+﻿using Henke37.IOUtils;
+using Henke37.Nitro.Composer;
 using Henke37.Nitro.Composer.Player.Decoders;
 using System;
 using System.Collections.Generic;
@@ -55,11 +56,26 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 		private void GenerateStereoSamples(SamplePair[] samples) {
-			
-			//ensure that the correct chunk is loaded
-			//fastforward the chunk if needed
+			//ensure that the correct block is loaded
+			//LoadBlock();
+			//fastforward the block if needed
 			//decode the samples
 			//resample the samples
+		}
+
+		private void LoadBlock(int chunkId) {
+			for(int channel=0;channel<strm.channels;++channel) {
+				var decoder = decoders[channel];
+				decoder.Init(new BinaryReader(GetBlockStream(chunkId, channel)));
+			}
+		}
+
+		private Stream GetBlockStream(int chunkId, int channel) {
+			bool lastBlock = strm.nBlock < chunkId;
+			long blockLen = lastBlock ? strm.lastBlockLength : strm.blockLength;
+			long offset = strm.blockLength * strm.channels * chunkId + blockLen * channel;
+
+			return new SubStream(strm.dataStream, offset, blockLen);
 		}
 	}
 }

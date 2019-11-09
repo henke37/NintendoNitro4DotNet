@@ -22,10 +22,13 @@ namespace Henke37.Nitro.Composer {
         public uint lastBlockLength;
         public uint lastBlockSamples;
 
+		public readonly Stream dataStream;
+
         public STRM(Stream mainStream) {
             var sections = new SectionedFile(mainStream, "STRM");
 
             readHEAD(sections.Open("HEAD"));
+			dataStream = sections.Open("DATA");
         }
 
         private void readHEAD(Stream stream) {
