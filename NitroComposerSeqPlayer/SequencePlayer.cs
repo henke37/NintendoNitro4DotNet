@@ -144,7 +144,7 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 
-		public override void GenerateSamples(SamplePair[] samples) {
+		public override int GenerateSamples(SamplePair[] samples) {
 			for(int sampleIndex=0;sampleIndex<samples.Length;sampleIndex+=2) {
 				samples[sampleIndex]=mixer.GenerateSamplePair();
 
@@ -155,6 +155,7 @@ namespace Henke37.Nitro.Composer.Player {
 					secondsUntilNextClock += SecondsPerClockCycle;
 				}
 			}
+			return samples.Length;
 		}
 
 		internal const int ARM7_CLOCK = 33513982;

@@ -26,17 +26,17 @@ namespace PlayerTest {
 			} else if(sampleBuffer.Length != samplesInBuff * chanC) {
 				Array.Resize(ref sampleBuffer, samplesInBuff * chanC);
 			}
-			player.GenerateSamples(sampleBuffer);
+			int samplesWritten=player.GenerateSamples(sampleBuffer);
 
 
 			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
-				for(int sampleIndex = 0; sampleIndex < samplesInBuff; sampleIndex+=2) {
+				for(int sampleIndex = 0; sampleIndex < samplesWritten; sampleIndex+=2) {
 					w.Write((short)sampleBuffer[sampleIndex].Left);
 					w.Write((short)sampleBuffer[sampleIndex].Right);
 				}
 			}
 
-			return count;
+			return samplesWritten;
 		}
 	}
 }

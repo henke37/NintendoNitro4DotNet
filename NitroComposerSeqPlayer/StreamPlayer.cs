@@ -54,19 +54,19 @@ namespace Henke37.Nitro.Composer.Player {
 
 		public override int SampleRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public override void GenerateSamples(SamplePair[] samples) {
+		public override int GenerateSamples(SamplePair[] samples) {
 			if(strm.channels==2) {
-				GenerateStereoSamples(samples);
+				return GenerateStereoSamples(samples);
 			} else {
-				GenerateMonoSamples(samples);
+				return GenerateMonoSamples(samples);
 			}
 		}
 
-		private void GenerateMonoSamples(SamplePair[] samples) {
+		private int GenerateMonoSamples(SamplePair[] samples) {
 			throw new NotImplementedException();
 		}
 
-		private void GenerateStereoSamples(SamplePair[] samples) {
+		private int GenerateStereoSamples(SamplePair[] samples) {
 			int sampleIndex = 0;
 
 			while(sampleIndex < samples.Length) {
@@ -79,6 +79,7 @@ namespace Henke37.Nitro.Composer.Player {
 						targetSamplePos = strm.loopPoint;
 					} else {
 						//signal stream end
+						return sampleIndex;
 					}
 				}
 
@@ -103,6 +104,7 @@ namespace Henke37.Nitro.Composer.Player {
 					currentSamplePos++;
 				}
 			}
+			return sampleIndex;
 		}
 
 		private void LoadBlock(int blockId) {
