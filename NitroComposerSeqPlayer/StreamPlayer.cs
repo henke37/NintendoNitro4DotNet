@@ -78,7 +78,7 @@ namespace Henke37.Nitro.Composer.Player {
 					if(strm.loop) {
 						targetSamplePos = strm.loopPoint;
 					} else {
-						//signal stream end
+						OnComplete();
 						return sampleIndex;
 					}
 				}
