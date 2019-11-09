@@ -7,7 +7,7 @@ using System.IO;
 namespace Henke37.Nitro.Composer.Player {
 	/* Stream player included in the same assembly for convenience.
 	 * You will most likely want support for both. */
-	public class StreamPlayer {
+	public class StreamPlayer : BasePlayer {
 
 		private STRM strm;
 
@@ -38,6 +38,28 @@ namespace Henke37.Nitro.Composer.Player {
 			for(int channel=0;channel<strm.channels;++channel) {
 				decoders[channel] = BaseSampleDecoder.CreateDecoder(strm.encoding);
 			}
+		}
+
+		public override int SampleRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public override void GenerateSamples(SamplePair[] samples) {
+			if(strm.channels==2) {
+				GenerateStereoSamples(samples);
+			} else {
+				GenerateMonoSamples(samples);
+			}
+		}
+
+		private void GenerateMonoSamples(SamplePair[] samples) {
+			throw new NotImplementedException();
+		}
+
+		private void GenerateStereoSamples(SamplePair[] samples) {
+			
+			//ensure that the correct chunk is loaded
+			//fastforward the chunk if needed
+			//decode the samples
+			//resample the samples
 		}
 	}
 }

@@ -16,7 +16,6 @@ namespace PlayerTest {
 		const int ERR_NO_SDAT = 3;
 		const int ERR_SEQ_NOT_FOUND = 5;
 		const int ERR_NO_SYMBOLS = 6;
-		const int ERR_IS_STREAM = 20;
 		const int ERR_ARGUMENTS = 90;
 		const int ERR_USAGE = 99;
 
@@ -107,7 +106,7 @@ namespace PlayerTest {
 			try {
 				var strm = sdat.OpenStream(name);
 				Console.WriteLine("Is stream.");
-				return ERR_IS_STREAM;
+				return Play(new StreamPlayer(strm));
 			} catch(FileNotFoundException) {
 				//keep on ignoring missing files
 			}
