@@ -26,8 +26,8 @@ namespace PlayerTest {
 			} else if(sampleBuffer.Length != samplesInBuff * chanC) {
 				Array.Resize(ref sampleBuffer, samplesInBuff * chanC);
 			}
-			int samplesWritten=player.GenerateSamples(sampleBuffer);
 
+			int samplesWritten=player.GenerateSamples(sampleBuffer);
 
 			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
 				for(int sampleIndex = 0; sampleIndex < samplesWritten; sampleIndex+=2) {
