@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NitroComposer", "NitroComposer\NitroComposer.csproj", "{DA199528-344E-4EAB-9479-2BF823DFC7A2}"
 EndProject
@@ -46,6 +46,7 @@ Global
 		{DA199528-344E-4EAB-9479-2BF823DFC7A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA199528-344E-4EAB-9479-2BF823DFC7A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ED1ADE5-133D-4D33-B053-990FE13270C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{446B94D4-2037-4B9B-B3D8-7CB7F1A6DD66}.Release|Any CPU.ActiveCfg = Release|Any CPU

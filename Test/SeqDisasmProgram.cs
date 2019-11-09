@@ -35,7 +35,7 @@ namespace Henke37.Nitro.Composer.SeqDisasm {
 			var sdats = nds.FileSystem.RootDir.FindMatchingFiles("*.sdat");
 
 			if(sdats.Count == 0) {
-				Console.Error.WriteLine("NDS file not found");
+				Console.Error.WriteLine("SDAT file not found");
 				return ERR_NO_SDAT;
 			}
 
