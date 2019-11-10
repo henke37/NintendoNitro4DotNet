@@ -9,8 +9,7 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 		private int predictor;
 		private int stepIndex;
 
-		/* Debug HACK! Should be private! */
-		public int currentPos;
+		private int currentPos;
 		private int storedNibble;
 
 		public ADPCMDecoder() {
@@ -26,14 +25,18 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 
 			Reset();
 
-			Debug.Assert(reader.BytesLeft() >= totalLength / 2);
 		}
 
 		private void Reset() {
 			reader.Seek(0);
-			currentPos = -1;//Startup HACK: we are just before the first sample
 			predictor = reader.ReadUInt16();
 			stepIndex = reader.ReadUInt16();
+
+			Debug.Assert(reader.BytesLeft() >= TotalLength / 2);
+
+			parseStartOfByte();
+			samplePosition = 0;
+			currentPos = 0;
 		}
 
 		internal override int GetSample() {
@@ -46,7 +49,7 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 				Reset();
 			}
 
-			if((currentPos % 2) == 1) {//not the same as !=0, should not handle start up position of -1
+			if((currentPos % 2) != 0) {
 				parseNibble(storedNibble);
 			}
 
@@ -60,14 +63,18 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 				return predictor;
 			}
 
-			if((currentPos % 2)!=0) {//not the same as ==1, have to handle start up position of -1
-				var nibble = reader.ReadByte();
-				parseNibble(nibble & 0x0F);
-				storedNibble = nibble >> 4;
+			if((currentPos % 2)==0) {
+				parseStartOfByte();
 			} else {
 				parseNibble(storedNibble);
 			}
 			return predictor;
+		}
+
+		private void parseStartOfByte() {
+			var nibble = reader.ReadByte();
+			parseNibble(nibble & 0x0F);
+			storedNibble = nibble >> 4;
 		}
 
 		private void parseNibble(int nibble) {
