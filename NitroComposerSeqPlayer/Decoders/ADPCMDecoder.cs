@@ -15,8 +15,13 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 
 		}
 
-		public override void Init(BinaryReader reader) {
+		public override void Init(BinaryReader reader, uint totalLength, bool loops = false, uint loopLength = 0) {
 			this.reader = reader;
+
+			TotalLength = totalLength;
+			Loops = loops;
+			LoopLength = loopLength;
+
 			Reset();
 		}
 

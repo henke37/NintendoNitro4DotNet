@@ -11,7 +11,7 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 
 		protected BinaryReader reader;
 
-		public abstract void Init(BinaryReader reader);
+		public abstract void Init(BinaryReader reader, uint totalLength, bool loops = false, uint loopLength = 0);
 
 		public static BaseSampleDecoder CreateDecoder(WaveEncoding encoding) {
 			switch(encoding) {
