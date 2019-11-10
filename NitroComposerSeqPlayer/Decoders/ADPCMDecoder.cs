@@ -44,7 +44,7 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 			for(; currentPos+2<= intPos;) {
 				var nibble = reader.ReadByte();
 				parseNibble(nibble & 0x0F);
-				parseNibble(nibble >> 8);
+				parseNibble(nibble >> 4);
 			}
 
 			if(currentPos == intPos) {
@@ -54,7 +54,7 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 			if((currentPos % 2)!=0) {//not the same as ==1, have to handle start up position of -1
 				var nibble = reader.ReadByte();
 				parseNibble(nibble & 0x0F);
-				storedNibble = nibble >> 8;
+				storedNibble = nibble >> 4;
 			} else {
 				parseNibble(storedNibble);
 			}
