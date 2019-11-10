@@ -155,16 +155,16 @@ namespace Henke37.Nitro.Composer {
                     }
                 }
 
-                using(var subStream = new SubStream(stream, 0)) {
-                    List<uint> recordPositions = ReadInfoRecordPtrTable(7);
+				using(var subReader = new BinaryReader(new SubStream(stream, 0))) {
+					List<uint> recordPositions = ReadInfoRecordPtrTable(7);
                     streamInfo = new List<StreamInfoRecord>(recordPositions.Count);
                     foreach(var position in recordPositions) {
                         if(position == 0) {
                             streamInfo.Add(null);
                             continue;
                         }
-                        subStream.Position = position;
-                        StreamInfoRecord record = StreamInfoRecord.Read(r);
+						subReader.BaseStream.Position = position;
+						StreamInfoRecord record = StreamInfoRecord.Read(subReader);
                         streamInfo.Add(record);
                     }
                 }
