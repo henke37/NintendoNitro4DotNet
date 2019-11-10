@@ -1,5 +1,6 @@
 ﻿using Henke37.IOUtils;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Henke37.Nitro.Composer.Player.Decoders {
@@ -23,6 +24,8 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 			LoopLength = loopLength;
 
 			Reset();
+
+			Debug.Assert(reader.BytesLeft() >= totalLength / 2);
 		}
 
 		private void Reset() {
