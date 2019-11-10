@@ -108,14 +108,19 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 		private void LoadBlock(int blockId) {
+			bool lastBlock = strm.nBlock < blockId;
+			samplesLeftInBlock = lastBlock ? strm.lastBlockSamples : strm.blockSamples;
+
 			for(int channel=0;channel<strm.channels;++channel) {
 				var decoder = decoders[channel];
-				decoder.Init(new BinaryReader(GetBlockStream(blockId, channel)));
+				decoder.Init(
+					new BinaryReader(GetBlockStream(blockId, channel)),
+					samplesLeftInBlock,
+					false
+				);
 			}
 			loadedBlock = blockId;
 
-			bool lastBlock = strm.nBlock < blockId;
-			samplesLeftInBlock = lastBlock?strm.lastBlockSamples:strm.blockSamples;
 
 			currentSamplePos = strm.blockSamples * (uint)blockId;
 		}

@@ -28,9 +28,9 @@ namespace Henke37.Nitro.Composer.Player {
 
 		private BaseSampleDecoder Decoder { get => (BaseSampleDecoder)_generator; }
 
-		internal uint TotalLength { set => Decoder.TotalLength = value; get => Decoder.TotalLength; }
-		internal uint LoopLength { set => Decoder.LoopLength = value; get => Decoder.LoopLength; }
-		internal bool Loops { set => Decoder.Loops = value; get => Decoder.Loops; }
+		//internal uint TotalLength { set => Decoder.TotalLength = value; get => Decoder.TotalLength; }
+		//internal uint LoopLength { set => Decoder.LoopLength = value; get => Decoder.LoopLength; }
+		//internal bool Loops { set => Decoder.Loops = value; get => Decoder.Loops; }
 
 		internal MixerChannelMode Mode { get; private set; } = MixerChannelMode.Off;
 		public double Loudness { get => (VolMul/128.0) / (1<<VolShift) ; }
@@ -77,10 +77,7 @@ namespace Henke37.Nitro.Composer.Player {
 		internal void SetSampleData(Wave wave) {
 			Mode = MixerChannelMode.Pcm;
 			BaseSampleDecoder decoder = BaseSampleDecoder.CreateDecoder(wave.Encoding);
-			decoder.Init(new BinaryReader(wave.dataStream));
-			decoder.Loops = wave.Loops;
-			decoder.LoopLength = wave.LoopLength;
-			decoder.TotalLength = wave.LoopStart + wave.LoopLength;
+			decoder.Init(new BinaryReader(wave.dataStream), wave.LoopStart + wave.LoopLength, wave.Loops, wave.LoopLength);
 			Generator = decoder;
 		}
 

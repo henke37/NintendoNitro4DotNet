@@ -5,9 +5,9 @@ using System.IO;
 namespace Henke37.Nitro.Composer.Player.Decoders {
 	internal abstract class BaseSampleDecoder : BaseGenerator {
 
-		internal uint TotalLength;
-		internal uint LoopLength;
-		internal bool Loops;
+		protected uint TotalLength;
+		protected uint LoopLength;
+		protected bool Loops;
 
 		protected BinaryReader reader;
 
