@@ -90,10 +90,7 @@ namespace Henke37.Nitro.Composer.Player {
 				}
 				//fastforward the block if needed
 				while(currentSamplePos < targetSamplePos) {
-					foreach(var decoder in decoders) {
-						decoder.IncrementSample();
-					}
-					currentSamplePos++;
+					StepSamplePos();
 				}
 				//decode the samples
 				for(; sampleIndex < samples.Length; ++sampleIndex) {
@@ -104,12 +101,19 @@ namespace Henke37.Nitro.Composer.Player {
 						decoders[1].GetSample()
 					);
 
-					decoders[0].IncrementSample();
-					decoders[1].IncrementSample();
-					currentSamplePos++;
+
+					StepSamplePos();
 				}
 			}
 			return sampleIndex;
+		}
+
+		private void StepSamplePos() {
+			foreach(var decoder in decoders) {
+				decoder.IncrementSample();
+			}
+			currentSamplePos++;
+			samplesLeftInBlock--;
 		}
 
 		private void LoadBlock(int blockId) {
