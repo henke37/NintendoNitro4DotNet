@@ -52,7 +52,7 @@ namespace Henke37.Nitro.Composer.Player {
 			currentSamplePos = 0;
 		}
 
-		public override int SampleRate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public override int SampleRate { get; set; }
 
 		public override int GenerateSamples(SamplePair[] samples) {
 			if(strm.channels==2) {

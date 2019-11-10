@@ -84,7 +84,7 @@ namespace PlayerTest {
 				thread.Priority = ThreadPriority.Highest;
 			}
 
-			Thread.Sleep(10 * 1000);
+			Thread.Sleep(10000 * 1000);
 			a.Stop();
 
 			return ERR_OK;
@@ -106,7 +106,9 @@ namespace PlayerTest {
 			try {
 				var strm = sdat.OpenStream(name);
 				Console.WriteLine("Is stream.");
-				return Play(new StreamPlayer(strm));
+				var player = new StreamPlayer(strm);
+				player.SampleRate = strm.sampleRate;
+				return Play(player);
 			} catch(FileNotFoundException) {
 				//keep on ignoring missing files
 			}
