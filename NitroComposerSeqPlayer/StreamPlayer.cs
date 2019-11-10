@@ -43,7 +43,9 @@ namespace Henke37.Nitro.Composer.Player {
 
 			decoders = new BaseSampleDecoder[strm.channels];
 			for(int channel=0;channel<strm.channels;++channel) {
-				decoders[channel] = BaseSampleDecoder.CreateDecoder(strm.encoding);
+				var decoder= BaseSampleDecoder.CreateDecoder(strm.encoding);
+				decoder.sampleIncrease = 1;
+				decoders[channel] = decoder;
 			}
 		}
 
@@ -101,6 +103,9 @@ namespace Henke37.Nitro.Composer.Player {
 						decoders[0].GetSample(), 
 						decoders[1].GetSample()
 					);
+
+					decoders[0].IncrementSample();
+					decoders[1].IncrementSample();
 					currentSamplePos++;
 				}
 			}
