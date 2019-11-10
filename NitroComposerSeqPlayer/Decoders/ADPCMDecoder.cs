@@ -9,7 +9,8 @@ namespace Henke37.Nitro.Composer.Player.Decoders {
 		private int predictor;
 		private int stepIndex;
 
-		private int currentPos;
+		/* Debug HACK! Should be private! */
+		public int currentPos;
 		private int storedNibble;
 
 		public ADPCMDecoder() {

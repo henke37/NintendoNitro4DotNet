@@ -3,6 +3,7 @@ using Henke37.Nitro.Composer;
 using Henke37.Nitro.Composer.Player.Decoders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace Henke37.Nitro.Composer.Player {
@@ -95,7 +96,16 @@ namespace Henke37.Nitro.Composer.Player {
 				//decode the samples
 				for(; sampleIndex < samples.Length; ++sampleIndex) {
 					if(samplesLeftInBlock <= 0) break;
-					
+
+					{
+						var adpcm = ((ADPCMDecoder)decoders[0]);
+						if(adpcm.currentPos != -1) {
+							Debug.Assert(
+								adpcm.currentPos == currentSamplePos % strm.blockSamples
+							);
+						}
+					}
+
 					samples[sampleIndex] = new SamplePair(
 						decoders[0].GetSample(), 
 						decoders[1].GetSample()
