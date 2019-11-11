@@ -39,34 +39,47 @@ namespace PlayerTest {
 				return ERR_NO_SDAT;
 			}
 
-
-			switch(args.Length) {
-				case 1:
-					return ListItems(nds, sdats);
-				case 2:
-					return Play(args[1], nds, sdats);
-				default:
-					Console.Error.WriteLine("Too many arguments");
-					return ERR_ARGUMENTS;
+			try {
+				switch(args.Length) {
+					case 1:
+						return ListItems(nds, sdats);
+					case 2:
+						return Play(args[1], nds, sdats);
+					case 3:
+						return Save(args[1], nds, sdats, args[2]);
+					default:
+						Console.Error.WriteLine("Too many arguments");
+						return ERR_ARGUMENTS;
+				}
+			} catch(SDat.NoSymbolsException) {
+				Console.Error.WriteLine("No sequence symbols");
+				return ERR_NO_SYMBOLS;
+			} catch(FileNotFoundException) {
+				Console.Error.WriteLine("Sequence not found");
+				return ERR_SEQ_NOT_FOUND;
 			}
 
 		}
 
 		private static int Play(string name, NDS nds, List<FileSystem.File> sdats) {
+			BasePlayer player = MakePlayer(name, nds, sdats);
+			return Play(player);
+		}
+
+		private static int Save(string name, NDS nds, List<FileSystem.File> sdats, string output) {
+			BasePlayer player = MakePlayer(name, nds, sdats);
+			return ERR_OK;
+		}
+
+		private static BasePlayer MakePlayer(string name, NDS nds, List<FileSystem.File> sdats) {
 			foreach(var sdatFile in sdats) {
 				SDat sdat = SDat.Open(nds.FileSystem.OpenFile(sdatFile));
 
-				int res = Play(sdat, name);
-				if(res == ERR_SEQ_NOT_FOUND) continue;
-				if(res == ERR_NO_SYMBOLS) {
-					Console.Error.WriteLine("No sequence symbols");
-					return res;
-				}
-				return res;
+				BasePlayer player = MakePlayer(sdat, name);
+				if(player != null) return player;
 			}
 
-			Console.Error.WriteLine("Sequence not found");
-			return ERR_SEQ_NOT_FOUND;
+			throw new FileNotFoundException($"Failed to find a sequence by the name of \"{name}\"");
 		}
 
 		private static int Play(BasePlayer player) {
@@ -90,17 +103,14 @@ namespace PlayerTest {
 			return ERR_OK;
 		}
 
-		private static int Play(SDat sdat, string name) {
+		private static BasePlayer MakePlayer(SDat sdat, string name) {
 			if(Regex.IsMatch(name, @"^[0-9]+$")) {
-				return Play(sdat, int.Parse(name));
+				return new SequencePlayer(sdat, int.Parse(name));
 			}
 			try {
-				var player = new SequencePlayer(sdat, name);
-				return Play(player);
+				return new SequencePlayer(sdat, name);
 			} catch(FileNotFoundException) {
 				//just swallow this one
-			} catch(SDat.NoSymbolsException) {
-				return ERR_NO_SYMBOLS;
 			}
 
 			try {
@@ -108,18 +118,12 @@ namespace PlayerTest {
 				Console.WriteLine("Is stream.");
 				var player = new StreamPlayer(strm);
 				player.SampleRate = strm.sampleRate;
-				return Play(player);
+				return player;
 			} catch(FileNotFoundException) {
 				//keep on ignoring missing files
 			}
 
-			return ERR_SEQ_NOT_FOUND;
-		}
-
-
-		private static int Play(SDat sdat, int index) {
-			var player = new SequencePlayer(sdat, index);
-			return Play(player);
+			return null;
 		}
 
 		private static int ListUsage() {
