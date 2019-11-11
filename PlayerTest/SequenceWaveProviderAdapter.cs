@@ -30,7 +30,7 @@ namespace PlayerTest {
 			int samplesWritten=player.GenerateSamples(sampleBuffer);
 
 			using(var w = new BinaryWriter(new MemoryStream(buffer, offset, count*2, true))) {
-				for(int sampleIndex = 0; sampleIndex < samplesWritten; sampleIndex+=2) {
+				for(int sampleIndex = 0; sampleIndex < samplesWritten; sampleIndex++) {
 					w.Write((short)sampleBuffer[sampleIndex].Left);
 					w.Write((short)sampleBuffer[sampleIndex].Right);
 				}
