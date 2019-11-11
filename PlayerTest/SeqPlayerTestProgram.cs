@@ -74,7 +74,7 @@ namespace PlayerTest {
 
 			using(var w = new WaveFileWriter(File.OpenWrite(output), wp.WaveFormat)) {
 				var buff = new byte[2048];
-				for(int i=0; i<200000; i++) {
+				for(int i=0; i<200; i++) {
 					int written=wp.Read(buff, 0, buff.Length/2);
 					w.Write(buff, 0, written);
 					if(written < buff.Length/2) break;
