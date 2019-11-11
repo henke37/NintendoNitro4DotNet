@@ -1,6 +1,7 @@
 ﻿using Henke37.Nitro;
 using Henke37.Nitro.Composer;
 using Henke37.Nitro.Composer.Player;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -68,6 +69,18 @@ namespace PlayerTest {
 
 		private static int Save(string name, NDS nds, List<FileSystem.File> sdats, string output) {
 			BasePlayer player = MakePlayer(name, nds, sdats);
+
+			var wp = new SequenceWaveProviderAdapter(player);
+
+			using(var w = new WaveFileWriter(File.OpenWrite(output), wp.WaveFormat)) {
+				var buff = new byte[2048];
+				for(int i=0; i<200000; i++) {
+					int written=wp.Read(buff, 0, buff.Length/2);
+					w.Write(buff, 0, written);
+					if(written < buff.Length/2) break;
+				}
+			}
+
 			return ERR_OK;
 		}
 
