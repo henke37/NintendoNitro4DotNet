@@ -40,7 +40,7 @@ namespace PlayerTest {
 				}
 			}
 
-			return samplesWritten*2;
+			return samplesWritten* 2 * chanC;
 		}
 	}
 }
