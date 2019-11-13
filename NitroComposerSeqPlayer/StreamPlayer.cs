@@ -75,7 +75,6 @@ namespace Henke37.Nitro.Composer.Player {
 			while(sampleIndex < samples.Length) {
 				//ensure that the correct block is loaded
 				uint targetSamplePos = currentSamplePos;
-				int targetBlock = (int)(targetSamplePos / strm.blockSamples);
 
 				if(samplesLeftInBlock <= 0 && loadedBlock == strm.nBlock-1) {
 					if(strm.loop) {
@@ -85,6 +84,8 @@ namespace Henke37.Nitro.Composer.Player {
 						return sampleIndex;
 					}
 				}
+
+				int targetBlock = (int)(targetSamplePos / strm.blockSamples);
 
 				if(loadedBlock != targetBlock) {
 					LoadBlock(targetBlock);
@@ -117,7 +118,7 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 		private void LoadBlock(int blockId) {
-			bool lastBlock = strm.nBlock < blockId;
+			bool lastBlock = blockId+1 >= strm.nBlock;
 			samplesLeftInBlock = lastBlock ? strm.lastBlockSamples : strm.blockSamples;
 
 			for(int channel=0;channel<strm.channels;++channel) {
@@ -135,7 +136,7 @@ namespace Henke37.Nitro.Composer.Player {
 		}
 
 		private Stream GetBlockStream(int blockId, int channel) {
-			bool lastBlock = strm.nBlock < blockId;
+			bool lastBlock = blockId + 1 >= strm.nBlock;
 			long blockLen = lastBlock ? strm.lastBlockLength : strm.blockLength;
 			long offset = strm.blockLength * strm.channels * blockId + blockLen * channel;
 
