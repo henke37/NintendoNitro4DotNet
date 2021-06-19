@@ -41,6 +41,8 @@ namespace AceAttorney.GK2 {
 			return stream;
 		}
 
+		public int FileCount => entries.Count;
+
 		private class FileEntry {
 			public uint offset;
 			public uint size;
