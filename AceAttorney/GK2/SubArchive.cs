@@ -36,5 +36,7 @@ namespace AceAttorney.GK2 {
 				return new SubStream(mainStream, offsets[fileId], len);
 			}
 		}
+
+		public int FileCount => offsets.Count;
 	}
 }
