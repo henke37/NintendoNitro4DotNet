@@ -79,13 +79,13 @@ namespace GK2Dumper {
 
 			switch(sig) {
 
-				case "bmd0":
+				case "BMD0":
 					return "nsbmd";
 
-				case "btx0":
+				case "BTX0":
 					return "nsbtx";
 
-				case "bca0":
+				case "BCA0":
 					return "nsbca";
 
 				default:
