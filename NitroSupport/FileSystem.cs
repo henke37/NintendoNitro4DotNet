@@ -145,6 +145,10 @@ namespace Henke37.Nitro {
 					return path;
 				}
 			}
+
+			public override string ToString() {
+				return AbsPath;
+			}
 		}
 
 		public class Directory : AbstractFile {
