@@ -209,6 +209,48 @@ namespace Henke37.Nitro {
 				}
 			}
 
+			public List<File> FindMatchingFiles(Func<File, bool> matcher) {
+				var l = new List<File>();
+				FindMatchingFiles(l, matcher);
+				return l;
+			}
+
+			private void FindMatchingFiles(List<File> l, Func<File, bool> matcher) {
+				foreach(var absFile in Files) {
+					{
+						var dir = absFile as Directory;
+						if(dir != null) {
+							dir.FindMatchingFiles(l, matcher);
+							continue;
+						}
+					}
+					var file = (File)absFile;
+					if(!matcher.Invoke(file)) continue;
+					l.Add(file);
+				}
+			}
+
+			public List<File> FindMatchingFiles(Func<string, bool> matcher) {
+				var l = new List<File>();
+				FindMatchingFiles(l, matcher);
+				return l;
+			}
+
+			private void FindMatchingFiles(List<File> l, Func<string, bool> matcher) {
+				foreach(var absFile in Files) {
+					{
+						var dir = absFile as Directory;
+						if(dir != null) {
+							dir.FindMatchingFiles(l, matcher);
+							continue;
+						}
+					}
+					var file = (File)absFile;
+					if(!matcher.Invoke(file.Name)) continue;
+					l.Add(file);
+				}
+			}
+
 			public bool IsRoot {
 				get => Parent == null;
 			}
