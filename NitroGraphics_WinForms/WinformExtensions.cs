@@ -235,7 +235,7 @@ namespace Henke37.Nitro.Graphics.WinForms {
 			} else {
 				y += yOffset + (int)(Tile.Height * tileY);
 			}
-			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex);
+			tile.DrawInBitmap(bm, x, y, oam.XFlip, oam.YFlip, oam.PaletteIndex * 16);
 		}
 
 		public static void DrawInBitmap(this NCER.AnimationCell cell, Bitmap bm, NCER.MappingFormat mapping, GraphicsBank graphics, int xOffset=0, int yOffset=0) {
