@@ -15,16 +15,19 @@ namespace Henke37.Nitro.Graphics {
 		public int X;
 		public int Y;
 		public ObjectDisplayMode Mode;
+		public ObjectBlendMode BlendMode;
+		public bool Mosaic;
 		private int colordepth;
 		public bool XFlip;
 		public bool YFlip;
-		private int Priority;
+		public int Priority;
 
 		public void Load(BinaryReader reader, int tileIndexShift, uint tileIndexNudge) {
 			Y = reader.ReadSByte();
 			var atts0 = reader.ReadByte();
 			Mode = (ObjectDisplayMode)(atts0 & 3);
-
+			BlendMode = (ObjectBlendMode)((atts0 >> 2) & 0x03);
+			Mosaic = ((atts0 >> 4) & 0x01) != 0;
 			colordepth = (atts0 >> 5) & 0x1;
 
 			var shape = atts0 >> 6;
@@ -46,7 +49,9 @@ namespace Henke37.Nitro.Graphics {
 			TileIndex <<= (tileIndexShift-colordepth);
 			TileIndex += tileIndexNudge;
 
-			Priority = (atts1 >> 10) & 0x3;
+			Priority = (atts2 >> 10) & 0x3;
+
+			PaletteIndex = (uint)(atts2 >> 11);
 
 			setSize(objSize, shape);
 		}
@@ -77,6 +82,12 @@ namespace Henke37.Nitro.Graphics {
 			Normal = 0,
 			Affine = 1,
 			AffineExtraRegion = 3
+		}
+
+		public enum ObjectBlendMode {
+			Normal = 0,
+			SemiTransparent = 1,
+			Mask = 2
 		}
 
 		public override string ToString() {
